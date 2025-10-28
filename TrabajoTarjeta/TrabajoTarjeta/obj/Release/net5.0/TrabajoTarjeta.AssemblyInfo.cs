@@ -14,7 +14,7 @@ using System.Reflection;
 [assembly: System.Reflection.AssemblyCompanyAttribute("TrabajoTarjeta")]
 [assembly: System.Reflection.AssemblyConfigurationAttribute("Release")]
 [assembly: System.Reflection.AssemblyFileVersionAttribute("1.0.0.0")]
-[assembly: System.Reflection.AssemblyInformationalVersionAttribute("1.0.0+7d00750ce0d8eabe905863f229fa186ef210b46e")]
+[assembly: System.Reflection.AssemblyInformationalVersionAttribute("1.0.0+2b7201961aeb0d1d111e649805017b607dab6579")]
 [assembly: System.Reflection.AssemblyProductAttribute("TrabajoTarjeta")]
 [assembly: System.Reflection.AssemblyTitleAttribute("TrabajoTarjeta")]
 [assembly: System.Reflection.AssemblyVersionAttribute("1.0.0.0")]
