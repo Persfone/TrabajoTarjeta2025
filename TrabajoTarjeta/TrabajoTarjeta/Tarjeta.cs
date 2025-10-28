@@ -115,11 +115,12 @@ namespace TrabajoTarjeta
         }
 
         public class FranquiciaCompleta : Tarjeta
-    {
-        public override bool Pagar(double monto)
         {
-            Console.WriteLine("Viaje gratuito por franquicia completa.");
-            return true;
+            public override bool Pagar(double monto)
+            {
+                Console.WriteLine("Viaje gratuito por franquicia completa.");
+                return true;
+            }
         }
     }
 }

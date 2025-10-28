@@ -6,8 +6,58 @@ class Program
 {
     static void Main()
     {
-        var tarjeta = new Tarjeta();
+        Tarjeta tarjeta = null;
         Colectivo colectivo = null;
+
+        Console.WriteLine("Indique si tiene alguna franquicia en su tarjeta\n");
+        Console.WriteLine("\n1. Boleto Gratuito Estudiantil");
+        Console.WriteLine("\n2. Medio Boleto Estudiantil");
+        Console.WriteLine("\n3. Franquicia Completa");
+        Console.WriteLine("\n4. No tengo Franquicia");
+        Console.Write("\n\nSeleccione una opción: ");
+        string opcionT = Console.ReadLine();
+        bool salirT = false;
+
+        while (!salirT)
+        {
+            switch (opcionT)
+            {
+                case "1":
+                    tarjeta = new BoletoGratuitoEstudiantil();
+                    Console.WriteLine("\nBeneficio de Franquicia Cargado");
+                    Console.WriteLine("\n\nPresione cualquier tecla para continuar...");
+                    Console.ReadKey();
+                    salirT = true;
+                    break;
+                case "2":
+                    tarjeta = new MedioBoletoEstudiantil();
+                    Console.WriteLine("\nBeneficio de Franquicia Cargado");
+                    Console.WriteLine("\n\nPresione cualquier tecla para continuar...");
+                    Console.ReadKey();
+                    salirT = true;
+                    break;
+                case "3":
+                    tarjeta = new FranquiciaCompleta();
+                    Console.WriteLine("\nBeneficio de Franquicia Cargado");
+                    Console.WriteLine("\n\nPresione cualquier tecla para continuar...");
+                    Console.ReadKey();
+                    salirT = true;
+                    break;
+                case "4":
+                    tarjeta = new Tarjeta();
+                    Console.WriteLine("\nNingun Beneficio de Franquicia Cargado");
+                    Console.WriteLine("\n\nPresione cualquier tecla para continuar...");
+                    Console.ReadKey();
+                    salirT = true;
+                    break;
+                default:
+                    Console.WriteLine("Opción inválida.");
+                    Console.WriteLine("\n\nPresione cualquier tecla para continuar...");
+                    Console.ReadKey();
+                    break;
+            }
+        }
+        
         bool salir = false;
 
         while (!salir)
