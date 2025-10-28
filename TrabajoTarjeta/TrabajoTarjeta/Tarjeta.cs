@@ -24,7 +24,7 @@ namespace TrabajoTarjeta
 
                 for (int i = 0; i < saldos.Length; i++)
                 {
-                    Console.WriteLine("" + (i + 1) + ". " + saldos[i]);
+                    Console.WriteLine($"{i + 1}. {saldos[i]}");
                 }
                 Console.Write("\n\nSeleccione una opción: ");
 
@@ -39,7 +39,7 @@ namespace TrabajoTarjeta
                         if (tarjeta.Saldo + saldos[opcion] <= 40000)
                         {
                             cargoTarjeta = true;
-                            Console.WriteLine("Cargaste " + saldos[opcion]);
+                            Console.WriteLine($"Cargaste {saldos[opcion]}");
                             tarjeta.Saldo += saldos[opcion];
                         }
                         else
@@ -61,7 +61,7 @@ namespace TrabajoTarjeta
             return tarjeta;
         }
 
-        public bool Pagar(double monto)
+        public virtual bool Pagar(double monto)
         {
             if (Saldo + SALDO_NEGATIVO >= monto)
             {
@@ -69,6 +69,57 @@ namespace TrabajoTarjeta
                 return true;
             }
             return false;
+        }
+    }
+
+    // ----------------------------------------------------
+    // Subclases
+    // ----------------------------------------------------
+
+    public class MedioBoletoEstudiantil : Tarjeta
+    {
+        public override bool Pagar(double monto)
+        {
+            double montoConDescuento = monto * 0.50;
+            return base.Pagar(montoConDescuento);
+        }
+    }
+
+    public class BoletoGratuitoEstudiantil : Tarjeta
+    {
+        private int viajesHoy = 0;
+        private DateTime fechaUltimoViaje = DateTime.MinValue;
+
+        public override bool Pagar(double monto)
+        {
+            DateTime hoy = DateTime.Today;
+
+            // Si cambió el día, se reinicia el contador
+            if (hoy != fechaUltimoViaje)
+            {
+                viajesHoy = 0;
+                fechaUltimoViaje = hoy;
+            }
+
+            if (viajesHoy < 2)
+            {
+                viajesHoy++;
+                Console.WriteLine($"Viaje gratuito #{viajesHoy} del día ({fechaUltimoViaje.ToShortDateString()})");
+                return true;
+            }
+            else
+            {
+                Console.WriteLine("Ya utilizaste los 2 boletos gratuitos del día. No se puede viajar gratis.");
+                return false;
+            }
+        }
+
+        public class FranquiciaCompleta : Tarjeta
+    {
+        public override bool Pagar(double monto)
+        {
+            Console.WriteLine("Viaje gratuito por franquicia completa.");
+            return true;
         }
     }
 }

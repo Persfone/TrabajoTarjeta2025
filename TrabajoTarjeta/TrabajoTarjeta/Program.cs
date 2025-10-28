@@ -1,5 +1,6 @@
 ﻿using System;
 using TrabajoTarjeta;
+using static TrabajoTarjeta.BoletoGratuitoEstudiantil;
 
 class Program
 {
@@ -11,6 +12,7 @@ class Program
 
         while (!salir)
         {
+
             Console.Clear();
             Console.WriteLine("Bienvenido al sistema de transporte público\n");
             Console.WriteLine($"Saldo actual de la tarjeta: ${tarjeta.Saldo}");
