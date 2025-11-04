@@ -16,8 +16,6 @@ jobs:
       # 1. Checkout del código
       - name: Checkout repository
         uses: actions/checkout@v4
-        with:
-          path: .
 
       # 2. Instalar .NET 5
       - name: Setup .NET 5.0
@@ -45,26 +43,13 @@ jobs:
             /p:CoverletOutput=TrabajoTarjeta.Tests/TestResults/coverage/ `
             /p:CoverletOutputFormat=cobertura
 
-
-      # 7. Instalar y ejecutar ReportGenerator (versión compatible con .NET 5)
+      # 7. Instalar y ejecutar ReportGenerator
       - name: Generate coverage report
         run: |
           dotnet tool install -g dotnet-reportgenerator-globaltool --version 4.8.12
-          reportgenerator -reports:"TrabajoTarjeta.Tests/TestResults/**/coverage.cobertura.xml" -targetdir:"coveragereport" -reporttypes:Cobertura
-        env:
-          PATH: ${{ env.PATH }}:~/.dotnet/tools
+          dotnet tool run reportgenerator -reports:"TrabajoTarjeta.Tests/TestResults/**/coverage.cobertura.xml" -targetdir:"coveragereport" -reporttypes:Cobertura
 
-
-      # 8. Ver archivos de cobertura (debug opcional)
-      - name: Check coverage files
-        run: Get-ChildItem -Recurse -Path "TrabajoTarjeta.Tests\TestResults"
-
-      - name: Debug coverage output
-        run: |
-          Write-Host "Listing all coverage files..."
-          Get-ChildItem -Recurse -Path . -Filter "coverage.cobertura.xml"
-
-      # 9. Subir cobertura a Codecov
+      # 8. Subir cobertura a Codecov
       - name: Upload coverage to Codecov
         uses: codecov/codecov-action@v5
         with:
@@ -72,4 +57,3 @@ jobs:
           files: ./TrabajoTarjeta.Tests/TestResults/**/coverage.cobertura.xml
           fail_ci_if_error: true
           verbose: true
-
