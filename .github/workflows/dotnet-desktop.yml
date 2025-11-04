@@ -17,7 +17,7 @@ jobs:
       - name: Checkout repository
         uses: actions/checkout@v4
         with:
-          path: .  # evita la carpeta doble TrabajoTarjeta2025/TrabajoTarjeta2025
+          path: .
 
       # 2. Instalar .NET 5
       - name: Setup .NET 5.0
@@ -45,34 +45,30 @@ jobs:
             /p:CoverletOutputFormat=cobertura `
             /p:CoverletOutput=TestResults/coverage/
 
-      
+      # 7. Instalar y ejecutar ReportGenerator (versión compatible con .NET 5)
       - name: Generate coverage report
+        shell: pwsh
         run: |
           dotnet tool install -g dotnet-reportgenerator-globaltool --version 4.8.12
-          ~/.dotnet/tools/reportgenerator -reports:"TestResults/**/coverage.cobertura.xml" -targetdir:"coveragereport" -reporttypes:Cobertura
-        env:
-          PATH: ${{ env.PATH }}:~/.dotnet/tools
+          $env:PATH += ";$env:USERPROFILE\.dotnet\tools"
+          reportgenerator -reports:"TrabajoTarjeta.Tests\TestResults\**\coverage.cobertura.xml" `
+                          -targetdir:"coveragereport" `
+                          -reporttypes:Cobertura
 
-      
-
-
-
-      # 7. Ver archivos de cobertura (opcional para debug)
+      # 8. Ver archivos de cobertura (debug opcional)
       - name: Check coverage files
         run: Get-ChildItem -Recurse -Path "TrabajoTarjeta.Tests\TestResults"
 
       - name: Debug coverage output
         run: |
-            Write-Host "Listing all coverage files..."
-            Get-ChildItem -Recurse -Path . -Filter "coverage.cobertura.xml"
+          Write-Host "Listing all coverage files..."
+          Get-ChildItem -Recurse -Path . -Filter "coverage.cobertura.xml"
 
-
-
-      # 8. Subir cobertura a Codecov
+      # 9. Subir cobertura a Codecov
       - name: Upload coverage to Codecov
         uses: codecov/codecov-action@v5
         with:
           token: ${{ secrets.CODECOV_TOKEN }}
-          files: ./TestResults/**/coverage.cobertura.xml
+          files: TrabajoTarjeta.Tests/TestResults/**/coverage.cobertura.xml
           fail_ci_if_error: true
           verbose: true
