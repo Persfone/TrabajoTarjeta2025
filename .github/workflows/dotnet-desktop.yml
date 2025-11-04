@@ -45,6 +45,15 @@ jobs:
             /p:CoverletOutputFormat=cobertura `
             /p:CoverletOutput=TestResults/coverage/
 
+      
+      - name: Generate coverage report
+        run: |
+          dotnet tool install -g dotnet-reportgenerator-globaltool
+          reportgenerator -reports:"TestResults/**/coverage.cobertura.xml" -targetdir:"coveragereport" -reporttypes:Cobertura
+        env:
+          PATH: ${{ env.PATH }}:~/.dotnet/tools
+
+
 
       # 7. Ver archivos de cobertura (opcional para debug)
       - name: Check coverage files
