@@ -1,23 +1,23 @@
 {
   "format": 1,
   "restore": {
-    "C:\\Users\\Alexis\\source\\repos\\TrabajoTarjeta2025\\TrabajoTarjeta\\TrabajoTarjeta\\TrabajoTarjeta.csproj": {}
+    "C:\\Users\\dana\\source\\repos\\Trabajo tarjeta\\TrabajoTarjeta\\TrabajoTarjeta.csproj": {}
   },
   "projects": {
-    "C:\\Users\\Alexis\\source\\repos\\TrabajoTarjeta2025\\TrabajoTarjeta\\TrabajoTarjeta\\TrabajoTarjeta.csproj": {
+    "C:\\Users\\dana\\source\\repos\\Trabajo tarjeta\\TrabajoTarjeta\\TrabajoTarjeta.csproj": {
       "version": "1.0.0",
       "restore": {
-        "projectUniqueName": "C:\\Users\\Alexis\\source\\repos\\TrabajoTarjeta2025\\TrabajoTarjeta\\TrabajoTarjeta\\TrabajoTarjeta.csproj",
+        "projectUniqueName": "C:\\Users\\dana\\source\\repos\\Trabajo tarjeta\\TrabajoTarjeta\\TrabajoTarjeta.csproj",
         "projectName": "TrabajoTarjeta",
-        "projectPath": "C:\\Users\\Alexis\\source\\repos\\TrabajoTarjeta2025\\TrabajoTarjeta\\TrabajoTarjeta\\TrabajoTarjeta.csproj",
-        "packagesPath": "C:\\Users\\Alexis\\.nuget\\packages\\",
-        "outputPath": "C:\\Users\\Alexis\\source\\repos\\TrabajoTarjeta2025\\TrabajoTarjeta\\TrabajoTarjeta\\obj\\",
+        "projectPath": "C:\\Users\\dana\\source\\repos\\Trabajo tarjeta\\TrabajoTarjeta\\TrabajoTarjeta.csproj",
+        "packagesPath": "C:\\Users\\dana\\.nuget\\packages\\",
+        "outputPath": "C:\\Users\\dana\\source\\repos\\Trabajo tarjeta\\TrabajoTarjeta\\obj\\",
         "projectStyle": "PackageReference",
         "fallbackFolders": [
           "C:\\Program Files (x86)\\Microsoft Visual Studio\\Shared\\NuGetPackages"
         ],
         "configFilePaths": [
-          "C:\\Users\\Alexis\\AppData\\Roaming\\NuGet\\NuGet.Config",
+          "C:\\Users\\dana\\AppData\\Roaming\\NuGet\\NuGet.Config",
           "C:\\Program Files (x86)\\NuGet\\Config\\Microsoft.VisualStudio.FallbackLocation.config",
           "C:\\Program Files (x86)\\NuGet\\Config\\Microsoft.VisualStudio.Offline.config"
         ],
@@ -49,6 +49,28 @@
       "frameworks": {
         "net5.0": {
           "targetAlias": "net5.0",
+          "dependencies": {
+            "Microsoft.NET.Test.Sdk": {
+              "target": "Package",
+              "version": "[17.8.0, )"
+            },
+            "coverlet.collector": {
+              "include": "Runtime, Build, Native, ContentFiles, Analyzers, BuildTransitive",
+              "suppressParent": "All",
+              "target": "Package",
+              "version": "[6.0.0, )"
+            },
+            "xunit": {
+              "target": "Package",
+              "version": "[2.4.2, )"
+            },
+            "xunit.runner.visualstudio": {
+              "include": "Runtime, Build, Native, ContentFiles, Analyzers, BuildTransitive",
+              "suppressParent": "All",
+              "target": "Package",
+              "version": "[2.4.5, )"
+            }
+          },
           "imports": [
             "net461",
             "net462",
