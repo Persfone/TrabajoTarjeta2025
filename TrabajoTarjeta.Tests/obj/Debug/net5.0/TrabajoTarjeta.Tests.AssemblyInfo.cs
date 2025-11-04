@@ -14,7 +14,7 @@ using System.Reflection;
 [assembly: System.Reflection.AssemblyCompanyAttribute("TrabajoTarjeta.Tests")]
 [assembly: System.Reflection.AssemblyConfigurationAttribute("Debug")]
 [assembly: System.Reflection.AssemblyFileVersionAttribute("1.0.0.0")]
-[assembly: System.Reflection.AssemblyInformationalVersionAttribute("1.0.0+eb7a933dc24437cbd2da2388924f1d55b4ca4c08")]
+[assembly: System.Reflection.AssemblyInformationalVersionAttribute("1.0.0+262fb9f8ed3db6d9c659a29b5fec53bd1e24ab4f")]
 [assembly: System.Reflection.AssemblyProductAttribute("TrabajoTarjeta.Tests")]
 [assembly: System.Reflection.AssemblyTitleAttribute("TrabajoTarjeta.Tests")]
 [assembly: System.Reflection.AssemblyVersionAttribute("1.0.0.0")]
