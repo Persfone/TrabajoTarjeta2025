@@ -495,10 +495,12 @@ namespace TrabajoTarjeta.Tests
         public void SinFranquicia_Viajes30a59_Descuento20Porciento()
         {
             var tarjeta = new SinFranquicia();
-            tarjeta.Saldo = 100000;
+            tarjeta.Saldo = 10000000;
 
-            tarjeta.Pagar(1580);
-            tarjeta.Pagar(1580);
+            for (int i = 0; i < 29; i++)
+            {
+                tarjeta.Pagar(1580);
+            }
 
             double saldoAntes = tarjeta.Saldo;
             tarjeta.Pagar(1580);
@@ -510,9 +512,9 @@ namespace TrabajoTarjeta.Tests
         public void SinFranquicia_Viajes60a80_Descuento25Porciento()
         {
             var tarjeta = new SinFranquicia();
-            tarjeta.Saldo = 150000;
+            tarjeta.Saldo = 1500000;
 
-            for (int i = 0; i < 32; i++)
+            for (int i = 0; i < 60; i++)
             {
                 tarjeta.Pagar(1580);
             }
@@ -527,9 +529,9 @@ namespace TrabajoTarjeta.Tests
         public void SinFranquicia_ViajesDespuesDe80_TarifaNormal()
         {
             var tarjeta = new SinFranquicia();
-            tarjeta.Saldo = 200000;
+            tarjeta.Saldo = 20000000;
 
-            for (int i = 0; i < 53; i++)
+            for (int i = 0; i < 81; i++)
             {
                 tarjeta.Pagar(1580);
             }
@@ -544,7 +546,7 @@ namespace TrabajoTarjeta.Tests
         public void SinFranquicia_ContadorSeReiniciaElDia1()
         {
             var tarjeta = new SinFranquicia();
-            tarjeta.Saldo = 100000;
+            tarjeta.Saldo = 1000000;
 
             double saldoInicial = tarjeta.Saldo;
             tarjeta.Pagar(1580);
