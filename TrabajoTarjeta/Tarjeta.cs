@@ -100,6 +100,7 @@ namespace TrabajoTarjeta
             DateTime hoy = DateTime.Today;
             double montoAPagar;
 
+
             if (fechaUltimoViaje.Date != hoy)
             {
                 viajesHoy = 0;
@@ -161,12 +162,7 @@ namespace TrabajoTarjeta
             else
             {
                 Console.WriteLine("Ya utilizaste los 2 boletos gratuitos del día. Este viaje se cobra completo.");
-                bool pagoExitoso = base.Pagar(monto);
-                if (!pagoExitoso)
-                {
-                    Console.WriteLine("Saldo insuficiente para el tercer viaje.");
-                }
-                return pagoExitoso;
+                return base.Pagar(monto);
             }
         }
     }
