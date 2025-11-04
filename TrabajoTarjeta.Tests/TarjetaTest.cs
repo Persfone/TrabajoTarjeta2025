@@ -452,7 +452,7 @@ namespace TrabajoTarjeta.Tests
             tarjeta.Pagar(1580); // Viaje 31 - debe tener descuento
 
             // Debe cobrar 1580 * 0.8 = 1264
-            Assert.AreEqual(saldoAntes - 1264, tarjeta.Saldo);
+            Assert.AreEqual(saldoAntes - 1264, tarjeta.Saldo, 0.01);
         }
 
         [Test]
