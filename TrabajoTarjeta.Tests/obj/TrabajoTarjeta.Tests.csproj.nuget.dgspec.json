@@ -1,17 +1,17 @@
 {
   "format": 1,
   "restore": {
-    "C:\\Users\\dana\\source\\repos\\Trabajo tarjeta\\TrabajoTarjeta\\TrabajoTarjeta.Tests\\TrabajoTarjeta.Tests.csproj": {}
+    "C:\\Users\\dana\\source\\repos\\Trabajo tarjeta\\TrabajoTarjeta.Tests\\TrabajoTarjeta.Tests.csproj": {}
   },
   "projects": {
-    "C:\\Users\\dana\\source\\repos\\Trabajo tarjeta\\TrabajoTarjeta\\TrabajoTarjeta.Tests\\TrabajoTarjeta.Tests.csproj": {
+    "C:\\Users\\dana\\source\\repos\\Trabajo tarjeta\\TrabajoTarjeta.Tests\\TrabajoTarjeta.Tests.csproj": {
       "version": "1.0.0",
       "restore": {
-        "projectUniqueName": "C:\\Users\\dana\\source\\repos\\Trabajo tarjeta\\TrabajoTarjeta\\TrabajoTarjeta.Tests\\TrabajoTarjeta.Tests.csproj",
+        "projectUniqueName": "C:\\Users\\dana\\source\\repos\\Trabajo tarjeta\\TrabajoTarjeta.Tests\\TrabajoTarjeta.Tests.csproj",
         "projectName": "TrabajoTarjeta.Tests",
-        "projectPath": "C:\\Users\\dana\\source\\repos\\Trabajo tarjeta\\TrabajoTarjeta\\TrabajoTarjeta.Tests\\TrabajoTarjeta.Tests.csproj",
+        "projectPath": "C:\\Users\\dana\\source\\repos\\Trabajo tarjeta\\TrabajoTarjeta.Tests\\TrabajoTarjeta.Tests.csproj",
         "packagesPath": "C:\\Users\\dana\\.nuget\\packages\\",
-        "outputPath": "C:\\Users\\dana\\source\\repos\\Trabajo tarjeta\\TrabajoTarjeta\\TrabajoTarjeta.Tests\\obj\\",
+        "outputPath": "C:\\Users\\dana\\source\\repos\\Trabajo tarjeta\\TrabajoTarjeta.Tests\\obj\\",
         "projectStyle": "PackageReference",
         "fallbackFolders": [
           "C:\\Program Files (x86)\\Microsoft Visual Studio\\Shared\\NuGetPackages"
@@ -22,18 +22,18 @@
           "C:\\Program Files (x86)\\NuGet\\Config\\Microsoft.VisualStudio.Offline.config"
         ],
         "originalTargetFrameworks": [
-          "net9.0"
+          "net5.0"
         ],
         "sources": {
           "C:\\Program Files (x86)\\Microsoft SDKs\\NuGetPackages\\": {},
           "https://api.nuget.org/v3/index.json": {}
         },
         "frameworks": {
-          "net9.0": {
-            "targetAlias": "net9.0",
+          "net5.0": {
+            "targetAlias": "net5.0",
             "projectReferences": {
-              "C:\\Users\\dana\\source\\repos\\Trabajo tarjeta\\TrabajoTarjeta\\TrabajoTarjeta\\TrabajoTarjeta.csproj": {
-                "projectPath": "C:\\Users\\dana\\source\\repos\\Trabajo tarjeta\\TrabajoTarjeta\\TrabajoTarjeta\\TrabajoTarjeta.csproj"
+              "C:\\Users\\dana\\source\\repos\\Trabajo tarjeta\\TrabajoTarjeta\\TrabajoTarjeta.csproj": {
+                "projectPath": "C:\\Users\\dana\\source\\repos\\Trabajo tarjeta\\TrabajoTarjeta\\TrabajoTarjeta.csproj"
               }
             }
           }
@@ -51,8 +51,8 @@
         "SdkAnalysisLevel": "9.0.300"
       },
       "frameworks": {
-        "net9.0": {
-          "targetAlias": "net9.0",
+        "net5.0": {
+          "targetAlias": "net5.0",
           "dependencies": {
             "Microsoft.NET.Test.Sdk": {
               "target": "Package",
@@ -75,71 +75,6 @@
               "version": "[6.0.2, )"
             }
           },
-          "imports": [
-            "net461",
-            "net462",
-            "net47",
-            "net471",
-            "net472",
-            "net48",
-            "net481"
-          ],
-          "assetTargetFallback": true,
-          "warn": true,
-          "frameworkReferences": {
-            "Microsoft.NETCore.App": {
-              "privateAssets": "all"
-            }
-          },
-          "runtimeIdentifierGraphPath": "C:\\Program Files\\dotnet\\sdk\\9.0.300/PortableRuntimeIdentifierGraph.json"
-        }
-      }
-    },
-    "C:\\Users\\dana\\source\\repos\\Trabajo tarjeta\\TrabajoTarjeta\\TrabajoTarjeta\\TrabajoTarjeta.csproj": {
-      "version": "1.0.0",
-      "restore": {
-        "projectUniqueName": "C:\\Users\\dana\\source\\repos\\Trabajo tarjeta\\TrabajoTarjeta\\TrabajoTarjeta\\TrabajoTarjeta.csproj",
-        "projectName": "TrabajoTarjeta",
-        "projectPath": "C:\\Users\\dana\\source\\repos\\Trabajo tarjeta\\TrabajoTarjeta\\TrabajoTarjeta\\TrabajoTarjeta.csproj",
-        "packagesPath": "C:\\Users\\dana\\.nuget\\packages\\",
-        "outputPath": "C:\\Users\\dana\\source\\repos\\Trabajo tarjeta\\TrabajoTarjeta\\TrabajoTarjeta\\obj\\",
-        "projectStyle": "PackageReference",
-        "fallbackFolders": [
-          "C:\\Program Files (x86)\\Microsoft Visual Studio\\Shared\\NuGetPackages"
-        ],
-        "configFilePaths": [
-          "C:\\Users\\dana\\AppData\\Roaming\\NuGet\\NuGet.Config",
-          "C:\\Program Files (x86)\\NuGet\\Config\\Microsoft.VisualStudio.FallbackLocation.config",
-          "C:\\Program Files (x86)\\NuGet\\Config\\Microsoft.VisualStudio.Offline.config"
-        ],
-        "originalTargetFrameworks": [
-          "net5.0"
-        ],
-        "sources": {
-          "C:\\Program Files (x86)\\Microsoft SDKs\\NuGetPackages\\": {},
-          "https://api.nuget.org/v3/index.json": {}
-        },
-        "frameworks": {
-          "net5.0": {
-            "targetAlias": "net5.0",
-            "projectReferences": {}
-          }
-        },
-        "warningProperties": {
-          "warnAsError": [
-            "NU1605"
-          ]
-        },
-        "restoreAuditProperties": {
-          "enableAudit": "true",
-          "auditLevel": "low",
-          "auditMode": "direct"
-        },
-        "SdkAnalysisLevel": "9.0.300"
-      },
-      "frameworks": {
-        "net5.0": {
-          "targetAlias": "net5.0",
           "imports": [
             "net461",
             "net462",
