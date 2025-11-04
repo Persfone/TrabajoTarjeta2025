@@ -68,7 +68,7 @@ namespace TrabajoTarjeta
 
         public virtual bool Pagar(double monto)
         {
-            if (Saldo >= monto)
+            if (Saldo + SALDO_NEGATIVO >= monto)
             {
                 Saldo -= monto;
                 return true;
