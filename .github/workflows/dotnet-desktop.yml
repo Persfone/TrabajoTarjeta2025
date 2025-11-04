@@ -1,4 +1,5 @@
 name: .NET CI/CD with Code Coverage
+
 on:
   push:
     branches:
@@ -10,50 +11,49 @@ on:
 jobs:
   build-and-test:
     runs-on: windows-latest
-    steps:
-      - name: Checkout code
-        uses: actions/checkout@v4
 
+    steps:
+      # 1. Checkout del código
       - name: Checkout repository
         uses: actions/checkout@v4
+        with:
+          path: .  # evita la carpeta doble TrabajoTarjeta2025/TrabajoTarjeta2025
 
-
+      # 2. Instalar .NET 5
       - name: Setup .NET 5.0
         uses: actions/setup-dotnet@v4
         with:
           dotnet-version: '5.0.x'
 
+      # 3. Verificar instalación
       - name: Verify .NET version
         run: dotnet --version
 
+      # 4. Restaurar dependencias
       - name: Restore dependencies
         run: dotnet restore TrabajoTarjeta.sln
 
+      # 5. Compilar en modo Release
       - name: Build
         run: dotnet build TrabajoTarjeta.sln --no-restore -c Release
 
-      - name: Restore dependencies
-        run: dotnet restore
-        working-directory: TrabajoTarjeta2025
-
-      - name: Build project
-        run: dotnet build --no-restore -c Release
-        working-directory: TrabajoTarjeta2025
-      
+      # 6. Ejecutar tests y generar cobertura
       - name: Run tests and collect coverage
-        run: dotnet test "TrabajoTarjeta.Tests/TrabajoTarjeta.Tests.csproj" --no-build -c Release /p:CollectCoverage=true /p:CoverletOutputFormat=cobertura /p:CoverletOutput=./TestResults/coverage/ /p:Exclude="[*.Tests]*"
-        working-directory: TrabajoTarjeta2025
+        run: dotnet test "TrabajoTarjeta.Tests/TrabajoTarjeta.Tests.csproj" --no-build -c Release ^
+          /p:CollectCoverage=true ^
+          /p:CoverletOutputFormat=cobertura ^
+          /p:CoverletOutput=./TestResults/coverage/ ^
+          /p:Exclude="[*.Tests]*"
 
-
-
+      # 7. Ver archivos de cobertura (opcional para debug)
       - name: List coverage files
         run: dir ./TestResults /s
 
-
+      # 8. Subir cobertura a Codecov
       - name: Upload coverage to Codecov
         uses: codecov/codecov-action@v5
         with:
-            token: ${{ secrets.CODECOV_TOKEN }}
-            files: ./TestResults/**/coverage.cobertura.xml
-            fail_ci_if_error: true
-            verbose: true
+          token: ${{ secrets.CODECOV_TOKEN }}
+          files: ./TestResults/**/coverage.cobertura.xml
+          fail_ci_if_error: true
+          verbose: true
