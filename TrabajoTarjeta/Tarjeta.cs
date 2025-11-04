@@ -102,6 +102,7 @@ namespace TrabajoTarjeta
             }
         }
 
+
         public virtual bool Pagar(double monto)
         {
             if (Saldo + SALDO_NEGATIVO >= monto)
@@ -122,7 +123,39 @@ namespace TrabajoTarjeta
     // ----------------------------------------------------
     // Subclases
     // ----------------------------------------------------
+    public class SinFranquicia : Tarjeta 
+    {
+        int cantidadViajes = 28;
+        public float UsoFrecuente()
+        {
 
+            float descuento = 1;
+
+            if(DateTime.Now.Day == 1) 
+            {
+                cantidadViajes = 0;
+            }
+            if (cantidadViajes <= 29)
+                descuento = 1f;
+            else if (cantidadViajes <= 59)
+                descuento = 0.8f;
+            else if (cantidadViajes <= 80)
+                descuento = 0.75f;
+            else
+                descuento = 1f;
+
+            return descuento;
+        }
+        public override bool Pagar(double monto)
+        {
+            bool pagoExitoso = base.Pagar(monto * UsoFrecuente());
+            if(pagoExitoso)
+            {
+                cantidadViajes++;
+            }
+            return pagoExitoso;
+        }
+    }
     public class MedioBoletoEstudiantil : Tarjeta
     {
         private int viajesHoy = 0;

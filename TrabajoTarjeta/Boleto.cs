@@ -23,7 +23,7 @@ namespace TrabajoTarjeta
         public void Imprimir()
         {
             Console.WriteLine($"Boleto emitido para la línea: {Linea}");
-            Console.WriteLine($"Saldo restante en la tarjeta: {SaldoRestante}");
+            Console.WriteLine($"Saldo restante en la tarjeta: {SaldoRestante:F2}");
             Console.WriteLine($"Fecha de emisión: {FechaEmision}");
             Console.WriteLine($"Tipo de tarjeta: {TipoTarjeta}");
             Console.WriteLine($"ID de la tarjeta: {IdTarjeta}");
