@@ -27,10 +27,11 @@ jobs:
 
       - name: Run tests with coverage
         run: |
-          dotnet test --no-build --configuration Release `
-            --collect:"XPlat Code Coverage" `
-            --settings coverlet.runsettings `
-            --logger trx
+          dotnet test TrabajoTarjeta.sln --no-build -c Release `
+            /p:CollectCoverage=true `
+            /p:CoverletOutputFormat=cobertura `
+            /p:CoverletOutput=./TestResults/coverage/ `
+            /p:Exclude="[*.Tests]*"
 
       - name: Install coverlet and reportgenerator
         run: |
@@ -55,6 +56,7 @@ jobs:
         uses: codecov/codecov-action@v5
         with:
           token: ${{ secrets.CODECOV_TOKEN }}
+          directory: ./TestResults/coverage/
           files: coverage.cobertura.xml
           fail_ci_if_error: true
           verbose: true
