@@ -39,11 +39,12 @@ jobs:
 
       # 6. Ejecutar tests y generar cobertura
       - name: Run tests and collect coverage
-        run: dotnet test "TrabajoTarjeta.Tests/TrabajoTarjeta.Tests.csproj" --no-build -c Release ^
-          /p:CollectCoverage=true ^
-          /p:CoverletOutputFormat=cobertura ^
-          /p:CoverletOutput=./TestResults/coverage/ ^
-          /p:Exclude="[*.Tests]*"
+        run: |
+          dotnet test "TrabajoTarjeta.Tests/TrabajoTarjeta.Tests.csproj" --no-build -c Release `
+            /p:CollectCoverage=true `
+            /p:CoverletOutputFormat=cobertura `
+            /p:CoverletOutput=./TestResults/coverage/ `
+            /p:Exclude="[*.Tests]*"
 
       # 7. Ver archivos de cobertura (opcional para debug)
       - name: List coverage files
