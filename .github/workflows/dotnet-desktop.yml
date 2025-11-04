@@ -23,55 +23,70 @@ jobs:
         with:
           dotnet-version: '5.0.x'
 
-      # 3. Verificar instalación
-      - name: Verify .NET version
-        run: dotnet --version
-
-      # 4. Restaurar dependencias
+      # 3. Restaurar dependencias (esto instalará coverlet.msbuild)
       - name: Restore dependencies
         run: dotnet restore TrabajoTarjeta.sln
 
-      # 5. Compilar en modo Release
+      # 4. Compilar en modo Release
       - name: Build
         run: dotnet build TrabajoTarjeta.sln --no-restore -c Release
 
-      # 6. Instalar coverlet.collector globalmente
-      - name: Install coverlet.collector
-        run: dotnet add TrabajoTarjeta.Tests/TrabajoTarjeta.Tests.csproj package coverlet.collector
-
-      # 7. Ejecutar tests con cobertura (USANDO COLLECTOR CORRECTO)
+      # 5. Ejecutar tests con cobertura usando MSBuild
       - name: Run tests with coverage
         run: |
           dotnet test "TrabajoTarjeta.Tests/TrabajoTarjeta.Tests.csproj" `
             --no-build `
             -c Release `
-            --collect:"XPlat Code Coverage" `
-            --results-directory:TestResults
+            --logger trx `
+            --results-directory TestResults `
+            /p:CollectCoverage=true `
+            /p:CoverletOutput=TestResults/ `
+            /p:CoverletOutputFormat=cobertura `
+            /p:Include="[TrabajoTarjeta]*" `
+            /p:Exclude="[TrabajoTarjeta.Tests]*" `
+            /p:ExcludeByFile="**/obj/**"
 
-      # 8. Verificar archivos generados
+      # 6. Verificar archivos generados
       - name: Check generated files
         run: |
           Write-Host "=== Listando archivos en TestResults ==="
-          Get-ChildItem -Recurse -Path "TestResults" -Force
-          Write-Host "=== Listando archivos en TrabajoTarjeta.Tests/TestResults ==="
-          Get-ChildItem -Recurse -Path "TrabajoTarjeta.Tests/TestResults" -Force
+          if (Test-Path "TestResults") {
+            Get-ChildItem -Recurse -Path "TestResults" -Force
+          } else {
+            Write-Host "No existe el directorio TestResults"
+          }
+          Write-Host "=== Buscando archivos de cobertura ==="
+          Get-ChildItem -Recurse -Path . -Filter "*.cobertura.xml" | Select-Object FullName
 
-      # 9. Instalar ReportGenerator
+      # 7. Instalar ReportGenerator (SOLUCIÓN AL PROBLEMA DEL TOOL)
       - name: Install ReportGenerator
-        run: dotnet tool install -g dotnet-reportgenerator-globaltool --version 4.8.12
+        run: |
+          dotnet tool install --global dotnet-reportgenerator-globaltool --version 4.8.12
+          # Agregar al PATH manualmente
+          echo "C:\Users\runneradmin\.dotnet\tools" | Out-File -FilePath $env:GITHUB_PATH -Append
 
-      # 10. Generar reporte (usando la ruta correcta)
+      # 8. Generar reporte
       - name: Generate coverage report
         run: |
-          $coverageFile = Get-ChildItem -Recurse -Path "TestResults" -Name "coverage.cobertura.xml" | Select-Object -First 1
-          Write-Host "Archivo de cobertura encontrado: $coverageFile"
-          dotnet tool run reportgenerator -reports:"TestResults/**/coverage.cobertura.xml" -targetdir:"coveragereport" -reporttypes:Cobertura
+          # Buscar archivo de cobertura
+          $coverageFiles = Get-ChildItem -Recurse -Path . -Filter "*.cobertura.xml"
+          if ($coverageFiles.Count -eq 0) {
+            Write-Host "ERROR: No se encontraron archivos de cobertura"
+            Write-Host "Buscando cualquier archivo XML:"
+            Get-ChildItem -Recurse -Path . -Filter "*.xml" | Select-Object Name, Directory
+            exit 1
+          }
+          Write-Host "Archivos de cobertura encontrados:"
+          $coverageFiles | ForEach-Object { Write-Host "  - $($_.FullName)" }
+          $coverageFile = $coverageFiles[0].FullName
+          Write-Host "Usando archivo: $coverageFile"
+          reportgenerator -reports:"$coverageFile" -targetdir:"coveragereport" -reporttypes:Cobertura
 
-      # 11. Subir cobertura a Codecov
+      # 9. Subir cobertura a Codecov
       - name: Upload coverage to Codecov
         uses: codecov/codecov-action@v5
         with:
           token: ${{ secrets.CODECOV_TOKEN }}
-          files: TestResults/**/coverage.cobertura.xml
+          files: TestResults/coverage.cobertura.xml
           fail_ci_if_error: true
           verbose: true
