@@ -205,5 +205,105 @@ namespace TrabajoTarjeta.Tests
             var tarjeta = new BoletoGratuitoEstudiantil();
             Assert.AreEqual("Boleto Gratuito Estudiantil", tarjeta.TipoTarjeta);
         }
+
+        [Test]
+        public void MedioBoletoEstudiantil_NoPermiteViajeAntesde5Minutos()
+        {
+            var tarjeta = new MedioBoletoEstudiantil();
+            tarjeta.Saldo = 5000;
+
+            // Primer viaje exitoso
+            bool primerViaje = tarjeta.Pagar(1580);
+            Assert.IsTrue(primerViaje);
+            double saldoDespuesPrimero = tarjeta.Saldo;
+
+            // Segundo viaje inmediato (menos de 5 minutos)
+            bool segundoViaje = tarjeta.Pagar(1580);
+            Assert.IsFalse(segundoViaje);
+            Assert.AreEqual(saldoDespuesPrimero, tarjeta.Saldo); // Saldo no cambió
+        }
+
+        [Test]
+        public void MedioBoletoEstudiantil_PermiteViajesDespuesDe5Minutos()
+        {
+            var tarjeta = new MedioBoletoEstudiantil();
+            tarjeta.Saldo = 5000;
+
+            // Primer viaje
+            bool primerViaje = tarjeta.Pagar(1580);
+            Assert.IsTrue(primerViaje);
+            Assert.AreEqual(4210, tarjeta.Saldo); // 5000 - 790
+
+            // Simular que pasaron 5 minutos modificando fechaUltimoViaje
+            tarjeta.fechaUltimoViaje = DateTime.Now.AddMinutes(-6);
+
+            // Segundo viaje después de 5 minutos
+            bool segundoViaje = tarjeta.Pagar(1580);
+            Assert.IsTrue(segundoViaje);
+            Assert.AreEqual(3420, tarjeta.Saldo); // 4210 - 790
+        }
+
+        [Test]
+        public void MedioBoletoEstudiantil_SoloDosViajesConDescuentoPorDia()
+        {
+            var tarjeta = new MedioBoletoEstudiantil();
+            tarjeta.Saldo = 10000;
+
+            // Primer viaje con descuento
+            tarjeta.fechaUltimoViaje = DateTime.Now.AddMinutes(-6);
+            bool viaje1 = tarjeta.Pagar(1580);
+            Assert.IsTrue(viaje1);
+            Assert.AreEqual(9210, tarjeta.Saldo); // 10000 - 790
+
+            // Segundo viaje con descuento
+            tarjeta.fechaUltimoViaje = DateTime.Now.AddMinutes(-6);
+            bool viaje2 = tarjeta.Pagar(1580);
+            Assert.IsTrue(viaje2);
+            Assert.AreEqual(8420, tarjeta.Saldo); // 9210 - 790
+
+            // Tercer viaje cobra tarifa completa
+            tarjeta.fechaUltimoViaje = DateTime.Now.AddMinutes(-6);
+            bool viaje3 = tarjeta.Pagar(1580);
+            Assert.IsTrue(viaje3);
+            Assert.AreEqual(6840, tarjeta.Saldo); // 8420 - 1580 (tarifa completa)
+        }
+
+        [Test]
+        public void MedioBoletoEstudiantil_TercerViajeCobraTarifaCompleta()
+        {
+            var tarjeta = new MedioBoletoEstudiantil();
+            tarjeta.Saldo = 5000;
+
+            // Dos viajes con descuento
+            tarjeta.fechaUltimoViaje = DateTime.Now.AddMinutes(-6);
+            tarjeta.Pagar(1580); // -790
+
+            tarjeta.fechaUltimoViaje = DateTime.Now.AddMinutes(-6);
+            tarjeta.Pagar(1580); // -790
+
+            double saldoAntesTercero = tarjeta.Saldo;
+
+            // Tercer viaje
+            tarjeta.fechaUltimoViaje = DateTime.Now.AddMinutes(-6);
+            tarjeta.Pagar(1580);
+
+            // Verificar que cobró tarifa completa
+            Assert.AreEqual(saldoAntesTercero - 1580, tarjeta.Saldo);
+        }
+
+        [Test]
+        public void MedioBoletoEstudiantil_ResetaDespuesDeNuevoDia()
+        {
+            var tarjeta = new MedioBoletoEstudiantil();
+            tarjeta.Saldo = 5000;
+
+            // Simular viaje de ayer
+            tarjeta.fechaUltimoViaje = DateTime.Today.AddDays(-1).AddHours(10);
+
+            // Viaje hoy debería tener descuento nuevamente
+            bool viaje = tarjeta.Pagar(1580);
+            Assert.IsTrue(viaje);
+            Assert.AreEqual(4210, tarjeta.Saldo); // 5000 - 790 (con descuento)
+        }
     }
 }
