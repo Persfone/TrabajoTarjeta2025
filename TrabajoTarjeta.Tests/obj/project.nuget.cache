@@ -1,10 +1,11 @@
 {
   "version": 2,
-  "dgSpecHash": "SCYYFYtyOp0=",
+  "dgSpecHash": "qAZHMe8SOJk=",
   "success": true,
   "projectFilePath": "C:\\Users\\dana\\source\\repos\\Trabajo tarjeta\\TrabajoTarjeta.Tests\\TrabajoTarjeta.Tests.csproj",
   "expectedPackageFiles": [
     "C:\\Users\\dana\\.nuget\\packages\\coverlet.collector\\3.2.0\\coverlet.collector.3.2.0.nupkg.sha512",
+    "C:\\Users\\dana\\.nuget\\packages\\coverlet.msbuild\\3.2.0\\coverlet.msbuild.3.2.0.nupkg.sha512",
     "C:\\Users\\dana\\.nuget\\packages\\microsoft.codecoverage\\17.8.0\\microsoft.codecoverage.17.8.0.nupkg.sha512",
     "C:\\Users\\dana\\.nuget\\packages\\microsoft.net.test.sdk\\17.8.0\\microsoft.net.test.sdk.17.8.0.nupkg.sha512",
     "C:\\Users\\dana\\.nuget\\packages\\microsoft.netcore.platforms\\1.1.0\\microsoft.netcore.platforms.1.1.0.nupkg.sha512",
