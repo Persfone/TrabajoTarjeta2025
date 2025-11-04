@@ -5,13 +5,18 @@ namespace TrabajoTarjeta
     public class Tarjeta
     {
         public double Saldo { get; set; }
+        public string TipoTarjeta { get; set; }
+        public string Id { get; set; }
         public const double SALDO_NEGATIVO = 1200;
+
 
         private readonly int[] saldos = { 2000, 3000, 4000, 5000, 10000, 15000, 20000, 25000, 30000 };
 
         public Tarjeta()
         {
             Saldo = 0;
+            TipoTarjeta = "Sin Franquicia";
+            Id = $"SUBE-{Guid.NewGuid()}";
         }
 
         public Tarjeta CargarTarjeta(Tarjeta tarjeta)
@@ -79,6 +84,10 @@ namespace TrabajoTarjeta
 
     public class MedioBoletoEstudiantil : Tarjeta
     {
+        public MedioBoletoEstudiantil()
+        {
+            TipoTarjeta = "Medio Boleto Estudiantil";
+        }
         public override bool Pagar(double monto)
         {
             double montoConDescuento = monto * 0.50;
@@ -88,6 +97,11 @@ namespace TrabajoTarjeta
 
     public class BoletoGratuitoEstudiantil : Tarjeta
     {
+        public BoletoGratuitoEstudiantil()
+        {
+            TipoTarjeta = "Boleto Gratuito Estudiantil";
+        }
+        
         private int viajesHoy = 0;
         private DateTime fechaUltimoViaje = DateTime.MinValue;
 
@@ -111,17 +125,25 @@ namespace TrabajoTarjeta
             else
             {
                 Console.WriteLine("Ya utilizaste los 2 boletos gratuitos del día. No se puede viajar gratis.");
+                if (Saldo + SALDO_NEGATIVO >= monto)
+                {
+                    Saldo -= monto;
+                    return true;
+                }
                 return false;
             }
         }
-
-        public class FranquiciaCompleta : Tarjeta
+    }
+    public class FranquiciaCompleta : Tarjeta
+    {
+        public FranquiciaCompleta()
         {
-            public override bool Pagar(double monto)
-            {
-                Console.WriteLine("Viaje gratuito por franquicia completa.");
-                return true;
-            }
+            TipoTarjeta = "Franquicia Completa";
+        }
+        public override bool Pagar(double monto)
+        {
+            Console.WriteLine("Viaje gratuito por franquicia completa.");
+            return true;
         }
     }
 }

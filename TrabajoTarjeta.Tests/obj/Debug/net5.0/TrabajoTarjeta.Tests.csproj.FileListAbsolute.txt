@@ -1,0 +1,6 @@
+C:\Users\Alexis\Documents\GitHub\TrabajoTarjeta2025\TrabajoTarjeta.Tests\bin\Debug\net5.0\CoverletSourceRootsMapping
+C:\Users\Alexis\Documents\GitHub\TrabajoTarjeta2025\TrabajoTarjeta.Tests\obj\Debug\net5.0\TrabajoTarjeta.Tests.csproj.AssemblyReference.cache
+C:\Users\Alexis\Documents\GitHub\TrabajoTarjeta2025\TrabajoTarjeta.Tests\obj\Debug\net5.0\TrabajoTarjeta.Tests.GeneratedMSBuildEditorConfig.editorconfig
+C:\Users\Alexis\Documents\GitHub\TrabajoTarjeta2025\TrabajoTarjeta.Tests\obj\Debug\net5.0\TrabajoTarjeta.Tests.AssemblyInfoInputs.cache
+C:\Users\Alexis\Documents\GitHub\TrabajoTarjeta2025\TrabajoTarjeta.Tests\obj\Debug\net5.0\TrabajoTarjeta.Tests.AssemblyInfo.cs
+C:\Users\Alexis\Documents\GitHub\TrabajoTarjeta2025\TrabajoTarjeta.Tests\obj\Debug\net5.0\TrabajoTarjeta.Tests.csproj.CoreCompileInputs.cache

@@ -382,100 +382,9 @@
           }
         }
       },
-      "xunit/2.4.2": {
-        "type": "package",
-        "dependencies": {
-          "xunit.analyzers": "1.0.0",
-          "xunit.assert": "2.4.2",
-          "xunit.core": "[2.4.2]"
-        }
-      },
-      "xunit.abstractions/2.0.3": {
-        "type": "package",
-        "compile": {
-          "lib/netstandard2.0/xunit.abstractions.dll": {
-            "related": ".xml"
-          }
-        },
-        "runtime": {
-          "lib/netstandard2.0/xunit.abstractions.dll": {
-            "related": ".xml"
-          }
-        }
-      },
-      "xunit.analyzers/1.0.0": {
-        "type": "package"
-      },
-      "xunit.assert/2.4.2": {
-        "type": "package",
-        "dependencies": {
-          "NETStandard.Library": "1.6.1"
-        },
-        "compile": {
-          "lib/netstandard1.1/xunit.assert.dll": {
-            "related": ".xml"
-          }
-        },
-        "runtime": {
-          "lib/netstandard1.1/xunit.assert.dll": {
-            "related": ".xml"
-          }
-        }
-      },
-      "xunit.core/2.4.2": {
-        "type": "package",
-        "dependencies": {
-          "xunit.extensibility.core": "[2.4.2]",
-          "xunit.extensibility.execution": "[2.4.2]"
-        },
-        "build": {
-          "build/_._": {}
-        },
-        "buildMultiTargeting": {
-          "buildMultiTargeting/_._": {}
-        }
-      },
-      "xunit.extensibility.core/2.4.2": {
-        "type": "package",
-        "dependencies": {
-          "NETStandard.Library": "1.6.1",
-          "xunit.abstractions": "2.0.3"
-        },
-        "compile": {
-          "lib/netstandard1.1/xunit.core.dll": {
-            "related": ".xml"
-          }
-        },
-        "runtime": {
-          "lib/netstandard1.1/xunit.core.dll": {
-            "related": ".xml"
-          }
-        }
-      },
-      "xunit.extensibility.execution/2.4.2": {
-        "type": "package",
-        "dependencies": {
-          "NETStandard.Library": "1.6.1",
-          "xunit.extensibility.core": "[2.4.2]"
-        },
-        "compile": {
-          "lib/netstandard1.1/xunit.execution.dotnet.dll": {
-            "related": ".xml"
-          }
-        },
-        "runtime": {
-          "lib/netstandard1.1/xunit.execution.dotnet.dll": {
-            "related": ".xml"
-          }
-        }
-      },
       "TrabajoTarjeta/1.0.0": {
         "type": "project",
         "framework": ".NETCoreApp,Version=v5.0",
-        "dependencies": {
-          "Microsoft.NET.Test.Sdk": "17.8.0",
-          "xunit": "2.4.2"
-        },
         "compile": {
           "bin/placeholder/TrabajoTarjeta.dll": {}
         },
@@ -1118,117 +1027,6 @@
         "version.txt"
       ]
     },
-    "xunit/2.4.2": {
-      "sha512": "6Mj73Ont3zj2CJuoykVJfE0ZmRwn7C+pTuRP8c4bnaaTFjwNG6tGe0prJ1yIbMe9AHrpDys63ctWacSsFJWK/w==",
-      "type": "package",
-      "path": "xunit/2.4.2",
-      "files": [
-        ".nupkg.metadata",
-        ".signature.p7s",
-        "_content/logo-128-transparent.png",
-        "xunit.2.4.2.nupkg.sha512",
-        "xunit.nuspec"
-      ]
-    },
-    "xunit.abstractions/2.0.3": {
-      "sha512": "pot1I4YOxlWjIb5jmwvvQNbTrZ3lJQ+jUGkGjWE3hEFM0l5gOnBWS+H3qsex68s5cO52g+44vpGzhAt+42vwKg==",
-      "type": "package",
-      "path": "xunit.abstractions/2.0.3",
-      "files": [
-        ".nupkg.metadata",
-        ".signature.p7s",
-        "lib/net35/xunit.abstractions.dll",
-        "lib/net35/xunit.abstractions.xml",
-        "lib/netstandard1.0/xunit.abstractions.dll",
-        "lib/netstandard1.0/xunit.abstractions.xml",
-        "lib/netstandard2.0/xunit.abstractions.dll",
-        "lib/netstandard2.0/xunit.abstractions.xml",
-        "xunit.abstractions.2.0.3.nupkg.sha512",
-        "xunit.abstractions.nuspec"
-      ]
-    },
-    "xunit.analyzers/1.0.0": {
-      "sha512": "BeO8hEgs/c8Ls2647fPfieMngncvf0D0xYNDfIO59MolxtCtVjFRd6SRc+7tj8VMqkVOuJcnc9eh4ngI2cAmLQ==",
-      "type": "package",
-      "path": "xunit.analyzers/1.0.0",
-      "hasTools": true,
-      "files": [
-        ".nupkg.metadata",
-        ".signature.p7s",
-        "_content/logo-128-transparent.png",
-        "analyzers/dotnet/cs/xunit.analyzers.dll",
-        "analyzers/dotnet/cs/xunit.analyzers.fixes.dll",
-        "tools/install.ps1",
-        "tools/uninstall.ps1",
-        "xunit.analyzers.1.0.0.nupkg.sha512",
-        "xunit.analyzers.nuspec"
-      ]
-    },
-    "xunit.assert/2.4.2": {
-      "sha512": "pxJISOFjn2XTTi1mcDCkRZrTFb9OtRRCtx2kZFNF51GdReLr1ls2rnyxvAS4JO247K3aNtflvh5Q0346K5BROA==",
-      "type": "package",
-      "path": "xunit.assert/2.4.2",
-      "files": [
-        ".nupkg.metadata",
-        ".signature.p7s",
-        "_content/logo-128-transparent.png",
-        "lib/netstandard1.1/xunit.assert.dll",
-        "lib/netstandard1.1/xunit.assert.xml",
-        "xunit.assert.2.4.2.nupkg.sha512",
-        "xunit.assert.nuspec"
-      ]
-    },
-    "xunit.core/2.4.2": {
-      "sha512": "KB4yGCxNqIVyekhJLXtKSEq6BaXVp/JO3mbGVE1hxypZTLEe7h+sTbAhpA+yZW2dPtXTuiW+C1B2oxxHEkrmOw==",
-      "type": "package",
-      "path": "xunit.core/2.4.2",
-      "files": [
-        ".nupkg.metadata",
-        ".signature.p7s",
-        "_content/logo-128-transparent.png",
-        "build/xunit.core.props",
-        "build/xunit.core.targets",
-        "buildMultiTargeting/xunit.core.props",
-        "buildMultiTargeting/xunit.core.targets",
-        "xunit.core.2.4.2.nupkg.sha512",
-        "xunit.core.nuspec"
-      ]
-    },
-    "xunit.extensibility.core/2.4.2": {
-      "sha512": "W1BoXTIN1C6kpVSMw25huSet25ky6IAQUNovu3zGOGN/jWnbgSoTyCrlIhmXSg0tH5nEf8q7h3OjNHOjyu5PfA==",
-      "type": "package",
-      "path": "xunit.extensibility.core/2.4.2",
-      "files": [
-        ".nupkg.metadata",
-        ".signature.p7s",
-        "_content/logo-128-transparent.png",
-        "lib/net452/xunit.core.dll",
-        "lib/net452/xunit.core.dll.tdnet",
-        "lib/net452/xunit.core.xml",
-        "lib/net452/xunit.runner.tdnet.dll",
-        "lib/net452/xunit.runner.utility.net452.dll",
-        "lib/netstandard1.1/xunit.core.dll",
-        "lib/netstandard1.1/xunit.core.xml",
-        "xunit.extensibility.core.2.4.2.nupkg.sha512",
-        "xunit.extensibility.core.nuspec"
-      ]
-    },
-    "xunit.extensibility.execution/2.4.2": {
-      "sha512": "CZmgcKkwpyo8FlupZdWpJCryrAOWLh1FBPG6gmVZuPQkGQsim/oL4PcP4nfrC2hHgXUFtluvaJ0Sp9PQKUMNpg==",
-      "type": "package",
-      "path": "xunit.extensibility.execution/2.4.2",
-      "files": [
-        ".nupkg.metadata",
-        ".signature.p7s",
-        "_content/logo-128-transparent.png",
-        "lib/net452/xunit.execution.desktop.dll",
-        "lib/net452/xunit.execution.desktop.xml",
-        "lib/netstandard1.1/xunit.execution.dotnet.dll",
-        "lib/netstandard1.1/xunit.execution.dotnet.xml",
-        "xunit.extensibility.execution.2.4.2.nupkg.sha512",
-        "xunit.extensibility.execution.nuspec"
-      ]
-    },
     "TrabajoTarjeta/1.0.0": {
       "type": "project",
       "path": "../TrabajoTarjeta/TrabajoTarjeta.csproj",
@@ -1246,23 +1044,23 @@
     ]
   },
   "packageFolders": {
-    "C:\\Users\\dana\\.nuget\\packages\\": {},
+    "C:\\Users\\Alexis\\.nuget\\packages\\": {},
     "C:\\Program Files (x86)\\Microsoft Visual Studio\\Shared\\NuGetPackages": {}
   },
   "project": {
     "version": "1.0.0",
     "restore": {
-      "projectUniqueName": "C:\\Users\\dana\\source\\repos\\Trabajo tarjeta\\TrabajoTarjeta.Tests\\TrabajoTarjeta.Tests.csproj",
+      "projectUniqueName": "C:\\Users\\Alexis\\Documents\\GitHub\\TrabajoTarjeta2025\\TrabajoTarjeta.Tests\\TrabajoTarjeta.Tests.csproj",
       "projectName": "TrabajoTarjeta.Tests",
-      "projectPath": "C:\\Users\\dana\\source\\repos\\Trabajo tarjeta\\TrabajoTarjeta.Tests\\TrabajoTarjeta.Tests.csproj",
-      "packagesPath": "C:\\Users\\dana\\.nuget\\packages\\",
-      "outputPath": "C:\\Users\\dana\\source\\repos\\Trabajo tarjeta\\TrabajoTarjeta.Tests\\obj\\",
+      "projectPath": "C:\\Users\\Alexis\\Documents\\GitHub\\TrabajoTarjeta2025\\TrabajoTarjeta.Tests\\TrabajoTarjeta.Tests.csproj",
+      "packagesPath": "C:\\Users\\Alexis\\.nuget\\packages\\",
+      "outputPath": "C:\\Users\\Alexis\\Documents\\GitHub\\TrabajoTarjeta2025\\TrabajoTarjeta.Tests\\obj\\",
       "projectStyle": "PackageReference",
       "fallbackFolders": [
         "C:\\Program Files (x86)\\Microsoft Visual Studio\\Shared\\NuGetPackages"
       ],
       "configFilePaths": [
-        "C:\\Users\\dana\\AppData\\Roaming\\NuGet\\NuGet.Config",
+        "C:\\Users\\Alexis\\AppData\\Roaming\\NuGet\\NuGet.Config",
         "C:\\Program Files (x86)\\NuGet\\Config\\Microsoft.VisualStudio.FallbackLocation.config",
         "C:\\Program Files (x86)\\NuGet\\Config\\Microsoft.VisualStudio.Offline.config"
       ],
@@ -1277,8 +1075,8 @@
         "net5.0": {
           "targetAlias": "net5.0",
           "projectReferences": {
-            "C:\\Users\\dana\\source\\repos\\Trabajo tarjeta\\TrabajoTarjeta\\TrabajoTarjeta.csproj": {
-              "projectPath": "C:\\Users\\dana\\source\\repos\\Trabajo tarjeta\\TrabajoTarjeta\\TrabajoTarjeta.csproj"
+            "C:\\Users\\Alexis\\Documents\\GitHub\\TrabajoTarjeta2025\\TrabajoTarjeta\\TrabajoTarjeta.csproj": {
+              "projectPath": "C:\\Users\\Alexis\\Documents\\GitHub\\TrabajoTarjeta2025\\TrabajoTarjeta\\TrabajoTarjeta.csproj"
             }
           }
         }
@@ -1292,8 +1090,7 @@
         "enableAudit": "true",
         "auditLevel": "low",
         "auditMode": "direct"
-      },
-      "SdkAnalysisLevel": "9.0.300"
+      }
     },
     "frameworks": {
       "net5.0": {
@@ -1328,8 +1125,7 @@
           "net47",
           "net471",
           "net472",
-          "net48",
-          "net481"
+          "net48"
         ],
         "assetTargetFallback": true,
         "warn": true,
@@ -1338,7 +1134,7 @@
             "privateAssets": "all"
           }
         },
-        "runtimeIdentifierGraphPath": "C:\\Program Files\\dotnet\\sdk\\9.0.300\\RuntimeIdentifierGraph.json"
+        "runtimeIdentifierGraphPath": "C:\\Program Files\\dotnet\\sdk\\5.0.408\\RuntimeIdentifierGraph.json"
       }
     }
   }

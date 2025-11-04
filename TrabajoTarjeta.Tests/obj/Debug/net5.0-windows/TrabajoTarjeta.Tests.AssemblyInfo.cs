@@ -18,6 +18,8 @@ using System.Reflection;
 [assembly: System.Reflection.AssemblyProductAttribute("TrabajoTarjeta.Tests")]
 [assembly: System.Reflection.AssemblyTitleAttribute("TrabajoTarjeta.Tests")]
 [assembly: System.Reflection.AssemblyVersionAttribute("1.0.0.0")]
+[assembly: System.Runtime.Versioning.TargetPlatformAttribute("Windows7.0")]
+[assembly: System.Runtime.Versioning.SupportedOSPlatformAttribute("Windows7.0")]
 
 // Generado por la clase WriteCodeFragment de MSBuild.
 
