@@ -14,22 +14,25 @@ jobs:
       - name: Checkout code
         uses: actions/checkout@v4
 
-     
+      # FORZAR .NET 5.0
       - name: Setup .NET 5.0
         uses: actions/setup-dotnet@v4
         with:
           dotnet-version: '5.0.x'
-          include-prerelease: false
 
-      
+      # Verificar que se use 5.0
       - name: Verify .NET version
         run: dotnet --version
+
+      # Verificar global.json
+      - name: Show global.json
+        run: cat global.json
 
       - name: Restore dependencies
         run: dotnet restore TrabajoTarjeta.sln
 
       - name: Build
-        run: dotnet build --no-restore -c Release
+        run: dotnet build TrabajoTarjeta.sln --no-restore -c Release
 
       - name: Run tests with coverage
         run: |
@@ -39,25 +42,6 @@ jobs:
             /p:CoverletOutput=./TestResults/coverage/ `
             /p:Exclude="[*.Tests]*"
 
-      - name: Install coverlet and reportgenerator
-        run: |
-          dotnet tool install --global coverlet.console
-          dotnet tool install --global dotnet-reportgenerator-globaltool
-
-      - name: Generate Cobertura report
-        run: |
-          $coverageFiles = Get-ChildItem -Path **/TestResults/*/coverage.cobertura.xml -Recurse
-          if ($coverageFiles.Count -eq 0) {
-            Write-Error "No coverage files found!"
-            exit 1
-          }
-          reportgenerator `
-            -reports:$($coverageFiles -join ';') `
-            -targetdir:coverage-report `
-            -reporttypes:Cobertura
-          Copy-Item coverage-report/Cobertura.xml coverage.cobertura.xml
-
-      # Subir a Codecov
       - name: Upload coverage to Codecov
         uses: codecov/codecov-action@v5
         with:
