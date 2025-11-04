@@ -88,7 +88,6 @@ namespace TrabajoTarjeta
     public class MedioBoletoEstudiantil : Tarjeta
     {
         private int viajesHoy = 0;
-        private DateTime fechaUltimoViajeConDescuento = DateTime.MinValue;
 
         public MedioBoletoEstudiantil()
         {
@@ -101,13 +100,11 @@ namespace TrabajoTarjeta
             DateTime hoy = DateTime.Today;
             double montoAPagar;
 
-            // Si cambió el día, reiniciamos el contador
             if (fechaUltimoViaje.Date != hoy)
             {
                 viajesHoy = 0;
             }
 
-            // Verificar que hayan pasado al menos 5 minutos desde el último viaje (de cualquier tipo)
             if ((ahora - fechaUltimoViaje).TotalMinutes < 5)
             {
                 Console.WriteLine("Debe esperar al menos 5 minutos antes de usar nuevamente la tarjeta.");
@@ -126,25 +123,31 @@ namespace TrabajoTarjeta
                 Console.WriteLine("Ya utilizaste los 2 medios boletos del día. Este viaje se cobra completo.");
             }
 
-            return base.Pagar(montoAPagar);
+            bool pagoExitoso = base.Pagar(montoAPagar);
+            if (!pagoExitoso && viajesHoy > 0)
+            {
+                viajesHoy--;
+            }
+
+            return pagoExitoso;
         }
     }
 
 
     public class BoletoGratuitoEstudiantil : Tarjeta
     {
+        private int viajesHoy = 0;
+
         public BoletoGratuitoEstudiantil()
         {
             TipoTarjeta = "Boleto Gratuito Estudiantil";
         }
-        
-        private int viajesHoy = 0;
 
         public override bool Pagar(double monto)
         {
             DateTime hoy = DateTime.Today;
 
-            if (hoy != fechaUltimoViaje)
+            if (fechaUltimoViaje.Date != hoy)
             {
                 viajesHoy = 0;
             }
@@ -152,22 +155,29 @@ namespace TrabajoTarjeta
             if (viajesHoy < 2)
             {
                 viajesHoy++;
-                Console.WriteLine($"Viaje gratuito #{viajesHoy} del día ({fechaUltimoViaje.ToShortDateString()})");
+                Console.WriteLine($"Viaje gratuito #{viajesHoy} del día ({hoy.ToShortDateString()})");
                 return base.Pagar(0);
             }
             else
             {
-                Console.WriteLine("Ya utilizaste los 2 boletos gratuitos del día. No se puede viajar gratis.");
-                return base.Pagar(monto);
+                Console.WriteLine("Ya utilizaste los 2 boletos gratuitos del día. Este viaje se cobra completo.");
+                bool pagoExitoso = base.Pagar(monto);
+                if (!pagoExitoso)
+                {
+                    Console.WriteLine("Saldo insuficiente para el tercer viaje.");
+                }
+                return pagoExitoso;
             }
         }
     }
+
     public class FranquiciaCompleta : Tarjeta
     {
         public FranquiciaCompleta()
         {
             TipoTarjeta = "Franquicia Completa";
         }
+
         public override bool Pagar(double monto)
         {
             Console.WriteLine("Viaje gratuito por franquicia completa.");
