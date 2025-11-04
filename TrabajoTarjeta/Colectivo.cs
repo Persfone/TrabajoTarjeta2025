@@ -17,7 +17,7 @@ namespace TrabajoTarjeta
             boleto = null;
             if (tarjeta.Pagar(TARIFA_BASICA))
             {
-                boleto = new Boleto(linea, tarjeta.Saldo);
+                boleto = new Boleto(linea, tarjeta);
                 return true;
             }
             return false;

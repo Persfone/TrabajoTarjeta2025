@@ -1,8 +1,8 @@
-﻿/*using System;
+﻿using System;
 using TrabajoTarjeta;
-using static TrabajoTarjeta.BoletoGratuitoEstudiantil;
 
-class Program
+
+internal class Program
 {
     static void Main()
     {
@@ -130,17 +130,3 @@ class Program
         }
     }
 }
-
-        /*tarjeta.Cargar(20000);
-        var colectivo = new Colectivo("143");
-        var boleto = colectivo.PagarCon(tarjeta);
-        if (boleto != null)
-        {
-            boleto.Imprimir();
-        }
-        else
-        {
-            Console.WriteLine("Saldo insuficiente");
-        }*/
- 
-
