@@ -125,7 +125,7 @@ namespace TrabajoTarjeta
     // ----------------------------------------------------
     public class SinFranquicia : Tarjeta 
     {
-        int cantidadViajes = 28;
+        int cantidadViajes = 0;
         public float UsoFrecuente()
         {
 
