@@ -357,60 +357,6 @@ namespace TrabajoTarjeta.Tests
             Assert.AreEqual(6840, tarjeta.Saldo); // 8420 - 1580
         }
 
-        [Test]
-        public void BoletoGratuitoEstudiantil_NoPermiteUsoAntesde5Minutos()
-        {
-            var tarjeta = new BoletoGratuitoEstudiantil();
-            tarjeta.Saldo = 5000;
-
-            // Primer viaje gratis
-            bool viaje1 = tarjeta.Pagar(1580);
-            Assert.IsTrue(viaje1);
-
-            // Intento inmediato (sin esperar 5 minutos)
-            bool viaje2 = tarjeta.Pagar(1580);
-            Assert.IsFalse(viaje2); // Debe rechazar
-            Assert.AreEqual(5000, tarjeta.Saldo); // Saldo no cambió
-        }
-
-        [Test]
-        public void BoletoGratuitoEstudiantil_PermiteUsoDepusDe5Minutos()
-        {
-            var tarjeta = new BoletoGratuitoEstudiantil();
-            tarjeta.Saldo = 5000;
-
-            // Primer viaje gratis
-            bool viaje1 = tarjeta.Pagar(1580);
-            Assert.IsTrue(viaje1);
-
-            // Simular que pasaron 5 minutos
-            tarjeta.fechaUltimoViaje = DateTime.Now.AddMinutes(-6);
-
-            // Segundo viaje gratis
-            bool viaje2 = tarjeta.Pagar(1580);
-            Assert.IsTrue(viaje2);
-            Assert.AreEqual(5000, tarjeta.Saldo); // Aún gratis
-        }
-
-        [Test]
-        public void BoletoGratuitoEstudiantil_ContadorSeReiniciaAlDiaSiguiente()
-        {
-            var tarjeta = new BoletoGratuitoEstudiantil();
-            tarjeta.Saldo = 5000;
-
-            // Simular que el último viaje fue ayer
-            tarjeta.fechaUltimoViaje = DateTime.Today.AddDays(-1).AddHours(10);
-
-            // Hoy debería tener 2 viajes gratis nuevamente
-            bool viaje1 = tarjeta.Pagar(1580);
-            Assert.IsTrue(viaje1);
-            Assert.AreEqual(5000, tarjeta.Saldo); // Gratis
-
-            tarjeta.fechaUltimoViaje = DateTime.Now.AddMinutes(-6);
-            bool viaje2 = tarjeta.Pagar(1580);
-            Assert.IsTrue(viaje2);
-            Assert.AreEqual(5000, tarjeta.Saldo); // Gratis
-        }
 
         [Test]
         public void BoletoGratuitoEstudiantil_TercerViajeSinSaldoFalla()

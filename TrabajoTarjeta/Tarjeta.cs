@@ -100,13 +100,12 @@ namespace TrabajoTarjeta
             DateTime hoy = DateTime.Today;
             double montoAPagar;
 
-            // Si cambió el día, reiniciamos el contador
+
             if (fechaUltimoViaje.Date != hoy)
             {
                 viajesHoy = 0;
             }
 
-            // Verificar que hayan pasado al menos 5 minutos desde el último viaje
             if ((ahora - fechaUltimoViaje).TotalMinutes < 5)
             {
                 Console.WriteLine("Debe esperar al menos 5 minutos antes de usar nuevamente la tarjeta.");
@@ -147,21 +146,11 @@ namespace TrabajoTarjeta
 
         public override bool Pagar(double monto)
         {
-            DateTime ahora = DateTime.Now;
             DateTime hoy = DateTime.Today;
 
-            // Si cambió el día, reiniciamos el contador
             if (fechaUltimoViaje.Date != hoy)
             {
                 viajesHoy = 0;
-            }
-
-            // AGREGADO: Verificar que hayan pasado al menos 5 minutos desde el último viaje
-            // Esto evita que se use la tarjeta múltiples veces en el mismo colectivo
-            if ((ahora - fechaUltimoViaje).TotalMinutes < 5 && fechaUltimoViaje != DateTime.MinValue)
-            {
-                Console.WriteLine("Debe esperar al menos 5 minutos antes de usar nuevamente la tarjeta.");
-                return false;
             }
 
             if (viajesHoy < 2)
@@ -173,12 +162,7 @@ namespace TrabajoTarjeta
             else
             {
                 Console.WriteLine("Ya utilizaste los 2 boletos gratuitos del día. Este viaje se cobra completo.");
-                bool pagoExitoso = base.Pagar(monto);
-                if (!pagoExitoso)
-                {
-                    Console.WriteLine("Saldo insuficiente para el tercer viaje.");
-                }
-                return pagoExitoso;
+                return base.Pagar(monto);
             }
         }
     }
