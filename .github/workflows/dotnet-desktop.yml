@@ -1,5 +1,4 @@
 name: .NET CI/CD with Code Coverage
-
 on:
   push:
     branches:
@@ -9,32 +8,53 @@ on:
       - '**'
 
 jobs:
-
   build-and-test:
-
     runs-on: windows-latest
-
     steps:
-    - name: Checkout code
-      uses: actions/checkout@v4
+      - name: Checkout code
+        uses: actions/checkout@v4
 
-   
-    - name: Setup .NET 5.0
-      uses: actions/setup-dotnet@v4
-      with:
-        dotnet-version: '5.0.x'
+      - name: Setup .NET 5.0
+        uses: actions/setup-dotnet@v4
+        with:
+          dotnet-version: '5.0.x'
 
-    - name: Restore dependencies
-      run: dotnet restore
+      - name: Restore dependencies
+        run: dotnet restore
 
-    - name: Build
-      run: dotnet build --no-restore
+      - name: Build
+        run: dotnet build --no-restore -c Release
 
-    - name: Run tests with coverage
-      run: dotnet test --no-build --collect:"XPlat Code Coverage"
+      - name: Run tests with coverage
+        run: |
+          dotnet test --no-build --configuration Release `
+            --collect:"XPlat Code Coverage" `
+            --settings coverlet.runsettings `
+            --logger trx
 
-    - name: Upload coverage to Codecov
-      uses: codecov/codecov-action@v5
-      with:
-        token: ${{ secrets.CODECOV_TOKEN }}
-        files: ./**/coverage.cobertura.xml
+      - name: Install coverlet and reportgenerator
+        run: |
+          dotnet tool install --global coverlet.console
+          dotnet tool install --global dotnet-reportgenerator-globaltool
+
+      - name: Generate Cobertura report
+        run: |
+          $coverageFiles = Get-ChildItem -Path **/TestResults/*/coverage.cobertura.xml -Recurse
+          if ($coverageFiles.Count -eq 0) {
+            Write-Error "No coverage files found!"
+            exit 1
+          }
+          reportgenerator `
+            -reports:$($coverageFiles -join ';') `
+            -targetdir:coverage-report `
+            -reporttypes:Cobertura
+          Copy-Item coverage-report/Cobertura.xml coverage.cobertura.xml
+
+      # Subir a Codecov
+      - name: Upload coverage to Codecov
+        uses: codecov/codecov-action@v5
+        with:
+          token: ${{ secrets.CODECOV_TOKEN }}
+          files: coverage.cobertura.xml
+          fail_ci_if_error: true
+          verbose: true
