@@ -36,6 +36,10 @@ jobs:
             /p:CoverletOutput=./TestResults/coverage/ `
             /p:Exclude="[*.Tests]*"
 
+      - name: List coverage files
+        run: dir ./TestResults /s
+
+
       - name: Upload coverage to Codecov
         uses: codecov/codecov-action@v5
         with:
