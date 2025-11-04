@@ -13,11 +13,9 @@ jobs:
     runs-on: windows-latest
 
     steps:
-      # 1. Checkout limpio (sin carpeta anidada)
+      # 1. Checkout del código
       - name: Checkout repository
         uses: actions/checkout@v4
-        with:
-          path: . # 🔹 evita TrabajoTarjeta2025/TrabajoTarjeta2025
 
       # 2. Instalar .NET 5
       - name: Setup .NET 5.0
@@ -37,33 +35,43 @@ jobs:
       - name: Build
         run: dotnet build TrabajoTarjeta.sln --no-restore -c Release
 
-      # 6. Ejecutar tests y generar cobertura
+      # 6. Instalar coverlet.collector globalmente
+      - name: Install coverlet.collector
+        run: dotnet add TrabajoTarjeta.Tests/TrabajoTarjeta.Tests.csproj package coverlet.collector
+
+      # 7. Ejecutar tests con cobertura (USANDO COLLECTOR CORRECTO)
       - name: Run tests with coverage
         run: |
-          dotnet test "TrabajoTarjeta.Tests/TrabajoTarjeta.Tests.csproj" --no-build -c Release `
-            /p:CollectCoverage=true `
-            /p:CoverletOutput=TrabajoTarjeta.Tests/TestResults/coverage/ `
-            /p:CoverletOutputFormat=cobertura
+          dotnet test "TrabajoTarjeta.Tests/TrabajoTarjeta.Tests.csproj" `
+            --no-build `
+            -c Release `
+            --collect:"XPlat Code Coverage" `
+            --results-directory:TestResults
 
-      # 7. Instalar reportgenerator y generar reporte Cobertura
+      # 8. Verificar archivos generados
+      - name: Check generated files
+        run: |
+          Write-Host "=== Listando archivos en TestResults ==="
+          Get-ChildItem -Recurse -Path "TestResults" -Force
+          Write-Host "=== Listando archivos en TrabajoTarjeta.Tests/TestResults ==="
+          Get-ChildItem -Recurse -Path "TrabajoTarjeta.Tests/TestResults" -Force
+
+      # 9. Instalar ReportGenerator
+      - name: Install ReportGenerator
+        run: dotnet tool install -g dotnet-reportgenerator-globaltool --version 4.8.12
+
+      # 10. Generar reporte (usando la ruta correcta)
       - name: Generate coverage report
         run: |
-          dotnet tool install -g dotnet-reportgenerator-globaltool --version 4.8.12
-          reportgenerator -reports:"TrabajoTarjeta.Tests/TestResults/**/coverage.cobertura.xml" -targetdir:"coveragereport" -reporttypes:Cobertura
-        env:
-          PATH: ${{ env.PATH }}:~/.dotnet/tools
+          $coverageFile = Get-ChildItem -Recurse -Path "TestResults" -Name "coverage.cobertura.xml" | Select-Object -First 1
+          Write-Host "Archivo de cobertura encontrado: $coverageFile"
+          dotnet tool run reportgenerator -reports:"TestResults/**/coverage.cobertura.xml" -targetdir:"coveragereport" -reporttypes:Cobertura
 
-      # 8. Debug opcional (ver rutas y archivos encontrados)
-      - name: Debug coverage output
-        run: |
-          Write-Host "Listing all coverage files..."
-          Get-ChildItem -Recurse -Path . -Filter "coverage.cobertura.xml"
-
-      # 9. Subir cobertura a Codecov
+      # 11. Subir cobertura a Codecov
       - name: Upload coverage to Codecov
         uses: codecov/codecov-action@v5
         with:
           token: ${{ secrets.CODECOV_TOKEN }}
-          files: ./TrabajoTarjeta.Tests/TestResults/**/coverage.cobertura.xml
+          files: TestResults/**/coverage.cobertura.xml
           fail_ci_if_error: true
           verbose: true
