@@ -11,6 +11,9 @@ namespace TrabajoTarjeta
         public DateTime fechaUltimoViaje = DateTime.MinValue;
         public const double SALDO_NEGATIVO = 1200;
 
+        public const double SALDO_MAXIMO = 56000;
+        public double SaldoPendiente { get; set; }
+
 
         private readonly int[] saldos = { 2000, 3000, 4000, 5000, 10000, 15000, 20000, 25000, 30000 };
 
@@ -19,6 +22,7 @@ namespace TrabajoTarjeta
             Saldo = 0;
             TipoTarjeta = "Sin Franquicia";
             Id = $"SUBE-{Guid.NewGuid()}";
+            SaldoPendiente = 0; // AGREGADO
         }
 
         public Tarjeta CargarTarjeta(Tarjeta tarjeta)
@@ -39,11 +43,13 @@ namespace TrabajoTarjeta
 
                 if (int.TryParse(opc, out int opcion))
                 {
-                    opcion -= 1; // ajustar al índice real del array
+                    opcion -= 1;
 
                     if (opcion >= 0 && opcion < saldos.Length)
                     {
-                        if (tarjeta.Saldo + saldos[opcion] <= 40000)
+                        double montoACcargar = saldos[opcion];
+
+                        if (tarjeta.Saldo + montoACcargar <= SALDO_MAXIMO)
                         {
                             cargoTarjeta = true;
                             Console.WriteLine($"Cargaste {saldos[opcion]}");
@@ -51,7 +57,16 @@ namespace TrabajoTarjeta
                         }
                         else
                         {
-                            Console.WriteLine("No se puede cargar, superas el máximo de $40000");
+                            double espacioDisponible = SALDO_MAXIMO - tarjeta.Saldo;
+                            double excedente = montoACcargar - espacioDisponible;
+
+                            tarjeta.Saldo = SALDO_MAXIMO;
+                            tarjeta.SaldoPendiente += excedente;
+
+                            cargoTarjeta = true;
+                            Console.WriteLine($"Se acreditaron ${espacioDisponible} y quedaron ${excedente} pendientes de acreditación.");
+                            Console.WriteLine($"Saldo actual: ${tarjeta.Saldo}");
+                            Console.WriteLine($"Saldo pendiente: ${tarjeta.SaldoPendiente}");
                         }
                     }
                     else
@@ -68,12 +83,35 @@ namespace TrabajoTarjeta
             return tarjeta;
         }
 
+        public void AcreditarCarga()
+        {
+            if (SaldoPendiente > 0)
+            {
+                double espacioDisponible = SALDO_MAXIMO - Saldo;
+
+                if (espacioDisponible > 0)
+                {
+                    double montoAAcreditar = Math.Min(SaldoPendiente, espacioDisponible);
+                    Saldo += montoAAcreditar;
+                    SaldoPendiente -= montoAAcreditar;
+
+                    Console.WriteLine($"Se acreditaron ${montoAAcreditar} del saldo pendiente.");
+                    Console.WriteLine($"Saldo actual: ${Saldo}");
+                    Console.WriteLine($"Saldo pendiente restante: ${SaldoPendiente}");
+                }
+            }
+        }
+
         public virtual bool Pagar(double monto)
         {
             if (Saldo + SALDO_NEGATIVO >= monto)
             {
                 Saldo -= monto;
                 fechaUltimoViaje = DateTime.Now;
+
+                // AGREGADO: Acreditar saldo pendiente después de cada pago
+                AcreditarCarga();
+
                 return true;
             }
             return false;

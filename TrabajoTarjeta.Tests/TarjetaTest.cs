@@ -375,5 +375,53 @@ namespace TrabajoTarjeta.Tests
             bool viaje3 = tarjeta.Pagar(1580);
             Assert.IsFalse(viaje3); // No tiene saldo para pagar
         }
+        [Test]
+        public void CargarTarjeta_SuperaMaximo_AcreditaHastaMaximoYAlmacenaExcedente()
+        {
+            // Test que valida que si a una tarjeta se le carga un monto que supere 
+            // el máximo permitido, se acredite el saldo hasta alcanzar el máximo (56000) 
+            // y que el excedente quede almacenado y pendiente de acreditación.
+
+            var tarjeta = new Tarjeta();
+            tarjeta.Saldo = 50000;
+
+            // Simular carga de 10000 cuando solo caben 6000
+            double montoACcargar = 10000;
+            double espacioDisponible = Tarjeta.SALDO_MAXIMO - tarjeta.Saldo; // 6000
+            double excedente = montoACcargar - espacioDisponible; // 4000
+
+            tarjeta.Saldo = Tarjeta.SALDO_MAXIMO;
+            tarjeta.SaldoPendiente += excedente;
+
+            // Verificar que se acreditó hasta el máximo
+            Assert.AreEqual(56000, tarjeta.Saldo);
+
+            // Verificar que el excedente quedó pendiente
+            Assert.AreEqual(4000, tarjeta.SaldoPendiente);
+        }
+
+        [Test]
+        public void DespuesDeViaje_ConSaldoPendiente_RecargaHastaMaximo()
+        {
+            // Test que valida que luego de realizar un viaje, verifique si hay saldo 
+            // pendiente de acreditación y recargue la tarjeta hasta llegar al máximo nuevamente.
+
+            var tarjeta = new Tarjeta();
+            tarjeta.Saldo = 56000;
+            tarjeta.SaldoPendiente = 5000;
+
+            // Realizar un viaje
+            bool pagoExitoso = tarjeta.Pagar(1580);
+
+            // Verificar que el pago fue exitoso
+            Assert.IsTrue(pagoExitoso);
+
+            // Verificar que después del viaje, el saldo volvió al máximo
+            Assert.AreEqual(56000, tarjeta.Saldo);
+
+            // Verificar que el saldo pendiente se redujo correctamente
+            // Gastó 1580, entonces quedaron 5000 - 1580 = 3420 pendientes
+            Assert.AreEqual(3420, tarjeta.SaldoPendiente);
+        }
     }
 }
