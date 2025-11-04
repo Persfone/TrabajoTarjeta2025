@@ -32,8 +32,17 @@ jobs:
       - name: Build
         run: dotnet build TrabajoTarjeta.sln --no-restore -c Release
 
+      - name: Restore dependencies
+        run: dotnet restore
+        working-directory: TrabajoTarjeta2025
+
+      - name: Build project
+        run: dotnet build --no-restore -c Release
+        working-directory: TrabajoTarjeta2025
+      
       - name: Run tests and collect coverage
         run: dotnet test "TrabajoTarjeta.Tests/TrabajoTarjeta.Tests.csproj" --no-build -c Release /p:CollectCoverage=true /p:CoverletOutputFormat=cobertura /p:CoverletOutput=./TestResults/coverage/ /p:Exclude="[*.Tests]*"
+        working-directory: TrabajoTarjeta2025
 
 
 
