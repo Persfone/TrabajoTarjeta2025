@@ -305,5 +305,129 @@ namespace TrabajoTarjeta.Tests
             Assert.IsTrue(viaje);
             Assert.AreEqual(4210, tarjeta.Saldo); // 5000 - 790 (con descuento)
         }
+
+        [Test]
+        public void BoletoGratuitoEstudiantil_NoPermiteMasDeDosViajesGratuitos()
+        {
+            var tarjeta = new BoletoGratuitoEstudiantil();
+            tarjeta.Saldo = 5000; // Saldo para el tercer viaje
+
+            // Primer viaje gratis
+            tarjeta.fechaUltimoViaje = DateTime.Now.AddMinutes(-6);
+            bool viaje1 = tarjeta.Pagar(1580);
+            Assert.IsTrue(viaje1);
+            Assert.AreEqual(5000, tarjeta.Saldo); // Saldo sin cambios
+
+            // Segundo viaje gratis
+            tarjeta.fechaUltimoViaje = DateTime.Now.AddMinutes(-6);
+            bool viaje2 = tarjeta.Pagar(1580);
+            Assert.IsTrue(viaje2);
+            Assert.AreEqual(5000, tarjeta.Saldo); // Saldo sin cambios
+
+            // Tercer viaje NO es gratis
+            tarjeta.fechaUltimoViaje = DateTime.Now.AddMinutes(-6);
+            bool viaje3 = tarjeta.Pagar(1580);
+            Assert.IsTrue(viaje3);
+            Assert.AreEqual(3420, tarjeta.Saldo); // Se cobró el viaje completo
+        }
+
+        [Test]
+        public void BoletoGratuitoEstudiantil_ViajesPosterioresAlSegundoSeCobranCompletos()
+        {
+            var tarjeta = new BoletoGratuitoEstudiantil();
+            tarjeta.Saldo = 10000;
+
+            // Dos viajes gratis
+            tarjeta.fechaUltimoViaje = DateTime.Now.AddMinutes(-6);
+            tarjeta.Pagar(1580);
+            tarjeta.fechaUltimoViaje = DateTime.Now.AddMinutes(-6);
+            tarjeta.Pagar(1580);
+
+            double saldoDespuesDeGratuitos = tarjeta.Saldo;
+            Assert.AreEqual(10000, saldoDespuesDeGratuitos); // No se descontó nada
+
+            // Tercer viaje
+            tarjeta.fechaUltimoViaje = DateTime.Now.AddMinutes(-6);
+            tarjeta.Pagar(1580);
+            Assert.AreEqual(8420, tarjeta.Saldo); // 10000 - 1580
+
+            // Cuarto viaje también se cobra
+            tarjeta.fechaUltimoViaje = DateTime.Now.AddMinutes(-6);
+            tarjeta.Pagar(1580);
+            Assert.AreEqual(6840, tarjeta.Saldo); // 8420 - 1580
+        }
+
+        [Test]
+        public void BoletoGratuitoEstudiantil_NoPermiteUsoAntesde5Minutos()
+        {
+            var tarjeta = new BoletoGratuitoEstudiantil();
+            tarjeta.Saldo = 5000;
+
+            // Primer viaje gratis
+            bool viaje1 = tarjeta.Pagar(1580);
+            Assert.IsTrue(viaje1);
+
+            // Intento inmediato (sin esperar 5 minutos)
+            bool viaje2 = tarjeta.Pagar(1580);
+            Assert.IsFalse(viaje2); // Debe rechazar
+            Assert.AreEqual(5000, tarjeta.Saldo); // Saldo no cambió
+        }
+
+        [Test]
+        public void BoletoGratuitoEstudiantil_PermiteUsoDepusDe5Minutos()
+        {
+            var tarjeta = new BoletoGratuitoEstudiantil();
+            tarjeta.Saldo = 5000;
+
+            // Primer viaje gratis
+            bool viaje1 = tarjeta.Pagar(1580);
+            Assert.IsTrue(viaje1);
+
+            // Simular que pasaron 5 minutos
+            tarjeta.fechaUltimoViaje = DateTime.Now.AddMinutes(-6);
+
+            // Segundo viaje gratis
+            bool viaje2 = tarjeta.Pagar(1580);
+            Assert.IsTrue(viaje2);
+            Assert.AreEqual(5000, tarjeta.Saldo); // Aún gratis
+        }
+
+        [Test]
+        public void BoletoGratuitoEstudiantil_ContadorSeReiniciaAlDiaSiguiente()
+        {
+            var tarjeta = new BoletoGratuitoEstudiantil();
+            tarjeta.Saldo = 5000;
+
+            // Simular que el último viaje fue ayer
+            tarjeta.fechaUltimoViaje = DateTime.Today.AddDays(-1).AddHours(10);
+
+            // Hoy debería tener 2 viajes gratis nuevamente
+            bool viaje1 = tarjeta.Pagar(1580);
+            Assert.IsTrue(viaje1);
+            Assert.AreEqual(5000, tarjeta.Saldo); // Gratis
+
+            tarjeta.fechaUltimoViaje = DateTime.Now.AddMinutes(-6);
+            bool viaje2 = tarjeta.Pagar(1580);
+            Assert.IsTrue(viaje2);
+            Assert.AreEqual(5000, tarjeta.Saldo); // Gratis
+        }
+
+        [Test]
+        public void BoletoGratuitoEstudiantil_TercerViajeSinSaldoFalla()
+        {
+            var tarjeta = new BoletoGratuitoEstudiantil();
+            tarjeta.Saldo = 0;
+
+            // Dos viajes gratis
+            tarjeta.fechaUltimoViaje = DateTime.Now.AddMinutes(-6);
+            tarjeta.Pagar(1580);
+            tarjeta.fechaUltimoViaje = DateTime.Now.AddMinutes(-6);
+            tarjeta.Pagar(1580);
+
+            // Tercer viaje sin saldo debe fallar
+            tarjeta.fechaUltimoViaje = DateTime.Now.AddMinutes(-6);
+            bool viaje3 = tarjeta.Pagar(1580);
+            Assert.IsFalse(viaje3); // No tiene saldo para pagar
+        }
     }
 }
