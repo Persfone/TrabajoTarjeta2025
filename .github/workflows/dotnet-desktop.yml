@@ -38,17 +38,24 @@ jobs:
         run: dotnet build TrabajoTarjeta.sln --no-restore -c Release
 
       # 6. Ejecutar tests y generar cobertura
-      - name: Run tests and collect coverage
+      - name: Run tests with coverage
         run: |
           dotnet test "TrabajoTarjeta.Tests/TrabajoTarjeta.Tests.csproj" --no-build -c Release `
             /p:CollectCoverage=true `
             /p:CoverletOutputFormat=cobertura `
-            /p:CoverletOutput=./TestResults/coverage/ `
-            /p:Exclude="[*.Tests]*"
+            /p:CoverletOutput=TestResults/coverage/
+
 
       # 7. Ver archivos de cobertura (opcional para debug)
-      - name: List coverage files
-        run: dir ./TestResults /s
+      - name: Check coverage files
+        run: Get-ChildItem -Recurse -Path "TrabajoTarjeta.Tests\TestResults"
+
+      - name: Debug coverage output
+        run: |
+            Write-Host "Listing all coverage files..."
+            Get-ChildItem -Recurse -Path . -Filter "coverage.cobertura.xml"
+
+
 
       # 8. Subir cobertura a Codecov
       - name: Upload coverage to Codecov
