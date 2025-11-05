@@ -1,4 +1,5 @@
-﻿using System;
+﻿// TrabajoTarjeta/Colectivo.cs
+using System;
 
 namespace TrabajoTarjeta
 {
@@ -18,27 +19,16 @@ namespace TrabajoTarjeta
         public bool PagarCon(Tarjeta tarjeta, Colectivo colectivo, out Boleto boleto)
         {
             boleto = null;
-            if(esInterurbano)
+            double tarifa = esInterurbano ? TARIFA_BASICA_INTERURBANO : TARIFA_BASICA;
+
+            if (tarjeta.Pagar(tarifa, colectivo))
             {
-                if (tarjeta.Pagar(TARIFA_BASICA_INTERURBANO, colectivo))
-                {
-                    boleto = new Boleto(linea, tarjeta);
-                    return true;
-                }
-                return false;
+                boleto = new Boleto(linea, tarjeta);
+                return true;
             }
-            else
-            {
-                if (tarjeta.Pagar(TARIFA_BASICA, colectivo))
-                {
-                    boleto = new Boleto(linea, tarjeta);
-                    return true;
-                }
-                return false;
-            }
+            return false;
         }
 
         public string ObtenerLinea() => linea;
     }
 }
-

@@ -1,23 +1,23 @@
 {
   "format": 1,
   "restore": {
-    "C:\\Users\\Alexis\\Documents\\GitHub\\TrabajoTarjeta2025\\TrabajoTarjeta\\TrabajoTarjeta.csproj": {}
+    "C:\\Users\\dana\\source\\repos\\Trabajo tarjeta\\TrabajoTarjeta\\TrabajoTarjeta.csproj": {}
   },
   "projects": {
-    "C:\\Users\\Alexis\\Documents\\GitHub\\TrabajoTarjeta2025\\TrabajoTarjeta\\TrabajoTarjeta.csproj": {
+    "C:\\Users\\dana\\source\\repos\\Trabajo tarjeta\\TrabajoTarjeta\\TrabajoTarjeta.csproj": {
       "version": "1.0.0",
       "restore": {
-        "projectUniqueName": "C:\\Users\\Alexis\\Documents\\GitHub\\TrabajoTarjeta2025\\TrabajoTarjeta\\TrabajoTarjeta.csproj",
+        "projectUniqueName": "C:\\Users\\dana\\source\\repos\\Trabajo tarjeta\\TrabajoTarjeta\\TrabajoTarjeta.csproj",
         "projectName": "TrabajoTarjeta",
-        "projectPath": "C:\\Users\\Alexis\\Documents\\GitHub\\TrabajoTarjeta2025\\TrabajoTarjeta\\TrabajoTarjeta.csproj",
-        "packagesPath": "C:\\Users\\Alexis\\.nuget\\packages\\",
-        "outputPath": "C:\\Users\\Alexis\\Documents\\GitHub\\TrabajoTarjeta2025\\TrabajoTarjeta\\obj\\",
+        "projectPath": "C:\\Users\\dana\\source\\repos\\Trabajo tarjeta\\TrabajoTarjeta\\TrabajoTarjeta.csproj",
+        "packagesPath": "C:\\Users\\dana\\.nuget\\packages\\",
+        "outputPath": "C:\\Users\\dana\\source\\repos\\Trabajo tarjeta\\TrabajoTarjeta\\obj\\",
         "projectStyle": "PackageReference",
         "fallbackFolders": [
           "C:\\Program Files (x86)\\Microsoft Visual Studio\\Shared\\NuGetPackages"
         ],
         "configFilePaths": [
-          "C:\\Users\\Alexis\\AppData\\Roaming\\NuGet\\NuGet.Config",
+          "C:\\Users\\dana\\AppData\\Roaming\\NuGet\\NuGet.Config",
           "C:\\Program Files (x86)\\NuGet\\Config\\Microsoft.VisualStudio.FallbackLocation.config",
           "C:\\Program Files (x86)\\NuGet\\Config\\Microsoft.VisualStudio.Offline.config"
         ],
@@ -38,11 +38,6 @@
           "warnAsError": [
             "NU1605"
           ]
-        },
-        "restoreAuditProperties": {
-          "enableAudit": "true",
-          "auditLevel": "low",
-          "auditMode": "direct"
         }
       },
       "frameworks": {

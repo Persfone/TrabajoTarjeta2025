@@ -13,7 +13,7 @@ namespace TrabajoTarjeta.Tests
         [SetUp]
         public void Setup()
         {
-            Tiempo.Now = () => new DateTime(2025, 4, 5, 10, 0, 0); // Lunes 10:00
+            Tiempo.Now = () => new DateTime(2025, 4, 5, 10, 0, 0);
         }
 
         [Test]
@@ -151,14 +151,11 @@ namespace TrabajoTarjeta.Tests
             tarjeta.Saldo = 5000;
             var colectivo = new Colectivo("Linea 1", false);
 
-            // Primer viaje
             bool r1 = tarjeta.Pagar(Colectivo.TARIFA_BASICA, colectivo);
 
-            // Avanzar 6 minutos
             tiempoActual = tiempoActual.AddMinutes(6);
             Tiempo.Now = () => tiempoActual;
 
-            // Segundo viaje
             bool r2 = tarjeta.Pagar(Colectivo.TARIFA_BASICA, colectivo);
 
             Assert.IsTrue(r1);
@@ -169,7 +166,6 @@ namespace TrabajoTarjeta.Tests
         [Test]
         public void MedioBoletoEstudiantil_EsperaMenosDe5Min_PagoFallido()
         {
-            // --- CONTROL DE TIEMPO FIJO ---
             DateTime tiempoActual = new DateTime(2025, 4, 5, 10, 0, 0);
             Tiempo.Now = () => tiempoActual;
 
@@ -177,14 +173,11 @@ namespace TrabajoTarjeta.Tests
             tarjeta.Saldo = 5000;
             var colectivo = new Colectivo("Linea 1", false);
 
-            // Primer viaje
             tarjeta.Pagar(Colectivo.TARIFA_BASICA, colectivo);
 
-            // Avanzar solo 3 minutos
             tiempoActual = tiempoActual.AddMinutes(3);
             Tiempo.Now = () => tiempoActual;
 
-            // Segundo intento → debe fallar por <5 min
             bool resultado = tarjeta.Pagar(Colectivo.TARIFA_BASICA, colectivo);
 
             Assert.IsFalse(resultado);

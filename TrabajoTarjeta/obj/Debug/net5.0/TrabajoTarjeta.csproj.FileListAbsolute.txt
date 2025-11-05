@@ -50,3 +50,15 @@ C:\Users\Alexis\Documents\GitHub\TrabajoTarjeta2025\TrabajoTarjeta\bin\Debug\net
 C:\Users\Alexis\Documents\GitHub\TrabajoTarjeta2025\TrabajoTarjeta\obj\Debug\net5.0\TrabajoTarjeta.genruntimeconfig.cache
 C:\Users\Alexis\Documents\GitHub\TrabajoTarjeta2025\TrabajoTarjeta\obj\Debug\net5.0\ref\TrabajoTarjeta.dll
 C:\Users\Alexis\Documents\GitHub\TrabajoTarjeta2025\TrabajoTarjeta\bin\Debug\net5.0\TrabajoTarjeta.exe
+C:\Users\dana\source\repos\Trabajo tarjeta\TrabajoTarjeta\bin\Debug\net5.0\TrabajoTarjeta.deps.json
+C:\Users\dana\source\repos\Trabajo tarjeta\TrabajoTarjeta\bin\Debug\net5.0\TrabajoTarjeta.dll
+C:\Users\dana\source\repos\Trabajo tarjeta\TrabajoTarjeta\bin\Debug\net5.0\ref\TrabajoTarjeta.dll
+C:\Users\dana\source\repos\Trabajo tarjeta\TrabajoTarjeta\bin\Debug\net5.0\TrabajoTarjeta.pdb
+C:\Users\dana\source\repos\Trabajo tarjeta\TrabajoTarjeta\obj\Debug\net5.0\TrabajoTarjeta.csproj.AssemblyReference.cache
+C:\Users\dana\source\repos\Trabajo tarjeta\TrabajoTarjeta\obj\Debug\net5.0\TrabajoTarjeta.GeneratedMSBuildEditorConfig.editorconfig
+C:\Users\dana\source\repos\Trabajo tarjeta\TrabajoTarjeta\obj\Debug\net5.0\TrabajoTarjeta.AssemblyInfoInputs.cache
+C:\Users\dana\source\repos\Trabajo tarjeta\TrabajoTarjeta\obj\Debug\net5.0\TrabajoTarjeta.AssemblyInfo.cs
+C:\Users\dana\source\repos\Trabajo tarjeta\TrabajoTarjeta\obj\Debug\net5.0\TrabajoTarjeta.csproj.CoreCompileInputs.cache
+C:\Users\dana\source\repos\Trabajo tarjeta\TrabajoTarjeta\obj\Debug\net5.0\TrabajoTarjeta.dll
+C:\Users\dana\source\repos\Trabajo tarjeta\TrabajoTarjeta\obj\Debug\net5.0\ref\TrabajoTarjeta.dll
+C:\Users\dana\source\repos\Trabajo tarjeta\TrabajoTarjeta\obj\Debug\net5.0\TrabajoTarjeta.pdb
