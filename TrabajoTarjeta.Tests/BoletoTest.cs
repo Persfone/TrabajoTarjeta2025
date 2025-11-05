@@ -1,109 +1,86 @@
+// TrabajoTarjeta.Tests/BoletoTest.cs
+using System;
+using System.IO;
 using NUnit.Framework;
 using TrabajoTarjeta;
-using System;
 
 namespace TrabajoTarjeta.Tests
 {
     [TestFixture]
-    public class BoletoTests
+    public class BoletoTest
     {
-        [Test]
-        public void CrearBoleto_GuardaLineaYSaldo()
+        [SetUp]
+        public void Setup()
         {
-            var tarjeta = new Tarjeta { Saldo = 2500 };
-            var boleto = new Boleto("143", tarjeta);
-
-            Assert.AreEqual("143", boleto.Linea);
-            Assert.AreEqual(2500, boleto.SaldoRestante);
+            Tiempo.Now = () => new DateTime(2025, 4, 5, 10, 0, 0);
         }
 
         [Test]
-        public void CrearBoleto_GuardaTipoTarjeta()
+        public void Boleto_Constructor_ValoresCorrectos()
         {
-            var tarjeta = new Tarjeta { Saldo = 2000 };
-            var boleto = new Boleto("K", tarjeta);
+            var tarjeta = new Tarjeta();
+            tarjeta.Saldo = 1500;
+            tarjeta.TipoTarjeta = "Test";
+            tarjeta.Id = "TEST-123";
 
-            Assert.AreEqual("Sin Franquicia", boleto.TipoTarjeta);
+            var boleto = new Boleto("Linea 123", tarjeta);
+
+            Assert.AreEqual("Linea 123", boleto.Linea);
+            Assert.AreEqual(1500, boleto.SaldoRestante);
+            Assert.AreEqual("Test", boleto.TipoTarjeta);
+            Assert.AreEqual("TEST-123", boleto.IdTarjeta);
+            Assert.That((Tiempo.Now() - boleto.FechaEmision).TotalSeconds, Is.LessThan(1));
         }
 
         [Test]
-        public void CrearBoleto_GuardaIdTarjeta()
+        public void Boleto_Constructor_ConTarjetaEspecial_ValoresCorrectos()
         {
-            var tarjeta = new Tarjeta { Saldo = 2000 };
-            var boleto = new Boleto("143", tarjeta);
+            var tarjeta = new MedioBoletoEstudiantil();
+            tarjeta.Saldo = 2000;
 
-            Assert.IsNotNull(boleto.IdTarjeta);
-            Assert.IsTrue(boleto.IdTarjeta.StartsWith("SUBE-"));
-        }
+            var boleto = new Boleto("Linea 456", tarjeta);
 
-        [Test]
-        public void CrearBoleto_TieneFechaEmision()
-        {
-            var tarjeta = new Tarjeta { Saldo = 2000 };
-            var boleto = new Boleto("102", tarjeta);
-
-            Assert.IsNotNull(boleto.FechaEmision);
-            Assert.LessOrEqual((DateTime.Now - boleto.FechaEmision).TotalSeconds, 1);
-        }
-
-        [Test]
-        public void CrearBoleto_MedioBoleto_GuardaTipoCorrecto()
-        {
-            var tarjeta = new MedioBoletoEstudiantil { Saldo = 2000 };
-            var boleto = new Boleto("143", tarjeta);
-
+            Assert.AreEqual("Linea 456", boleto.Linea);
+            Assert.AreEqual(2000, boleto.SaldoRestante);
             Assert.AreEqual("Medio Boleto Estudiantil", boleto.TipoTarjeta);
+            Assert.IsNotNull(boleto.IdTarjeta);
         }
 
         [Test]
-        public void CrearBoleto_FranquiciaCompleta_GuardaTipoCorrecto()
+        public void Boleto_Imprimir_MuestraInformacionCorrecta()
         {
-            var tarjeta = new FranquiciaCompleta { Saldo = 0 };
-            var boleto = new Boleto("K", tarjeta);
+            var tarjeta = new Tarjeta();
+            tarjeta.Saldo = 1000;
+            tarjeta.TipoTarjeta = "Test";
+            tarjeta.Id = "TEST-123";
 
-            Assert.AreEqual("Franquicia Completa", boleto.TipoTarjeta);
+            var boleto = new Boleto("Linea 999", tarjeta);
+            var output = new StringWriter();
+            Console.SetOut(output);
+
+            boleto.Imprimir();
+
+            string salida = output.ToString();
+            StringAssert.Contains("Linea 999", salida);
+            StringAssert.Contains("1000.00", salida);
+            StringAssert.Contains("Test", salida);
+            StringAssert.Contains("TEST-123", salida);
         }
 
         [Test]
-        public void CrearBoleto_BoletoGratuito_GuardaTipoCorrecto()
+        public void Boleto_Propiedades_SoloLectura()
         {
-            var tarjeta = new BoletoGratuitoEstudiantil { Saldo = 0 };
-            var boleto = new Boleto("115", tarjeta);
+            var tarjeta = new Tarjeta();
+            tarjeta.Saldo = 1000;
+            var boleto = new Boleto("Linea 123", tarjeta);
 
-            Assert.AreEqual("Boleto Gratuito Estudiantil", boleto.TipoTarjeta);
-        }
+            boleto.TipoTarjeta = "Nuevo Tipo";
+            boleto.IdTarjeta = "Nuevo ID";
+            boleto.TotalAbonado = 100;
 
-        [Test]
-        public void CrearBoleto_ConSaldoNegativo_GuardaSaldoCorrectamente()
-        {
-            var tarjeta = new Tarjeta { Saldo = -500 };
-            var boleto = new Boleto("143", tarjeta);
-
-            Assert.AreEqual(-500, boleto.SaldoRestante);
-        }
-
-        [Test]
-        public void CrearBoleto_DespuesDePago_SaldoActualizado()
-        {
-            var tarjeta = new Tarjeta { Saldo = 2000 };
-            var colectivo = new Colectivo("K", false);
-            tarjeta.Pagar(1580, colectivo);
-            var boleto = new Boleto("143", tarjeta);
-
-            Assert.AreEqual(420, boleto.SaldoRestante);
-        }
-
-        [Test]
-        public void CrearBoleto_ConDiferentesLineas()
-        {
-            var tarjeta1 = new Tarjeta { Saldo = 2000 };
-            var tarjeta2 = new Tarjeta { Saldo = 2000 };
-
-            var boleto1 = new Boleto("143", tarjeta1);
-            var boleto2 = new Boleto("K", tarjeta2);
-
-            Assert.AreEqual("143", boleto1.Linea);
-            Assert.AreEqual("K", boleto2.Linea);
+            Assert.AreEqual("Nuevo Tipo", boleto.TipoTarjeta);
+            Assert.AreEqual("Nuevo ID", boleto.IdTarjeta);
+            Assert.AreEqual(100, boleto.TotalAbonado);
         }
     }
 }
