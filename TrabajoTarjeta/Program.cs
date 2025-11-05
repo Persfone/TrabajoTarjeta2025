@@ -1,4 +1,5 @@
-﻿using System;
+﻿/*
+using System;
 using TrabajoTarjeta;
 
 
@@ -87,7 +88,7 @@ internal class Program
                     Console.Clear();
                     Console.Write("Ingrese la línea de colectivo (ej. 143): ");
                     string linea = Console.ReadLine();
-                    colectivo = new Colectivo(linea);
+                    colectivo = new Colectivo(linea, false);
                     Console.WriteLine($"Línea {linea} seleccionada.");
                     Console.WriteLine("\nPresione cualquier tecla para continuar...");
                     Console.ReadKey();
@@ -129,4 +130,4 @@ internal class Program
             }
         }
     }
-}
+}*/

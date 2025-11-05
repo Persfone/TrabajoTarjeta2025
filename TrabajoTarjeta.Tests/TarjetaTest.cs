@@ -36,7 +36,7 @@ namespace TrabajoTarjeta.Tests
         public void Pagar_DecrementaSaldoCorrectamente()
         {
             var tarjeta = new Tarjeta();
-            var colectivo = new Colectivo("K");
+            var colectivo = new Colectivo("K", false);
             tarjeta.Saldo = 5000;
             bool pudoPagar = tarjeta.Pagar(1580, colectivo);
             Assert.IsTrue(pudoPagar);
@@ -47,7 +47,7 @@ namespace TrabajoTarjeta.Tests
         public void Pagar_PermiteSaldoNegativoHasta1200()
         {
             var tarjeta = new Tarjeta();
-            var colectivo = new Colectivo("K");
+            var colectivo = new Colectivo("K", false);
             tarjeta.Saldo = 500;
             bool pudoPagar = tarjeta.Pagar(1580, colectivo);
             Assert.IsTrue(pudoPagar);
@@ -58,7 +58,7 @@ namespace TrabajoTarjeta.Tests
         public void Pagar_NoPermiteSaldoNegativoMayorA1200()
         {
             var tarjeta = new Tarjeta();
-            var colectivo = new Colectivo("K");
+            var colectivo = new Colectivo("K", false);
             tarjeta.Saldo = 0;
             bool pudoPagar = tarjeta.Pagar(1580, colectivo);
             Assert.IsFalse(pudoPagar);
@@ -100,7 +100,7 @@ namespace TrabajoTarjeta.Tests
             }
 
             var tarjeta = new MedioBoletoEstudiantil();
-            var colectivo = new Colectivo("K");
+            var colectivo = new Colectivo("K", false);
             tarjeta.Saldo = 2000;
             bool pudoPagar = tarjeta.Pagar(1580, colectivo);
             Assert.IsTrue(pudoPagar);
@@ -124,7 +124,7 @@ namespace TrabajoTarjeta.Tests
             }
 
             var tarjeta = new MedioBoletoEstudiantil();
-            var colectivo1 = new Colectivo("K");
+            var colectivo1 = new Colectivo("K", false);
             tarjeta.Saldo = 5000;
             double saldoInicial = tarjeta.Saldo;
             tarjeta.Pagar(1580, colectivo1);
@@ -155,8 +155,8 @@ namespace TrabajoTarjeta.Tests
             var tarjeta = new Tarjeta();
             tarjeta.Saldo = 5000;
 
-            var colectivo1 = new Colectivo("K");
-            var colectivo2 = new Colectivo("142");
+            var colectivo1 = new Colectivo("K", false);
+            var colectivo2 = new Colectivo("142", false);
 
             tarjeta.Pagar(1580, colectivo1);
             double saldoDespuesPrimero = tarjeta.Saldo;
@@ -185,8 +185,8 @@ namespace TrabajoTarjeta.Tests
             var tarjeta = new Tarjeta();
             tarjeta.Saldo = 5000;
 
-            var colectivo1 = new Colectivo("K");
-            var colectivo2 = new Colectivo("142");
+            var colectivo1 = new Colectivo("K", false);
+            var colectivo2 = new Colectivo("142", false);
 
             tarjeta.Pagar(1580, colectivo1);
             double saldoDespuesPrimero = tarjeta.Saldo;
@@ -209,9 +209,9 @@ namespace TrabajoTarjeta.Tests
             var tarjeta = new Tarjeta();
             tarjeta.Saldo = 10000;
 
-            var colectivo1 = new Colectivo("K");
-            var colectivo2 = new Colectivo("142");
-            var colectivo3 = new Colectivo("102");
+            var colectivo1 = new Colectivo("K", false);
+            var colectivo2 = new Colectivo("142", false);
+            var colectivo3 = new Colectivo("102", false);
 
             double saldoInicial = tarjeta.Saldo;
 
@@ -239,8 +239,8 @@ namespace TrabajoTarjeta.Tests
             var tarjeta = new FranquiciaCompleta();
             tarjeta.Saldo = 5000;
 
-            var colectivo1 = new Colectivo("K");
-            var colectivo2 = new Colectivo("142");
+            var colectivo1 = new Colectivo("K", false);
+            var colectivo2 = new Colectivo("142", false);
 
             double saldoInicial = tarjeta.Saldo;
 
@@ -264,8 +264,8 @@ namespace TrabajoTarjeta.Tests
             var tarjeta = new MedioBoletoEstudiantil();
             tarjeta.Saldo = 5000;
 
-            var colectivo1 = new Colectivo("K");
-            var colectivo2 = new Colectivo("142");
+            var colectivo1 = new Colectivo("K", false);
+            var colectivo2 = new Colectivo("142", false);
 
             double saldoInicial = tarjeta.Saldo;
 
@@ -289,8 +289,8 @@ namespace TrabajoTarjeta.Tests
             var tarjeta = new Tarjeta();
             tarjeta.Saldo = 10000;
 
-            var colectivoK = new Colectivo("K");
-            var colectivo142 = new Colectivo("142");
+            var colectivoK = new Colectivo("K", false);
+            var colectivo142 = new Colectivo("142", false);
 
             tarjeta.Pagar(1580, colectivoK);
             double saldoDespuesPrimero = tarjeta.Saldo;
@@ -316,7 +316,7 @@ namespace TrabajoTarjeta.Tests
             }
 
             var tarjeta = new FranquiciaCompleta();
-            var colectivo = new Colectivo("K");
+            var colectivo = new Colectivo("K", false);
             tarjeta.Saldo = 0;
             bool pudoPagar = tarjeta.Pagar(1580, colectivo);
             Assert.IsTrue(pudoPagar);
@@ -333,7 +333,7 @@ namespace TrabajoTarjeta.Tests
             }
 
             var tarjeta = new FranquiciaCompleta();
-            var colectivo = new Colectivo("K");
+            var colectivo = new Colectivo("K", false);
             tarjeta.Saldo = 1000;
             tarjeta.Pagar(1580, colectivo);
             Assert.AreEqual(1000, tarjeta.Saldo);
@@ -356,7 +356,7 @@ namespace TrabajoTarjeta.Tests
             }
 
             var tarjeta = new BoletoGratuitoEstudiantil();
-            var colectivo = new Colectivo("K");
+            var colectivo = new Colectivo("K", false);
             tarjeta.Saldo = 0;
 
             bool primerViaje = tarjeta.Pagar(1580, colectivo);
@@ -380,7 +380,7 @@ namespace TrabajoTarjeta.Tests
             }
 
             var tarjeta = new BoletoGratuitoEstudiantil();
-            var colectivo = new Colectivo("K");
+            var colectivo = new Colectivo("K", false);
             tarjeta.Saldo = 0;
 
             tarjeta.Pagar(1580, colectivo);
@@ -402,7 +402,7 @@ namespace TrabajoTarjeta.Tests
             }
 
             var tarjeta = new BoletoGratuitoEstudiantil();
-            var colectivo = new Colectivo("K");
+            var colectivo = new Colectivo("K", false);
             tarjeta.Saldo = 2000;
 
             tarjeta.Pagar(1580, colectivo);
@@ -425,7 +425,7 @@ namespace TrabajoTarjeta.Tests
             }
 
             var tarjeta = new BoletoGratuitoEstudiantil();
-            var colectivo = new Colectivo("K");
+            var colectivo = new Colectivo("K", false);
             tarjeta.Saldo = 500;
 
             tarjeta.Pagar(1580, colectivo);
@@ -455,7 +455,7 @@ namespace TrabajoTarjeta.Tests
             }
 
             var tarjeta = new MedioBoletoEstudiantil();
-            var colectivo = new Colectivo("K");
+            var colectivo = new Colectivo("K", false);
             tarjeta.Saldo = 5000;
 
             bool primerViaje = tarjeta.Pagar(1580, colectivo);
@@ -477,7 +477,7 @@ namespace TrabajoTarjeta.Tests
             }
 
             var tarjeta = new MedioBoletoEstudiantil();
-            var colectivo = new Colectivo("K");
+            var colectivo = new Colectivo("K", false);
             tarjeta.Saldo = 5000;
 
             bool primerViaje = tarjeta.Pagar(1580, colectivo);
@@ -501,7 +501,7 @@ namespace TrabajoTarjeta.Tests
             }
 
             var tarjeta = new MedioBoletoEstudiantil();
-            var colectivo = new Colectivo("K");
+            var colectivo = new Colectivo("K", false);
             tarjeta.Saldo = 10000;
 
             bool viaje1 = tarjeta.Pagar(1580, colectivo);
@@ -529,7 +529,7 @@ namespace TrabajoTarjeta.Tests
             }
 
             var tarjeta = new MedioBoletoEstudiantil();
-            var colectivo = new Colectivo("K");
+            var colectivo = new Colectivo("K", false);
             tarjeta.Saldo = 5000;
 
             tarjeta.Pagar(1580, colectivo);
@@ -564,7 +564,7 @@ namespace TrabajoTarjeta.Tests
         public void DespuesDeViaje_ConSaldoPendiente_RecargaHastaMaximo()
         {
             var tarjeta = new Tarjeta();
-            var colectivo = new Colectivo("K");
+            var colectivo = new Colectivo("K", false);
             tarjeta.Saldo = 56000;
             tarjeta.SaldoPendiente = 5000;
 
@@ -579,7 +579,7 @@ namespace TrabajoTarjeta.Tests
         public void SinFranquicia_Viajes1a29_TarifaNormal()
         {
             var tarjeta = new SinFranquicia();
-            var colectivo = new Colectivo("K");
+            var colectivo = new Colectivo("K", false);
             tarjeta.Saldo = 50000;
 
             double saldoInicial = tarjeta.Saldo;
@@ -592,7 +592,7 @@ namespace TrabajoTarjeta.Tests
         public void SinFranquicia_Viajes30a59_Descuento20Porciento()
         {
             var tarjeta = new SinFranquicia();
-            var colectivo = new Colectivo("K");
+            var colectivo = new Colectivo("K", false);
             tarjeta.Saldo = 10000000;
 
             for (int i = 0; i < 30; i++)
@@ -610,7 +610,7 @@ namespace TrabajoTarjeta.Tests
         public void SinFranquicia_Viajes60a80_Descuento25Porciento()
         {
             var tarjeta = new SinFranquicia();
-            var colectivo = new Colectivo("K");
+            var colectivo = new Colectivo("K", false);
             tarjeta.Saldo = 1500000;
 
             for (int i = 0; i < 60; i++)
@@ -628,7 +628,7 @@ namespace TrabajoTarjeta.Tests
         public void SinFranquicia_ViajesDespuesDe80_TarifaNormal()
         {
             var tarjeta = new SinFranquicia();
-            var colectivo = new Colectivo("K");
+            var colectivo = new Colectivo("K", false);
             tarjeta.Saldo = 20000000;
 
             for (int i = 0; i < 81; i++)
@@ -650,7 +650,7 @@ namespace TrabajoTarjeta.Tests
             tarjeta.Saldo = 1000000;
 
             double saldoInicial = tarjeta.Saldo;
-            var colectivo = new Colectivo("K");
+            var colectivo = new Colectivo("K", false);
             tarjeta.Pagar(1580, colectivo);
 
             Assert.AreEqual(saldoInicial - 1580, tarjeta.Saldo, 0.01);
@@ -669,7 +669,7 @@ namespace TrabajoTarjeta.Tests
             medioBoleto.Saldo = 50000;
 
             double saldoInicial = medioBoleto.Saldo;
-            var colectivo = new Colectivo("K");
+            var colectivo = new Colectivo("K", false);
             medioBoleto.Pagar(1580, colectivo);
 
             Assert.AreEqual(saldoInicial - 790, medioBoleto.Saldo, 0.01);
@@ -688,7 +688,7 @@ namespace TrabajoTarjeta.Tests
             tarjeta.Saldo = 5000;
 
             double saldoInicial = tarjeta.Saldo;
-            var colectivo = new Colectivo("K");
+            var colectivo = new Colectivo("K", false);
             tarjeta.Pagar(1580, colectivo);
             Assert.AreEqual(saldoInicial - 1580, tarjeta.Saldo, 0.01);
         }
@@ -706,7 +706,7 @@ namespace TrabajoTarjeta.Tests
             tarjeta.Saldo = 5000;
 
             double saldoInicial = tarjeta.Saldo;
-            var colectivo = new Colectivo("K");
+            var colectivo = new Colectivo("K", false);
             tarjeta.Pagar(1580, colectivo);
             Assert.AreEqual(saldoInicial - 790, tarjeta.Saldo, 0.01);
         }
@@ -724,7 +724,7 @@ namespace TrabajoTarjeta.Tests
             tarjeta.Saldo = 5000;
 
             double saldoInicial = tarjeta.Saldo;
-            var colectivo = new Colectivo("K");
+            var colectivo = new Colectivo("K", false);
             tarjeta.Pagar(1580, colectivo);
             Assert.AreEqual(saldoInicial - 1580, tarjeta.Saldo, 0.01);
         }
@@ -742,7 +742,7 @@ namespace TrabajoTarjeta.Tests
             tarjeta.Saldo = 5000;
 
             double saldoInicial = tarjeta.Saldo;
-            var colectivo = new Colectivo("K");
+            var colectivo = new Colectivo("K", false);
             tarjeta.Pagar(1580, colectivo);
             Assert.AreEqual(saldoInicial, tarjeta.Saldo);
         }
@@ -760,7 +760,7 @@ namespace TrabajoTarjeta.Tests
             tarjeta.Saldo = 5000;
 
             double saldoInicial = tarjeta.Saldo;
-            var colectivo = new Colectivo("K");
+            var colectivo = new Colectivo("K", false);
             tarjeta.Pagar(1580, colectivo);
             Assert.AreEqual(saldoInicial - 1580, tarjeta.Saldo, 0.01);
         }
@@ -775,7 +775,7 @@ namespace TrabajoTarjeta.Tests
             }
 
             var tarjeta = new FranquiciaCompleta();
-            var colectivo = new Colectivo("K");
+            var colectivo = new Colectivo("K", false);
             tarjeta.Saldo = 5000;
 
             double saldoInicial = tarjeta.Saldo;
@@ -787,7 +787,7 @@ namespace TrabajoTarjeta.Tests
         public void SinFranquicia_NoTieneRestriccionHoraria()
         {
             var tarjeta = new SinFranquicia();
-            var colectivo = new Colectivo("K");
+            var colectivo = new Colectivo("K", false);
             tarjeta.Saldo = 5000;
 
             double saldoInicial = tarjeta.Saldo;
@@ -812,8 +812,8 @@ namespace TrabajoTarjeta.Tests
             var tarjeta = new Tarjeta();
             tarjeta.Saldo = 5000;
 
-            var colectivo1 = new Colectivo("K");
-            var colectivo2 = new Colectivo("142");
+            var colectivo1 = new Colectivo("K", false);
+            var colectivo2 = new Colectivo("142", false);
 
             double saldoInicial = tarjeta.Saldo;
 
@@ -839,8 +839,8 @@ namespace TrabajoTarjeta.Tests
             var tarjeta = new Tarjeta();
             tarjeta.Saldo = 5000;
 
-            var colectivo1 = new Colectivo("K");
-            var colectivo2 = new Colectivo("K");
+            var colectivo1 = new Colectivo("K", false);
+            var colectivo2 = new Colectivo("K", false);
 
             tarjeta.Pagar(1580, colectivo1);
             double saldoDespuesPrimero = tarjeta.Saldo;
@@ -863,8 +863,8 @@ namespace TrabajoTarjeta.Tests
             var tarjeta = new Tarjeta();
             tarjeta.Saldo = 5000;
 
-            var colectivo1 = new Colectivo("K");
-            var colectivo2 = new Colectivo("142");
+            var colectivo1 = new Colectivo("K", false);
+            var colectivo2 = new Colectivo("142", false);
 
             tarjeta.Pagar(1580, colectivo1);
             double saldoDespuesPrimero = tarjeta.Saldo;
