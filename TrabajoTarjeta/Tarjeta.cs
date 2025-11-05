@@ -110,16 +110,13 @@ namespace TrabajoTarjeta
 
             if (Saldo + SALDO_NEGATIVO >= monto)
             {
-                if (!((DateTime.Now - fechaUltimoViaje).TotalHours < 1) && DateTime.Now.DayOfWeek != DayOfWeek.Sunday)
+                if ((DateTime.Now - fechaUltimoViaje).TotalHours < 1
+                    && DateTime.Now.DayOfWeek != DayOfWeek.Sunday
+                    && DateTime.Now.Hour >= 7 && DateTime.Now.Hour < 22
+                    && ultimaLinea != null
+                    && ultimaLinea != colectivo.ObtenerLinea())
                 {
-                    if (DateTime.Now.Hour >= 7 || DateTime.Now.Hour <= 22)
-                    {
-                        if (ultimaLinea != colectivo.ObtenerLinea())
-                        {
-                            esTrasbordo = true;
-                        }
-                    }
-                        
+                    esTrasbordo = true;
                 }
 
                 if (esTrasbordo)
@@ -127,7 +124,9 @@ namespace TrabajoTarjeta
                     Console.WriteLine("Trasbordo gratuito realizado.");
                 }
                 else
+                {
                     Saldo -= monto;
+                }
 
                 fechaUltimoViaje = DateTime.Now;
                 ultimaLinea = colectivo.ObtenerLinea();
@@ -144,7 +143,7 @@ namespace TrabajoTarjeta
     // ----------------------------------------------------
     // Subclases
     // ----------------------------------------------------
-    public class SinFranquicia : Tarjeta 
+    public class SinFranquicia : Tarjeta
     {
         int cantidadViajes = 0;
         public float UsoFrecuente()
@@ -152,7 +151,7 @@ namespace TrabajoTarjeta
 
             float descuento = 1;
 
-            if(DateTime.Now.Day == 1) 
+            if (DateTime.Now.Day == 1)
             {
                 cantidadViajes = 0;
             }
@@ -170,7 +169,7 @@ namespace TrabajoTarjeta
         public override bool Pagar(double monto, Colectivo colectivo)
         {
             bool pagoExitoso = base.Pagar(monto * UsoFrecuente(), colectivo);
-            if(pagoExitoso)
+            if (pagoExitoso)
             {
                 cantidadViajes++;
             }
