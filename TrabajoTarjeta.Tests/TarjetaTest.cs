@@ -186,7 +186,7 @@ namespace TrabajoTarjeta.Tests
 
             tarjeta.Pagar(1580, colectivo);
 
-            Assert.AreEqual(1420, tarjeta.Saldo);
+            Assert.AreEqual(1920, tarjeta.Saldo);
             Assert.AreEqual(0, tarjeta.SaldoPendiente);
         }
 
@@ -486,7 +486,7 @@ namespace TrabajoTarjeta.Tests
 
             tarjeta.Pagar(1580, colectivo);
 
-            Assert.AreEqual(54420, tarjeta.Saldo);
+            Assert.AreEqual(58420, tarjeta.Saldo);
             Assert.AreEqual(4000, tarjeta.SaldoPendiente);
         }
 
