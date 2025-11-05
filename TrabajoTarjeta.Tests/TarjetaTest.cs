@@ -497,7 +497,7 @@ namespace TrabajoTarjeta.Tests
             var tarjeta = new SinFranquicia();
             tarjeta.Saldo = 10000000;
 
-            for (int i = 0; i < 29; i++)
+            for (int i = 0; i < 30; i++)
             {
                 tarjeta.Pagar(1580);
             }
