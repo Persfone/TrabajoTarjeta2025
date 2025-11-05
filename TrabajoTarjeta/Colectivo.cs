@@ -1,4 +1,4 @@
-﻿// TrabajoTarjeta/Colectivo.cs
+﻿
 using System;
 
 namespace TrabajoTarjeta

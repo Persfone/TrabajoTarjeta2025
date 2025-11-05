@@ -24,7 +24,7 @@ namespace TrabajoTarjeta
             SaldoPendiente = 0;
         }
 
-        public Tarjeta CargarTarjeta(Tarjeta tarjeta, TextReader input = null)
+        public void CargarTarjeta(TextReader input = null)
         {
             input ??= Console.In;
             bool cargoTarjeta = false;
@@ -43,22 +43,22 @@ namespace TrabajoTarjeta
                     if (opcion >= 0 && opcion < saldos.Length)
                     {
                         double montoACcargar = saldos[opcion];
-                        if (tarjeta.Saldo + montoACcargar <= SALDO_MAXIMO)
+                        if (Saldo + montoACcargar <= SALDO_MAXIMO)
                         {
                             cargoTarjeta = true;
                             Console.WriteLine($"Cargaste {saldos[opcion]}");
-                            tarjeta.Saldo += saldos[opcion];
+                            Saldo += saldos[opcion];
                         }
                         else
                         {
-                            double espacioDisponible = SALDO_MAXIMO - tarjeta.Saldo;
+                            double espacioDisponible = SALDO_MAXIMO - Saldo;
                             double excedente = montoACcargar - espacioDisponible;
-                            tarjeta.Saldo = SALDO_MAXIMO;
-                            tarjeta.SaldoPendiente += excedente;
+                            Saldo = SALDO_MAXIMO;
+                            SaldoPendiente += excedente;
                             cargoTarjeta = true;
                             Console.WriteLine($"Se acreditaron ${espacioDisponible} y quedaron ${excedente} pendientes de acreditación.");
-                            Console.WriteLine($"Saldo actual: ${tarjeta.Saldo}");
-                            Console.WriteLine($"Saldo pendiente: ${tarjeta.SaldoPendiente}");
+                            Console.WriteLine($"Saldo actual: ${Saldo}");
+                            Console.WriteLine($"Saldo pendiente: ${SaldoPendiente}");
                         }
                     }
                     else
@@ -71,7 +71,6 @@ namespace TrabajoTarjeta
                     Console.WriteLine("Ingrese un número válido");
                 }
             }
-            return tarjeta;
         }
 
         public void AcreditarCarga()

@@ -1,4 +1,4 @@
-﻿// TrabajoTarjeta/Boleto.cs
+﻿
 using System;
 using System.Globalization;
 

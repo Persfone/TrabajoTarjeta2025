@@ -1,4 +1,4 @@
-// TrabajoTarjeta/Tiempo.cs
+
 using System;
 
 namespace TrabajoTarjeta

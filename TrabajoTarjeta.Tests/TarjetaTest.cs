@@ -31,7 +31,7 @@ namespace TrabajoTarjeta.Tests
         {
             var tarjeta = new Tarjeta();
             var input = new StringReader("1\n");
-            tarjeta = tarjeta.CargarTarjeta(tarjeta, input);
+            tarjeta.CargarTarjeta(input);
             Assert.AreEqual(2000, tarjeta.Saldo);
         }
 
@@ -41,7 +41,7 @@ namespace TrabajoTarjeta.Tests
             var tarjeta = new Tarjeta();
             tarjeta.Saldo = Tarjeta.SALDO_MAXIMO - 1000;
             var input = new StringReader("1\n");
-            tarjeta = tarjeta.CargarTarjeta(tarjeta, input);
+            tarjeta.CargarTarjeta(input);
             Assert.AreEqual(Tarjeta.SALDO_MAXIMO, tarjeta.Saldo);
             Assert.AreEqual(1000, tarjeta.SaldoPendiente);
         }
@@ -51,7 +51,7 @@ namespace TrabajoTarjeta.Tests
         {
             var tarjeta = new Tarjeta();
             var input = new StringReader("10\n99\n1\n");
-            tarjeta = tarjeta.CargarTarjeta(tarjeta, input);
+            tarjeta.CargarTarjeta(input);
             Assert.AreEqual(2000, tarjeta.Saldo);
         }
 
@@ -197,8 +197,6 @@ namespace TrabajoTarjeta.Tests
             Assert.AreEqual(2000 - Colectivo.TARIFA_BASICA, tarjeta.Saldo);
         }
 
-        // === NUEVOS TESTS PARA +85% COBERTURA ===
-
         [Test]
         public void Pagar_TrasbordoEnDomingo_SeCobraCompleto()
         {
@@ -323,6 +321,79 @@ namespace TrabajoTarjeta.Tests
 
             Assert.IsTrue(resultado);
             Assert.AreEqual(2000 - Colectivo.TARIFA_BASICA, tarjeta.Saldo);
+        }
+
+        [Test]
+        public void Pagar_SaldoNegativoExtremo_NoPuedePagar()
+        {
+            var tarjeta = new Tarjeta();
+            tarjeta.Saldo = -1200;
+            var colectivo = new Colectivo("Linea 1", false);
+
+            bool resultado = tarjeta.Pagar(Colectivo.TARIFA_BASICA + 1, colectivo);
+
+            Assert.IsFalse(resultado);
+            Assert.AreEqual(-1200, tarjeta.Saldo);
+        }
+
+        [Test]
+        public void CargarTarjeta_ExcedenteExacto_SaldoMaximoYpendiente()
+        {
+            var tarjeta = new Tarjeta();
+            tarjeta.Saldo = Tarjeta.SALDO_MAXIMO - 1000; // 55000
+            var input = new StringReader("1\n"); // carga 2000
+
+            tarjeta.CargarTarjeta(input);
+
+            Assert.AreEqual(Tarjeta.SALDO_MAXIMO, tarjeta.Saldo);     // 56000
+            Assert.AreEqual(1000, tarjeta.SaldoPendiente);           // 2000 - 1000 = 1000
+        }
+
+        [Test]
+        public void AcreditarCarga_ConEspacioExacto_AcreditaTodo()
+        {
+            var tarjeta = new Tarjeta();
+            tarjeta.Saldo = Tarjeta.SALDO_MAXIMO - 500;
+            tarjeta.SaldoPendiente = 500;
+
+            tarjeta.AcreditarCarga();
+
+            Assert.AreEqual(Tarjeta.SALDO_MAXIMO, tarjeta.Saldo);
+            Assert.AreEqual(0, tarjeta.SaldoPendiente);
+        }
+
+        [Test]
+        public void SinFranquicia_UsoFrecuente_Viaje81_ReseteaDescuento()
+        {
+            Tiempo.Now = () => new DateTime(2025, 4, 5, 10, 0, 0);
+            var tarjeta = new SinFranquicia();
+            typeof(SinFranquicia)
+                .GetField("cantidadViajes", BindingFlags.NonPublic | BindingFlags.Instance)
+                .SetValue(tarjeta, 81);
+
+            float descuento = tarjeta.UsoFrecuente();
+            Assert.AreEqual(1f, descuento);
+        }
+
+        [Test]
+        public void BoletoGratuitoEstudiantil_TercerViaje_CobraCompleto()
+        {
+            DateTime tiempoActual = new DateTime(2025, 4, 5, 10, 0, 0);
+            Tiempo.Now = () => tiempoActual;
+
+            var tarjeta = new BoletoGratuitoEstudiantil();
+            tarjeta.Saldo = 5000;
+            var colectivo = new Colectivo("Linea 1", false);
+
+            tarjeta.Pagar(0, colectivo);
+            tiempoActual = tiempoActual.AddMinutes(6); Tiempo.Now = () => tiempoActual;
+            tarjeta.Pagar(0, colectivo);
+            tiempoActual = tiempoActual.AddMinutes(6); Tiempo.Now = () => tiempoActual;
+
+            bool r3 = tarjeta.Pagar(Colectivo.TARIFA_BASICA, colectivo);
+
+            Assert.IsTrue(r3);
+            Assert.AreEqual(5000 - Colectivo.TARIFA_BASICA, tarjeta.Saldo);
         }
     }
 }
