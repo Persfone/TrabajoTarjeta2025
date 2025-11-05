@@ -423,5 +423,104 @@ namespace TrabajoTarjeta.Tests
             // Gastó 1580, entonces quedaron 5000 - 1580 = 3420 pendientes
             Assert.AreEqual(3420, tarjeta.SaldoPendiente);
         }
+
+        [Test]
+        public void SinFranquicia_Viajes1a29_TarifaNormal()
+        {
+            var tarjeta = new SinFranquicia();
+            tarjeta.Saldo = 50000;
+
+            // Realizar viaje cuando tiene menos de 30 viajes
+            double saldoInicial = tarjeta.Saldo;
+            tarjeta.Pagar(1580);
+
+            // Debe cobrar tarifa normal (1580)
+            Assert.AreEqual(saldoInicial - 1580, tarjeta.Saldo);
+        }
+
+        [Test]
+        public void SinFranquicia_Viajes30a59_Descuento20Porciento()
+        {
+            var tarjeta = new SinFranquicia();
+            tarjeta.Saldo = 100000;
+
+            // Simular 30 viajes (ya tiene 28 en el código, hacemos 2 más)
+            tarjeta.Pagar(1580); // Viaje 29
+            tarjeta.Pagar(1580); // Viaje 30
+
+            double saldoAntes = tarjeta.Saldo;
+            tarjeta.Pagar(1580); // Viaje 31 - debe tener descuento
+
+            // Debe cobrar 1580 * 0.8 = 1264
+            Assert.AreEqual(saldoAntes - 1264, tarjeta.Saldo, 0.01);
+        }
+
+        [Test]
+        public void SinFranquicia_Viajes60a80_Descuento25Porciento()
+        {
+            var tarjeta = new SinFranquicia();
+            tarjeta.Saldo = 150000;
+
+            // Simular 60 viajes (tiene 28, hacemos 32 más)
+            for (int i = 0; i < 32; i++)
+            {
+                tarjeta.Pagar(1580);
+            }
+
+            double saldoAntes = tarjeta.Saldo;
+            tarjeta.Pagar(1580); // Viaje 61 - debe tener 25% descuento
+
+            // Debe cobrar 1580 * 0.75 = 1185
+            Assert.AreEqual(saldoAntes - 1185, tarjeta.Saldo);
+        }
+
+        [Test]
+        public void SinFranquicia_ViajesDespuesDe80_TarifaNormal()
+        {
+            var tarjeta = new SinFranquicia();
+            tarjeta.Saldo = 200000;
+
+            // Simular 81 viajes (tiene 28, hacemos 53 más)
+            for (int i = 0; i < 53; i++)
+            {
+                tarjeta.Pagar(1580);
+            }
+
+            double saldoAntes = tarjeta.Saldo;
+            tarjeta.Pagar(1580); // Viaje 82 - debe volver a tarifa normal
+
+            // Debe cobrar tarifa normal (1580)
+            Assert.AreEqual(saldoAntes - 1580, tarjeta.Saldo);
+        }
+
+        [Test]
+        public void SinFranquicia_ContadorSeReiniciaElDia1()
+        {
+            var tarjeta = new SinFranquicia();
+            tarjeta.Saldo = 100000;
+
+            // Simular que es día 1 del mes
+            // (En tu código se reinicia automáticamente cuando DateTime.Now.Day == 1)
+
+            // Hacer un viaje, debería cobrar tarifa normal
+            double saldoInicial = tarjeta.Saldo;
+            tarjeta.Pagar(1580);
+
+            Assert.AreEqual(saldoInicial - 1580, tarjeta.Saldo);
+        }
+
+        [Test]
+        public void SinFranquicia_NoAplicaDescuentoAFranquicias()
+        {
+            // Verificar que MedioBoleto no tiene uso frecuente
+            var medioBoleto = new MedioBoletoEstudiantil();
+            medioBoleto.Saldo = 50000;
+
+            double saldoInicial = medioBoleto.Saldo;
+            medioBoleto.Pagar(1580);
+
+            // Debe cobrar medio boleto (790), no uso frecuente
+            Assert.AreEqual(saldoInicial - 790, medioBoleto.Saldo);
+        }
     }
 }

@@ -44,7 +44,7 @@ internal class Program
                     salirT = true;
                     break;
                 case "4":
-                    tarjeta = new Tarjeta();
+                    tarjeta = new SinFranquicia();
                     Console.WriteLine("\nNingun Beneficio de Franquicia Cargado");
                     Console.WriteLine("\n\nPresione cualquier tecla para continuar...");
                     Console.ReadKey();
@@ -65,7 +65,7 @@ internal class Program
 
             Console.Clear();
             Console.WriteLine("Bienvenido al sistema de transporte público\n");
-            Console.WriteLine($"Saldo actual de la tarjeta: ${tarjeta.Saldo}");
+            Console.WriteLine($"Saldo actual de la tarjeta: ${tarjeta.Saldo:F2}");
             Console.WriteLine("\nSeleccione una opción:");
             Console.WriteLine("1. Cargar tarjeta");
             Console.WriteLine("2. Elegir línea");
