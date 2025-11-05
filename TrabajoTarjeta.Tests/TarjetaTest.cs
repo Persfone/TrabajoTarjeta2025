@@ -196,5 +196,133 @@ namespace TrabajoTarjeta.Tests
             Assert.IsTrue(resultado);
             Assert.AreEqual(2000 - Colectivo.TARIFA_BASICA, tarjeta.Saldo);
         }
+
+        // === NUEVOS TESTS PARA +85% COBERTURA ===
+
+        [Test]
+        public void Pagar_TrasbordoEnDomingo_SeCobraCompleto()
+        {
+            Tiempo.Now = () => new DateTime(2025, 4, 6, 10, 0, 0);
+            var tarjeta = new Tarjeta();
+            tarjeta.Saldo = 2000;
+            tarjeta.fechaUltimoViaje = Tiempo.Now().AddMinutes(-30);
+            tarjeta.ultimaLinea = "Linea 1";
+            var colectivo = new Colectivo("Linea 2", false);
+
+            bool resultado = tarjeta.Pagar(Colectivo.TARIFA_BASICA, colectivo);
+
+            Assert.IsTrue(resultado);
+            Assert.AreEqual(2000 - Colectivo.TARIFA_BASICA, tarjeta.Saldo);
+        }
+
+        [Test]
+        public void Pagar_TrasbordoAntesDe7AM_SeCobraCompleto()
+        {
+            Tiempo.Now = () => new DateTime(2025, 4, 5, 6, 30, 0);
+            var tarjeta = new Tarjeta();
+            tarjeta.Saldo = 2000;
+            tarjeta.fechaUltimoViaje = Tiempo.Now().AddMinutes(-30);
+            tarjeta.ultimaLinea = "Linea 1";
+            var colectivo = new Colectivo("Linea 2", false);
+
+            bool resultado = tarjeta.Pagar(Colectivo.TARIFA_BASICA, colectivo);
+
+            Assert.IsTrue(resultado);
+            Assert.AreEqual(2000 - Colectivo.TARIFA_BASICA, tarjeta.Saldo);
+        }
+
+        [Test]
+        public void Pagar_TrasbordoDespuesDe22PM_SeCobraCompleto()
+        {
+            Tiempo.Now = () => new DateTime(2025, 4, 5, 22, 30, 0);
+            var tarjeta = new Tarjeta();
+            tarjeta.Saldo = 2000;
+            tarjeta.fechaUltimoViaje = Tiempo.Now().AddMinutes(-30);
+            tarjeta.ultimaLinea = "Linea 1";
+            var colectivo = new Colectivo("Linea 2", false);
+
+            bool resultado = tarjeta.Pagar(Colectivo.TARIFA_BASICA, colectivo);
+
+            Assert.IsTrue(resultado);
+            Assert.AreEqual(2000 - Colectivo.TARIFA_BASICA, tarjeta.Saldo);
+        }
+
+        [Test]
+        public void Pagar_TrasbordoMismaLinea_SeCobraCompleto()
+        {
+            Tiempo.Now = () => new DateTime(2025, 4, 5, 10, 0, 0);
+            var tarjeta = new Tarjeta();
+            tarjeta.Saldo = 2000;
+            tarjeta.fechaUltimoViaje = Tiempo.Now().AddMinutes(-30);
+            tarjeta.ultimaLinea = "Linea 1";
+            var colectivo = new Colectivo("Linea 1", false);
+
+            bool resultado = tarjeta.Pagar(Colectivo.TARIFA_BASICA, colectivo);
+
+            Assert.IsTrue(resultado);
+            Assert.AreEqual(2000 - Colectivo.TARIFA_BASICA, tarjeta.Saldo);
+        }
+
+        [Test]
+        public void SinFranquicia_UsoFrecuente_Dia1_ReseteaContador()
+        {
+            Tiempo.Now = () => new DateTime(2025, 5, 1, 10, 0, 0);
+            var tarjeta = new SinFranquicia();
+            typeof(SinFranquicia)
+                .GetField("cantidadViajes", BindingFlags.NonPublic | BindingFlags.Instance)
+                .SetValue(tarjeta, 100);
+
+            float descuento = tarjeta.UsoFrecuente();
+            Assert.AreEqual(1f, descuento);
+        }
+
+        [Test]
+        public void SinFranquicia_UsoFrecuente_Viaje70_Descuento25()
+        {
+            Tiempo.Now = () => new DateTime(2025, 4, 5, 10, 0, 0);
+            var tarjeta = new SinFranquicia();
+            typeof(SinFranquicia)
+                .GetField("cantidadViajes", BindingFlags.NonPublic | BindingFlags.Instance)
+                .SetValue(tarjeta, 70);
+
+            float descuento = tarjeta.UsoFrecuente();
+            Assert.AreEqual(0.75f, descuento);
+        }
+
+        [Test]
+        public void MedioBoletoEstudiantil_TercerViaje_CobraCompleto()
+        {
+            DateTime tiempoActual = new DateTime(2025, 4, 5, 10, 0, 0);
+            Tiempo.Now = () => tiempoActual;
+
+            var tarjeta = new MedioBoletoEstudiantil();
+            tarjeta.Saldo = 5000;
+            var colectivo = new Colectivo("Linea 1", false);
+
+            tarjeta.Pagar(Colectivo.TARIFA_BASICA, colectivo);
+            tiempoActual = tiempoActual.AddMinutes(6); Tiempo.Now = () => tiempoActual;
+            tarjeta.Pagar(Colectivo.TARIFA_BASICA, colectivo);
+            tiempoActual = tiempoActual.AddMinutes(6); Tiempo.Now = () => tiempoActual;
+
+            bool r3 = tarjeta.Pagar(Colectivo.TARIFA_BASICA, colectivo);
+
+            Assert.IsTrue(r3);
+            double esperado = 5000 - (790 + 790 + 1580);
+            Assert.AreEqual(esperado, tarjeta.Saldo, 0.01);
+        }
+
+        [Test]
+        public void BoletoGratuitoEstudiantil_FueraDeHorario_CobraNormal()
+        {
+            Tiempo.Now = () => new DateTime(2025, 4, 5, 5, 0, 0);
+            var tarjeta = new BoletoGratuitoEstudiantil();
+            tarjeta.Saldo = 2000;
+            var colectivo = new Colectivo("Linea 1", false);
+
+            bool resultado = tarjeta.Pagar(Colectivo.TARIFA_BASICA, colectivo);
+
+            Assert.IsTrue(resultado);
+            Assert.AreEqual(2000 - Colectivo.TARIFA_BASICA, tarjeta.Saldo);
+        }
     }
 }

@@ -124,7 +124,6 @@ namespace TrabajoTarjeta
         }
     }
 
-    // Subclases
     public class SinFranquicia : Tarjeta
     {
         private int cantidadViajes = 0;
@@ -176,7 +175,7 @@ namespace TrabajoTarjeta
                 return base.Pagar(monto, colectivo);
             }
 
-            DateTime hoy = DateTime.Today;
+            DateTime hoy = ahora.Date;
             if (fechaUltimoViaje.Date != hoy)
             {
                 viajesHoy = 0;
@@ -228,7 +227,7 @@ namespace TrabajoTarjeta
                 return base.Pagar(monto, colectivo);
             }
 
-            DateTime hoy = DateTime.Today;
+            DateTime hoy = ahora.Date;
             if (fechaUltimoViaje.Date != hoy)
             {
                 viajesHoy = 0;

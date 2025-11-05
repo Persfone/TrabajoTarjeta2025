@@ -24,7 +24,7 @@ namespace TrabajoTarjeta
 
         public void Imprimir()
         {
-            var culture = System.Globalization.CultureInfo.InvariantCulture;
+            var culture = CultureInfo.InvariantCulture;
             Console.WriteLine($"Boleto emitido para la línea: {Linea}");
             Console.WriteLine($"Saldo restante en la tarjeta: {SaldoRestante.ToString("F2", culture)}");
             Console.WriteLine($"Fecha de emisión: {FechaEmision:yyyy-MM-dd HH:mm:ss}");

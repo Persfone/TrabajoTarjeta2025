@@ -1,8 +1,7 @@
 ﻿// TrabajoTarjeta.Tests/ColectivoTest.cs
+using System;
 using NUnit.Framework;
 using TrabajoTarjeta;
-using System;
-
 
 namespace TrabajoTarjeta.Tests
 {
@@ -56,7 +55,7 @@ namespace TrabajoTarjeta.Tests
         public void PagarCon_TarjetaSinSaldo_Urbano_BoletoNoCreado()
         {
             var tarjeta = new Tarjeta();
-            tarjeta.Saldo = 100; // ¡100 + 1200 = 1300 < 1580 → NO puede pagar!
+            tarjeta.Saldo = 100; // ← 100 + 1200 = 1300 < 1580
             var colectivo = new Colectivo("Linea 123", false);
 
             bool resultado = colectivo.PagarCon(tarjeta, colectivo, out Boleto boleto);
