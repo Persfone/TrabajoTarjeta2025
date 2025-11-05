@@ -12,10 +12,10 @@ namespace TrabajoTarjeta
             this.linea = linea;
         }
 
-        public bool PagarCon(Tarjeta tarjeta, out Boleto boleto)
+        public bool PagarCon(Tarjeta tarjeta, Colectivo colectivo, out Boleto boleto)
         {
             boleto = null;
-            if (tarjeta.Pagar(TARIFA_BASICA))
+            if (tarjeta.Pagar(TARIFA_BASICA, colectivo))
             {
                 boleto = new Boleto(linea, tarjeta);
                 return true;

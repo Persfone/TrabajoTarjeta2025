@@ -9,6 +9,7 @@ namespace TrabajoTarjeta
         public string TipoTarjeta { get; set; }
         public string Id { get; set; }
         public DateTime fechaUltimoViaje = DateTime.MinValue;
+        public string ultimaLinea;
         public const double SALDO_NEGATIVO = 1200;
 
         public const double SALDO_MAXIMO = 56000;
@@ -22,7 +23,7 @@ namespace TrabajoTarjeta
             Saldo = 0;
             TipoTarjeta = "Sin Franquicia";
             Id = $"SUBE-{Guid.NewGuid()}";
-            SaldoPendiente = 0; // AGREGADO
+            SaldoPendiente = 0;
         }
 
         public Tarjeta CargarTarjeta(Tarjeta tarjeta)
@@ -103,14 +104,34 @@ namespace TrabajoTarjeta
         }
 
 
-        public virtual bool Pagar(double monto)
+        public virtual bool Pagar(double monto, Colectivo colectivo)
         {
+            bool esTrasbordo = false;
+
             if (Saldo + SALDO_NEGATIVO >= monto)
             {
-                Saldo -= monto;
-                fechaUltimoViaje = DateTime.Now;
+                if (!((DateTime.Now - fechaUltimoViaje).TotalHours < 1) && DateTime.Now.DayOfWeek != DayOfWeek.Sunday)
+                {
+                    if (DateTime.Now.Hour > 7 || DateTime.Now.Hour < 22)
+                    {
+                        if (ultimaLinea != colectivo.ObtenerLinea())
+                        {
+                            esTrasbordo = true;
+                        }
+                    }
+                        
+                }
 
-                // AGREGADO: Acreditar saldo pendiente después de cada pago
+                if (esTrasbordo)
+                {
+                    Console.WriteLine("Trasbordo gratuito realizado.");
+                }
+                else
+                    Saldo -= monto;
+
+                fechaUltimoViaje = DateTime.Now;
+                ultimaLinea = colectivo.ObtenerLinea();
+
                 AcreditarCarga();
 
                 return true;
@@ -146,9 +167,9 @@ namespace TrabajoTarjeta
 
             return descuento;
         }
-        public override bool Pagar(double monto)
+        public override bool Pagar(double monto, Colectivo colectivo)
         {
-            bool pagoExitoso = base.Pagar(monto * UsoFrecuente());
+            bool pagoExitoso = base.Pagar(monto * UsoFrecuente(), colectivo);
             if(pagoExitoso)
             {
                 cantidadViajes++;
@@ -165,12 +186,12 @@ namespace TrabajoTarjeta
             TipoTarjeta = "Medio Boleto Estudiantil";
         }
 
-        public override bool Pagar(double monto)
+        public override bool Pagar(double monto, Colectivo colectivo)
         {
             if (DateTime.Now.Hour < 6 || DateTime.Now.Hour > 22)
             {
                 Console.WriteLine("El medio boleto estudiantil solo es válido entre las 6:00 y las 22:00 horas.");
-                return base.Pagar(monto);
+                return base.Pagar(monto, colectivo);
             }
 
             DateTime ahora = DateTime.Now;
@@ -201,7 +222,7 @@ namespace TrabajoTarjeta
                 Console.WriteLine("Ya utilizaste los 2 medios boletos del día. Este viaje se cobra completo.");
             }
 
-            bool pagoExitoso = base.Pagar(montoAPagar);
+            bool pagoExitoso = base.Pagar(montoAPagar, colectivo);
             if (!pagoExitoso && viajesHoy > 0)
             {
                 viajesHoy--;
@@ -221,12 +242,12 @@ namespace TrabajoTarjeta
             TipoTarjeta = "Boleto Gratuito Estudiantil";
         }
 
-        public override bool Pagar(double monto)
+        public override bool Pagar(double monto, Colectivo colectivo)
         {
             if (DateTime.Now.Hour < 6 || DateTime.Now.Hour > 22)
             {
                 Console.WriteLine("El boleto gratuito estudiantil solo es válido entre las 6:00 y las 22:00 horas.");
-                return base.Pagar(monto);
+                return base.Pagar(monto, colectivo);
             }
 
             DateTime hoy = DateTime.Today;
@@ -240,12 +261,12 @@ namespace TrabajoTarjeta
             {
                 viajesHoy++;
                 Console.WriteLine($"Viaje gratuito #{viajesHoy} del día ({hoy.ToShortDateString()})");
-                return base.Pagar(0);
+                return base.Pagar(0, colectivo);
             }
             else
             {
                 Console.WriteLine("Ya utilizaste los 2 boletos gratuitos del día. Este viaje se cobra completo.");
-                return base.Pagar(monto);
+                return base.Pagar(monto, colectivo);
             }
         }
     }
@@ -257,15 +278,15 @@ namespace TrabajoTarjeta
             TipoTarjeta = "Franquicia Completa";
         }
 
-        public override bool Pagar(double monto)
+        public override bool Pagar(double monto, Colectivo colectivo)
         {
             if (DateTime.Now.Hour < 6 || DateTime.Now.Hour > 22)
             {
                 Console.WriteLine("La franquicia completa solo es válida entre las 6:00 y las 22:00 horas.");
-                return base.Pagar(monto);
+                return base.Pagar(monto, colectivo);
             }
             Console.WriteLine("Viaje gratuito por franquicia completa.");
-            return base.Pagar(0);
+            return base.Pagar(0, colectivo);
         }
     }
 }

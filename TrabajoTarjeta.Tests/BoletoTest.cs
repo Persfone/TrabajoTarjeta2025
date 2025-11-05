@@ -86,7 +86,8 @@ namespace TrabajoTarjeta.Tests
         public void CrearBoleto_DespuesDePago_SaldoActualizado()
         {
             var tarjeta = new Tarjeta { Saldo = 2000 };
-            tarjeta.Pagar(1580);
+            var colectivo = new Colectivo("K");
+            tarjeta.Pagar(1580, colectivo);
             var boleto = new Boleto("143", tarjeta);
 
             Assert.AreEqual(420, boleto.SaldoRestante);

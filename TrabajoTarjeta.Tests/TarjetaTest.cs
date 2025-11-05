@@ -36,8 +36,9 @@ namespace TrabajoTarjeta.Tests
         public void Pagar_DecrementaSaldoCorrectamente()
         {
             var tarjeta = new Tarjeta();
+            var colectivo = new Colectivo("K");
             tarjeta.Saldo = 5000;
-            bool pudoPagar = tarjeta.Pagar(1580);
+            bool pudoPagar = tarjeta.Pagar(1580, colectivo);
             Assert.IsTrue(pudoPagar);
             Assert.AreEqual(3420, tarjeta.Saldo);
         }
@@ -46,8 +47,9 @@ namespace TrabajoTarjeta.Tests
         public void Pagar_PermiteSaldoNegativoHasta1200()
         {
             var tarjeta = new Tarjeta();
+            var colectivo = new Colectivo("K");
             tarjeta.Saldo = 500;
-            bool pudoPagar = tarjeta.Pagar(1580);
+            bool pudoPagar = tarjeta.Pagar(1580, colectivo);
             Assert.IsTrue(pudoPagar);
             Assert.AreEqual(-1080, tarjeta.Saldo);
         }
@@ -56,8 +58,9 @@ namespace TrabajoTarjeta.Tests
         public void Pagar_NoPermiteSaldoNegativoMayorA1200()
         {
             var tarjeta = new Tarjeta();
+            var colectivo = new Colectivo("K");
             tarjeta.Saldo = 0;
-            bool pudoPagar = tarjeta.Pagar(1580);
+            bool pudoPagar = tarjeta.Pagar(1580, colectivo);
             Assert.IsFalse(pudoPagar);
             Assert.AreEqual(0, tarjeta.Saldo);
         }
@@ -97,8 +100,9 @@ namespace TrabajoTarjeta.Tests
             }
 
             var tarjeta = new MedioBoletoEstudiantil();
+            var colectivo = new Colectivo("K");
             tarjeta.Saldo = 2000;
-            bool pudoPagar = tarjeta.Pagar(1580);
+            bool pudoPagar = tarjeta.Pagar(1580, colectivo);
             Assert.IsTrue(pudoPagar);
             Assert.AreEqual(1210, tarjeta.Saldo, 0.01);
         }
@@ -120,9 +124,10 @@ namespace TrabajoTarjeta.Tests
             }
 
             var tarjeta = new MedioBoletoEstudiantil();
+            var colectivo = new Colectivo("K");
             tarjeta.Saldo = 5000;
             double saldoInicial = tarjeta.Saldo;
-            tarjeta.Pagar(1580);
+            tarjeta.Pagar(1580, colectivo);
             double descuento = saldoInicial - tarjeta.Saldo;
             Assert.AreEqual(790, descuento, 0.01);
         }
@@ -137,8 +142,9 @@ namespace TrabajoTarjeta.Tests
             }
 
             var tarjeta = new FranquiciaCompleta();
+            var colectivo = new Colectivo("K");
             tarjeta.Saldo = 0;
-            bool pudoPagar = tarjeta.Pagar(1580);
+            bool pudoPagar = tarjeta.Pagar(1580, colectivo);
             Assert.IsTrue(pudoPagar);
             Assert.AreEqual(0, tarjeta.Saldo);
         }
@@ -153,8 +159,9 @@ namespace TrabajoTarjeta.Tests
             }
 
             var tarjeta = new FranquiciaCompleta();
+            var colectivo = new Colectivo("K");
             tarjeta.Saldo = 1000;
-            tarjeta.Pagar(1580);
+            tarjeta.Pagar(1580, colectivo);
             Assert.AreEqual(1000, tarjeta.Saldo);
         }
 
@@ -175,13 +182,14 @@ namespace TrabajoTarjeta.Tests
             }
 
             var tarjeta = new BoletoGratuitoEstudiantil();
+            var colectivo = new Colectivo("K");
             tarjeta.Saldo = 0;
 
-            bool primerViaje = tarjeta.Pagar(1580);
+            bool primerViaje = tarjeta.Pagar(1580, colectivo);
             Assert.IsTrue(primerViaje);
             Assert.AreEqual(0, tarjeta.Saldo);
 
-            bool segundoViaje = tarjeta.Pagar(1580);
+            bool segundoViaje = tarjeta.Pagar(1580, colectivo);
             Assert.IsTrue(segundoViaje);
             Assert.AreEqual(0, tarjeta.Saldo);
         }
@@ -196,12 +204,13 @@ namespace TrabajoTarjeta.Tests
             }
 
             var tarjeta = new BoletoGratuitoEstudiantil();
+            var colectivo = new Colectivo("K");
             tarjeta.Saldo = 0;
 
-            tarjeta.Pagar(1580);
-            tarjeta.Pagar(1580);
+            tarjeta.Pagar(1580, colectivo);
+            tarjeta.Pagar(1580, colectivo);
 
-            bool tercerViaje = tarjeta.Pagar(1580);
+            bool tercerViaje = tarjeta.Pagar(1580, colectivo);
             Assert.IsFalse(tercerViaje);
         }
 
@@ -215,12 +224,13 @@ namespace TrabajoTarjeta.Tests
             }
 
             var tarjeta = new BoletoGratuitoEstudiantil();
+            var colectivo = new Colectivo("K");
             tarjeta.Saldo = 2000;
 
-            tarjeta.Pagar(1580);
-            tarjeta.Pagar(1580);
+            tarjeta.Pagar(1580, colectivo);
+            tarjeta.Pagar(1580, colectivo);
 
-            bool tercerViaje = tarjeta.Pagar(1580);
+            bool tercerViaje = tarjeta.Pagar(1580, colectivo);
             Assert.IsTrue(tercerViaje);
             Assert.AreEqual(420, tarjeta.Saldo);
         }
@@ -235,12 +245,13 @@ namespace TrabajoTarjeta.Tests
             }
 
             var tarjeta = new BoletoGratuitoEstudiantil();
+            var colectivo = new Colectivo("K");
             tarjeta.Saldo = 500;
 
-            tarjeta.Pagar(1580);
-            tarjeta.Pagar(1580);
+            tarjeta.Pagar(1580, colectivo);
+            tarjeta.Pagar(1580, colectivo);
 
-            bool tercerViaje = tarjeta.Pagar(1580);
+            bool tercerViaje = tarjeta.Pagar(1580, colectivo);
             Assert.IsTrue(tercerViaje);
             Assert.AreEqual(-1080, tarjeta.Saldo);
         }
@@ -262,13 +273,14 @@ namespace TrabajoTarjeta.Tests
             }
 
             var tarjeta = new MedioBoletoEstudiantil();
+            var colectivo = new Colectivo("K");
             tarjeta.Saldo = 5000;
 
-            bool primerViaje = tarjeta.Pagar(1580);
+            bool primerViaje = tarjeta.Pagar(1580, colectivo);
             Assert.IsTrue(primerViaje);
             double saldoDespuesPrimero = tarjeta.Saldo;
 
-            bool segundoViaje = tarjeta.Pagar(1580);
+            bool segundoViaje = tarjeta.Pagar(1580, colectivo);
             Assert.IsFalse(segundoViaje);
             Assert.AreEqual(saldoDespuesPrimero, tarjeta.Saldo);
         }
@@ -283,15 +295,16 @@ namespace TrabajoTarjeta.Tests
             }
 
             var tarjeta = new MedioBoletoEstudiantil();
+            var colectivo = new Colectivo("K");
             tarjeta.Saldo = 5000;
 
-            bool primerViaje = tarjeta.Pagar(1580);
+            bool primerViaje = tarjeta.Pagar(1580, colectivo);
             Assert.IsTrue(primerViaje);
             Assert.AreEqual(4210, tarjeta.Saldo, 0.01);
 
             tarjeta.fechaUltimoViaje = DateTime.Now.AddMinutes(-6);
 
-            bool segundoViaje = tarjeta.Pagar(1580);
+            bool segundoViaje = tarjeta.Pagar(1580, colectivo);
             Assert.IsTrue(segundoViaje);
             Assert.AreEqual(3420, tarjeta.Saldo, 0.01);
         }
@@ -306,20 +319,21 @@ namespace TrabajoTarjeta.Tests
             }
 
             var tarjeta = new MedioBoletoEstudiantil();
+            var colectivo = new Colectivo("K");
             tarjeta.Saldo = 10000;
 
             tarjeta.fechaUltimoViaje = DateTime.Now.AddMinutes(-6);
-            bool viaje1 = tarjeta.Pagar(1580);
+            bool viaje1 = tarjeta.Pagar(1580, colectivo);
             Assert.IsTrue(viaje1);
             Assert.AreEqual(9210, tarjeta.Saldo, 0.01);
 
             tarjeta.fechaUltimoViaje = DateTime.Now.AddMinutes(-6);
-            bool viaje2 = tarjeta.Pagar(1580);
+            bool viaje2 = tarjeta.Pagar(1580, colectivo);
             Assert.IsTrue(viaje2);
             Assert.AreEqual(8420, tarjeta.Saldo, 0.01);
 
             tarjeta.fechaUltimoViaje = DateTime.Now.AddMinutes(-6);
-            bool viaje3 = tarjeta.Pagar(1580);
+            bool viaje3 = tarjeta.Pagar(1580, colectivo);
             Assert.IsTrue(viaje3);
             Assert.AreEqual(6840, tarjeta.Saldo, 0.01);
         }
@@ -334,18 +348,19 @@ namespace TrabajoTarjeta.Tests
             }
 
             var tarjeta = new MedioBoletoEstudiantil();
+            var colectivo = new Colectivo("K");
             tarjeta.Saldo = 5000;
 
             tarjeta.fechaUltimoViaje = DateTime.Now.AddMinutes(-6);
-            tarjeta.Pagar(1580);
+            tarjeta.Pagar(1580, colectivo);
 
             tarjeta.fechaUltimoViaje = DateTime.Now.AddMinutes(-6);
-            tarjeta.Pagar(1580);
+            tarjeta.Pagar(1580, colectivo);
 
             double saldoAntesTercero = tarjeta.Saldo;
 
             tarjeta.fechaUltimoViaje = DateTime.Now.AddMinutes(-6);
-            tarjeta.Pagar(1580);
+            tarjeta.Pagar(1580, colectivo);
 
             Assert.AreEqual(saldoAntesTercero - 1580, tarjeta.Saldo, 0.01);
         }
@@ -360,11 +375,12 @@ namespace TrabajoTarjeta.Tests
             }
 
             var tarjeta = new MedioBoletoEstudiantil();
+            var colectivo = new Colectivo("K");
             tarjeta.Saldo = 5000;
 
             tarjeta.fechaUltimoViaje = DateTime.Today.AddDays(-1).AddHours(10);
 
-            bool viaje = tarjeta.Pagar(1580);
+            bool viaje = tarjeta.Pagar(1580, colectivo);
             Assert.IsTrue(viaje);
             Assert.AreEqual(4210, tarjeta.Saldo, 0.01);
         }
@@ -379,20 +395,21 @@ namespace TrabajoTarjeta.Tests
             }
 
             var tarjeta = new BoletoGratuitoEstudiantil();
+            var colectivo = new Colectivo("K");
             tarjeta.Saldo = 5000;
 
             tarjeta.fechaUltimoViaje = DateTime.Now.AddMinutes(-6);
-            bool viaje1 = tarjeta.Pagar(1580);
+            bool viaje1 = tarjeta.Pagar(1580, colectivo);
             Assert.IsTrue(viaje1);
             Assert.AreEqual(5000, tarjeta.Saldo);
 
             tarjeta.fechaUltimoViaje = DateTime.Now.AddMinutes(-6);
-            bool viaje2 = tarjeta.Pagar(1580);
+            bool viaje2 = tarjeta.Pagar(1580, colectivo);
             Assert.IsTrue(viaje2);
             Assert.AreEqual(5000, tarjeta.Saldo);
 
             tarjeta.fechaUltimoViaje = DateTime.Now.AddMinutes(-6);
-            bool viaje3 = tarjeta.Pagar(1580);
+            bool viaje3 = tarjeta.Pagar(1580, colectivo);
             Assert.IsTrue(viaje3);
             Assert.AreEqual(3420, tarjeta.Saldo);
         }
@@ -407,22 +424,23 @@ namespace TrabajoTarjeta.Tests
             }
 
             var tarjeta = new BoletoGratuitoEstudiantil();
+            var colectivo = new Colectivo("K");
             tarjeta.Saldo = 10000;
 
             tarjeta.fechaUltimoViaje = DateTime.Now.AddMinutes(-6);
-            tarjeta.Pagar(1580);
+            tarjeta.Pagar(1580, colectivo);
             tarjeta.fechaUltimoViaje = DateTime.Now.AddMinutes(-6);
-            tarjeta.Pagar(1580);
+            tarjeta.Pagar(1580, colectivo);
 
             double saldoDespuesDeGratuitos = tarjeta.Saldo;
             Assert.AreEqual(10000, saldoDespuesDeGratuitos);
 
             tarjeta.fechaUltimoViaje = DateTime.Now.AddMinutes(-6);
-            tarjeta.Pagar(1580);
+            tarjeta.Pagar(1580, colectivo);
             Assert.AreEqual(8420, tarjeta.Saldo);
 
             tarjeta.fechaUltimoViaje = DateTime.Now.AddMinutes(-6);
-            tarjeta.Pagar(1580);
+            tarjeta.Pagar(1580, colectivo);
             Assert.AreEqual(6840, tarjeta.Saldo);
         }
 
@@ -436,15 +454,16 @@ namespace TrabajoTarjeta.Tests
             }
 
             var tarjeta = new BoletoGratuitoEstudiantil();
+            var colectivo = new Colectivo("K");
             tarjeta.Saldo = 0;
 
             tarjeta.fechaUltimoViaje = DateTime.Now.AddMinutes(-6);
-            tarjeta.Pagar(1580);
+            tarjeta.Pagar(1580, colectivo);
             tarjeta.fechaUltimoViaje = DateTime.Now.AddMinutes(-6);
-            tarjeta.Pagar(1580);
+            tarjeta.Pagar(1580, colectivo);
 
             tarjeta.fechaUltimoViaje = DateTime.Now.AddMinutes(-6);
-            bool viaje3 = tarjeta.Pagar(1580);
+            bool viaje3 = tarjeta.Pagar(1580, colectivo);
             Assert.IsFalse(viaje3);
         }
 
@@ -469,10 +488,11 @@ namespace TrabajoTarjeta.Tests
         public void DespuesDeViaje_ConSaldoPendiente_RecargaHastaMaximo()
         {
             var tarjeta = new Tarjeta();
+            var colectivo = new Colectivo("K");
             tarjeta.Saldo = 56000;
             tarjeta.SaldoPendiente = 5000;
 
-            bool pagoExitoso = tarjeta.Pagar(1580);
+            bool pagoExitoso = tarjeta.Pagar(1580, colectivo);
 
             Assert.IsTrue(pagoExitoso);
             Assert.AreEqual(56000, tarjeta.Saldo);
@@ -483,10 +503,11 @@ namespace TrabajoTarjeta.Tests
         public void SinFranquicia_Viajes1a29_TarifaNormal()
         {
             var tarjeta = new SinFranquicia();
+            var colectivo = new Colectivo("K");
             tarjeta.Saldo = 50000;
 
             double saldoInicial = tarjeta.Saldo;
-            tarjeta.Pagar(1580);
+            tarjeta.Pagar(1580, colectivo);
 
             Assert.AreEqual(saldoInicial - 1580, tarjeta.Saldo, 0.01);
         }
@@ -495,15 +516,16 @@ namespace TrabajoTarjeta.Tests
         public void SinFranquicia_Viajes30a59_Descuento20Porciento()
         {
             var tarjeta = new SinFranquicia();
+            var colectivo = new Colectivo("K");
             tarjeta.Saldo = 10000000;
 
             for (int i = 0; i < 30; i++)
             {
-                tarjeta.Pagar(1580);
+                tarjeta.Pagar(1580, colectivo);
             }
 
             double saldoAntes = tarjeta.Saldo;
-            tarjeta.Pagar(1580);
+            tarjeta.Pagar(1580, colectivo);
 
             Assert.AreEqual(saldoAntes - 1264, tarjeta.Saldo, 0.01);
         }
@@ -512,15 +534,16 @@ namespace TrabajoTarjeta.Tests
         public void SinFranquicia_Viajes60a80_Descuento25Porciento()
         {
             var tarjeta = new SinFranquicia();
+            var colectivo = new Colectivo("K");
             tarjeta.Saldo = 1500000;
 
             for (int i = 0; i < 60; i++)
             {
-                tarjeta.Pagar(1580);
+                tarjeta.Pagar(1580, colectivo);
             }
 
             double saldoAntes = tarjeta.Saldo;
-            tarjeta.Pagar(1580);
+            tarjeta.Pagar(1580, colectivo);
 
             Assert.AreEqual(saldoAntes - 1185, tarjeta.Saldo, 0.01);
         }
@@ -529,15 +552,17 @@ namespace TrabajoTarjeta.Tests
         public void SinFranquicia_ViajesDespuesDe80_TarifaNormal()
         {
             var tarjeta = new SinFranquicia();
+            var colectivo = new Colectivo("K");
             tarjeta.Saldo = 20000000;
 
             for (int i = 0; i < 81; i++)
             {
-                tarjeta.Pagar(1580);
+                tarjeta.Pagar(1580, colectivo);
             }
 
             double saldoAntes = tarjeta.Saldo;
-            tarjeta.Pagar(1580);
+            
+            tarjeta.Pagar(1580, colectivo);
 
             Assert.AreEqual(saldoAntes - 1580, tarjeta.Saldo, 0.01);
         }
@@ -549,7 +574,8 @@ namespace TrabajoTarjeta.Tests
             tarjeta.Saldo = 1000000;
 
             double saldoInicial = tarjeta.Saldo;
-            tarjeta.Pagar(1580);
+            var colectivo = new Colectivo("K");
+            tarjeta.Pagar(1580, colectivo);
 
             Assert.AreEqual(saldoInicial - 1580, tarjeta.Saldo, 0.01);
         }
@@ -567,7 +593,8 @@ namespace TrabajoTarjeta.Tests
             medioBoleto.Saldo = 50000;
 
             double saldoInicial = medioBoleto.Saldo;
-            medioBoleto.Pagar(1580);
+            var colectivo = new Colectivo("K");
+            medioBoleto.Pagar(1580, colectivo);
 
             Assert.AreEqual(saldoInicial - 790, medioBoleto.Saldo, 0.01);
         }
@@ -586,7 +613,8 @@ namespace TrabajoTarjeta.Tests
             tarjeta.fechaUltimoViaje = DateTime.Now.AddMinutes(-10);
 
             double saldoInicial = tarjeta.Saldo;
-            tarjeta.Pagar(1580);
+            var colectivo = new Colectivo("K");
+            tarjeta.Pagar(1580, colectivo);
             Assert.AreEqual(saldoInicial - 1580, tarjeta.Saldo, 0.01);
         }
 
@@ -603,7 +631,8 @@ namespace TrabajoTarjeta.Tests
             tarjeta.Saldo = 5000;
 
             double saldoInicial = tarjeta.Saldo;
-            tarjeta.Pagar(1580);
+            var colectivo = new Colectivo("K");
+            tarjeta.Pagar(1580, colectivo);
             Assert.AreEqual(saldoInicial - 790, tarjeta.Saldo, 0.01);
         }
 
@@ -621,7 +650,8 @@ namespace TrabajoTarjeta.Tests
             tarjeta.fechaUltimoViaje = DateTime.Now.AddMinutes(-10);
 
             double saldoInicial = tarjeta.Saldo;
-            tarjeta.Pagar(1580);
+            var colectivo = new Colectivo("K");
+            tarjeta.Pagar(1580, colectivo);
             Assert.AreEqual(saldoInicial - 1580, tarjeta.Saldo, 0.01);
         }
 
@@ -638,7 +668,8 @@ namespace TrabajoTarjeta.Tests
             tarjeta.Saldo = 5000;
 
             double saldoInicial = tarjeta.Saldo;
-            tarjeta.Pagar(1580);
+            var colectivo = new Colectivo("K");
+            tarjeta.Pagar(1580, colectivo);
             Assert.AreEqual(saldoInicial, tarjeta.Saldo);
         }
 
@@ -656,7 +687,8 @@ namespace TrabajoTarjeta.Tests
             tarjeta.fechaUltimoViaje = DateTime.Now.AddMinutes(-10);
 
             double saldoInicial = tarjeta.Saldo;
-            tarjeta.Pagar(1580);
+            var colectivo = new Colectivo("K");
+            tarjeta.Pagar(1580, colectivo);
             Assert.AreEqual(saldoInicial - 1580, tarjeta.Saldo, 0.01);
         }
 
@@ -670,10 +702,11 @@ namespace TrabajoTarjeta.Tests
             }
 
             var tarjeta = new FranquiciaCompleta();
+            var colectivo = new Colectivo("K");
             tarjeta.Saldo = 5000;
 
             double saldoInicial = tarjeta.Saldo;
-            tarjeta.Pagar(1580);
+            tarjeta.Pagar(1580, colectivo);
             Assert.AreEqual(saldoInicial, tarjeta.Saldo);
         }
 
@@ -681,10 +714,11 @@ namespace TrabajoTarjeta.Tests
         public void SinFranquicia_NoTieneRestriccionHoraria()
         {
             var tarjeta = new SinFranquicia();
+            var colectivo = new Colectivo("K");
             tarjeta.Saldo = 5000;
 
             double saldoInicial = tarjeta.Saldo;
-            tarjeta.Pagar(1580);
+            tarjeta.Pagar(1580, colectivo);
 
             Assert.Less(tarjeta.Saldo, saldoInicial);
         }

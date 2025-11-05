@@ -12,7 +12,7 @@ namespace TrabajoTarjeta.Tests
         {
             var tarjeta = new Tarjeta { Saldo = 2000 };
             var colectivo = new Colectivo("143");
-            bool resultado = colectivo.PagarCon(tarjeta, out Boleto boleto);
+            bool resultado = colectivo.PagarCon(tarjeta, colectivo, out Boleto boleto);
 
             Assert.IsTrue(resultado);
             Assert.IsNotNull(boleto);
@@ -25,7 +25,7 @@ namespace TrabajoTarjeta.Tests
         {
             var tarjeta = new Tarjeta { Saldo = 0 };
             var colectivo = new Colectivo("143");
-            bool resultado = colectivo.PagarCon(tarjeta, out Boleto boleto);
+            bool resultado = colectivo.PagarCon(tarjeta, colectivo, out Boleto boleto);
 
             Assert.IsFalse(resultado); // 0 - 1580 = -1580, excede -1200
             Assert.IsNull(boleto);
@@ -36,7 +36,7 @@ namespace TrabajoTarjeta.Tests
         {
             var tarjeta = new Tarjeta { Saldo = 500 };
             var colectivo = new Colectivo("143");
-            bool resultado = colectivo.PagarCon(tarjeta, out Boleto boleto);
+            bool resultado = colectivo.PagarCon(tarjeta, colectivo, out Boleto boleto);
 
             Assert.IsTrue(resultado); // 500 - 1580 = -1080, está dentro de -1200
             Assert.IsNotNull(boleto);
@@ -54,7 +54,7 @@ namespace TrabajoTarjeta.Tests
 
             var tarjeta = new MedioBoletoEstudiantil { Saldo = 2000 };
             var colectivo = new Colectivo("K");
-            bool resultado = colectivo.PagarCon(tarjeta, out Boleto boleto);
+            bool resultado = colectivo.PagarCon(tarjeta, colectivo, out Boleto boleto);
 
             Assert.IsTrue(resultado);
             Assert.IsNotNull(boleto);
@@ -72,7 +72,7 @@ namespace TrabajoTarjeta.Tests
 
             var tarjeta = new FranquiciaCompleta { Saldo = 0 };
             var colectivo = new Colectivo("102");
-            bool resultado = colectivo.PagarCon(tarjeta, out Boleto boleto);
+            bool resultado = colectivo.PagarCon(tarjeta, colectivo, out Boleto boleto);
 
             Assert.IsTrue(resultado);
             Assert.IsNotNull(boleto);
@@ -91,11 +91,11 @@ namespace TrabajoTarjeta.Tests
             var tarjeta = new BoletoGratuitoEstudiantil { Saldo = 0 };
             var colectivo = new Colectivo("115");
 
-            bool primerBoleto = colectivo.PagarCon(tarjeta, out Boleto boleto1);
+            bool primerBoleto = colectivo.PagarCon(tarjeta, colectivo,out Boleto boleto1);
             Assert.IsTrue(primerBoleto);
             Assert.IsNotNull(boleto1);
 
-            bool segundoBoleto = colectivo.PagarCon(tarjeta, out Boleto boleto2);
+            bool segundoBoleto = colectivo.PagarCon(tarjeta, colectivo,out Boleto boleto2);
             Assert.IsTrue(segundoBoleto);
             Assert.IsNotNull(boleto2);
         }
