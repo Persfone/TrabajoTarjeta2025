@@ -86,7 +86,7 @@ namespace TrabajoTarjeta.Tests
         public void CrearBoleto_DespuesDePago_SaldoActualizado()
         {
             var tarjeta = new Tarjeta { Saldo = 2000 };
-            var colectivo = new Colectivo("K");
+            var colectivo = new Colectivo("K", false);
             tarjeta.Pagar(1580, colectivo);
             var boleto = new Boleto("143", tarjeta);
 
