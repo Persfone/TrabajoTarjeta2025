@@ -102,7 +102,7 @@ internal class Program
                     else
                     {
                         Boleto boleto;
-                        bool pagoExitoso = colectivo.PagarCon(tarjeta, out boleto);
+                        bool pagoExitoso = colectivo.PagarCon(tarjeta, colectivo, out boleto);
                         if (pagoExitoso)
                         {
                             boleto.Imprimir();
