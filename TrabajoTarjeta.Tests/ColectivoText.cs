@@ -32,8 +32,8 @@ namespace TrabajoTarjeta.Tests
         [Test]
         public void PagarCon_TarjetaConSaldoNegativoPermitido_GeneraBoleto()
         {
-            var tarjeta = new Tarjeta { Saldo = 2500 };
-            var colectivo = new Colectivo("Gálvez", true);
+            var tarjeta = new Tarjeta { Saldo = 500 };
+            var colectivo = new Colectivo("132", false);
             bool resultado = colectivo.PagarCon(tarjeta, colectivo, out Boleto boleto);
             Assert.IsTrue(resultado);
             Assert.IsNotNull(boleto);
