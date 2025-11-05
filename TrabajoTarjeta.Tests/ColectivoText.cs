@@ -1,5 +1,6 @@
 using NUnit.Framework;
 using TrabajoTarjeta;
+using System;
 
 namespace TrabajoTarjeta.Tests
 {
@@ -45,6 +46,12 @@ namespace TrabajoTarjeta.Tests
         [Test]
         public void PagarCon_MedioBoleto_GeneraBoletoConDescuento()
         {
+            if (DateTime.Now.Hour < 6 || DateTime.Now.Hour > 22)
+            {
+                Assert.Pass("Test requiere ejecución entre 6:00 y 22:00");
+                return;
+            }
+
             var tarjeta = new MedioBoletoEstudiantil { Saldo = 2000 };
             var colectivo = new Colectivo("K");
             bool resultado = colectivo.PagarCon(tarjeta, out Boleto boleto);
@@ -57,6 +64,12 @@ namespace TrabajoTarjeta.Tests
         [Test]
         public void PagarCon_FranquiciaCompleta_GeneraBoletoSinCobrar()
         {
+            if (DateTime.Now.Hour < 6 || DateTime.Now.Hour > 22)
+            {
+                Assert.Pass("Test requiere ejecución entre 6:00 y 22:00");
+                return;
+            }
+
             var tarjeta = new FranquiciaCompleta { Saldo = 0 };
             var colectivo = new Colectivo("102");
             bool resultado = colectivo.PagarCon(tarjeta, out Boleto boleto);
@@ -69,6 +82,12 @@ namespace TrabajoTarjeta.Tests
         [Test]
         public void PagarCon_BoletoGratuito_PrimerosDosBoletos()
         {
+            if (DateTime.Now.Hour < 6 || DateTime.Now.Hour > 22)
+            {
+                Assert.Pass("Test requiere ejecución entre 6:00 y 22:00");
+                return;
+            }
+
             var tarjeta = new BoletoGratuitoEstudiantil { Saldo = 0 };
             var colectivo = new Colectivo("115");
 

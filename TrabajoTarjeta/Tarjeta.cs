@@ -125,7 +125,7 @@ namespace TrabajoTarjeta
     // ----------------------------------------------------
     public class SinFranquicia : Tarjeta 
     {
-        int cantidadViajes = 28;
+        int cantidadViajes = 0;
         public float UsoFrecuente()
         {
 
@@ -167,6 +167,12 @@ namespace TrabajoTarjeta
 
         public override bool Pagar(double monto)
         {
+            if (DateTime.Now.Hour < 6 || DateTime.Now.Hour > 22)
+            {
+                Console.WriteLine("El medio boleto estudiantil solo es válido entre las 6:00 y las 22:00 horas.");
+                return base.Pagar(monto);
+            }
+
             DateTime ahora = DateTime.Now;
             DateTime hoy = DateTime.Today;
             double montoAPagar;
@@ -217,6 +223,12 @@ namespace TrabajoTarjeta
 
         public override bool Pagar(double monto)
         {
+            if (DateTime.Now.Hour < 6 || DateTime.Now.Hour > 22)
+            {
+                Console.WriteLine("El boleto gratuito estudiantil solo es válido entre las 6:00 y las 22:00 horas.");
+                return base.Pagar(monto);
+            }
+
             DateTime hoy = DateTime.Today;
 
             if (fechaUltimoViaje.Date != hoy)
@@ -247,6 +259,11 @@ namespace TrabajoTarjeta
 
         public override bool Pagar(double monto)
         {
+            if (DateTime.Now.Hour < 6 || DateTime.Now.Hour > 22)
+            {
+                Console.WriteLine("La franquicia completa solo es válida entre las 6:00 y las 22:00 horas.");
+                return base.Pagar(monto);
+            }
             Console.WriteLine("Viaje gratuito por franquicia completa.");
             return base.Pagar(0);
         }
