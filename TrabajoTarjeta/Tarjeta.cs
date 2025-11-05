@@ -112,7 +112,7 @@ namespace TrabajoTarjeta
             {
                 if (!((DateTime.Now - fechaUltimoViaje).TotalHours < 1) && DateTime.Now.DayOfWeek != DayOfWeek.Sunday)
                 {
-                    if (DateTime.Now.Hour > 7 || DateTime.Now.Hour < 22)
+                    if (DateTime.Now.Hour >= 7 || DateTime.Now.Hour <= 22)
                     {
                         if (ultimaLinea != colectivo.ObtenerLinea())
                         {

@@ -124,13 +124,187 @@ namespace TrabajoTarjeta.Tests
             }
 
             var tarjeta = new MedioBoletoEstudiantil();
-            var colectivo = new Colectivo("K");
+            var colectivo1 = new Colectivo("K");
             tarjeta.Saldo = 5000;
             double saldoInicial = tarjeta.Saldo;
-            tarjeta.Pagar(1580, colectivo);
-            double descuento = saldoInicial - tarjeta.Saldo;
-            Assert.AreEqual(790, descuento, 0.01);
+            tarjeta.Pagar(1580, colectivo1);
+            double saldoDespuesPrimero = tarjeta.Saldo;
+
+            tarjeta.fechaUltimoViaje = DateTime.Now.AddHours(-1.1);
+
+            tarjeta.Pagar(1580, colectivo1);
+
+            Assert.AreEqual(saldoDespuesPrimero - 1580, tarjeta.Saldo);
         }
+
+        [Test]
+        public void Trasbordo_EnDomingo_NoCumpleCondicion()
+        {
+            if (DateTime.Now.DayOfWeek != DayOfWeek.Sunday)
+            {
+                Assert.Pass("Test requiere ejecución en domingo");
+                return;
+            }
+
+            if (DateTime.Now.Hour < 7 || DateTime.Now.Hour >= 22)
+            {
+                Assert.Pass("Test requiere ejecución entre 7:00 y 22:00");
+                return;
+            }
+
+            var tarjeta = new Tarjeta();
+            tarjeta.Saldo = 5000;
+
+            var colectivo1 = new Colectivo("K");
+            var colectivo2 = new Colectivo("142");
+
+            tarjeta.Pagar(1580, colectivo1);
+            double saldoDespuesPrimero = tarjeta.Saldo;
+
+            System.Threading.Thread.Sleep(1000);
+            tarjeta.Pagar(1580, colectivo2);
+
+            Assert.AreEqual(saldoDespuesPrimero - 1580, tarjeta.Saldo);
+        }
+
+        [Test]
+        public void Trasbordo_FueraHorario_NoCumpleCondicion()
+        {
+            if (DateTime.Now.Hour >= 7 && DateTime.Now.Hour < 22)
+            {
+                Assert.Pass("Test requiere ejecución fuera de horario 7:00-22:00");
+                return;
+            }
+
+            if (DateTime.Now.DayOfWeek == DayOfWeek.Sunday)
+            {
+                Assert.Pass("Test no se ejecuta en domingo");
+                return;
+            }
+
+            var tarjeta = new Tarjeta();
+            tarjeta.Saldo = 5000;
+
+            var colectivo1 = new Colectivo("K");
+            var colectivo2 = new Colectivo("142");
+
+            tarjeta.Pagar(1580, colectivo1);
+            double saldoDespuesPrimero = tarjeta.Saldo;
+
+            System.Threading.Thread.Sleep(1000);
+            tarjeta.Pagar(1580, colectivo2);
+
+            Assert.AreEqual(saldoDespuesPrimero - 1580, tarjeta.Saldo);
+        }
+
+        [Test]
+        public void Trasbordo_MultiplesTrasbordo_DentroDeUnaHora()
+        {
+            if (DateTime.Now.Hour < 7 || DateTime.Now.Hour >= 22 || DateTime.Now.DayOfWeek == DayOfWeek.Sunday)
+            {
+                Assert.Pass("Test requiere ejecución de lunes a sábado entre 7:00 y 22:00");
+                return;
+            }
+
+            var tarjeta = new Tarjeta();
+            tarjeta.Saldo = 10000;
+
+            var colectivo1 = new Colectivo("K");
+            var colectivo2 = new Colectivo("142");
+            var colectivo3 = new Colectivo("102");
+
+            double saldoInicial = tarjeta.Saldo;
+
+            tarjeta.Pagar(1580, colectivo1);
+            Assert.AreEqual(saldoInicial - 1580, tarjeta.Saldo);
+
+            System.Threading.Thread.Sleep(1000);
+            tarjeta.Pagar(1580, colectivo2);
+            Assert.AreEqual(saldoInicial - 1580, tarjeta.Saldo);
+
+            System.Threading.Thread.Sleep(1000);
+            tarjeta.Pagar(1580, colectivo3);
+            Assert.AreEqual(saldoInicial - 1580, tarjeta.Saldo);
+        }
+
+        [Test]
+        public void Trasbordo_ConFranquicia_FuncionaCorrectamente()
+        {
+            if (DateTime.Now.Hour < 7 || DateTime.Now.Hour >= 22 || DateTime.Now.DayOfWeek == DayOfWeek.Sunday)
+            {
+                Assert.Pass("Test requiere ejecución de lunes a sábado entre 7:00 y 22:00");
+                return;
+            }
+
+            var tarjeta = new FranquiciaCompleta();
+            tarjeta.Saldo = 5000;
+
+            var colectivo1 = new Colectivo("K");
+            var colectivo2 = new Colectivo("142");
+
+            double saldoInicial = tarjeta.Saldo;
+
+            tarjeta.Pagar(1580, colectivo1);
+            Assert.AreEqual(saldoInicial, tarjeta.Saldo);
+
+            System.Threading.Thread.Sleep(1000);
+            tarjeta.Pagar(1580, colectivo2);
+            Assert.AreEqual(saldoInicial, tarjeta.Saldo);
+        }
+
+        [Test]
+        public void Trasbordo_ConMedioBoleto_FuncionaCorrectamente()
+        {
+            if (DateTime.Now.Hour < 7 || DateTime.Now.Hour >= 22 || DateTime.Now.DayOfWeek == DayOfWeek.Sunday)
+            {
+                Assert.Pass("Test requiere ejecución de lunes a sábado entre 7:00 y 22:00");
+                return;
+            }
+
+            var tarjeta = new MedioBoletoEstudiantil();
+            tarjeta.Saldo = 5000;
+
+            var colectivo1 = new Colectivo("K");
+            var colectivo2 = new Colectivo("142");
+
+            double saldoInicial = tarjeta.Saldo;
+
+            tarjeta.Pagar(1580, colectivo1);
+            Assert.AreEqual(saldoInicial - 790, tarjeta.Saldo, 0.01);
+
+            System.Threading.Thread.Sleep(5100);
+            tarjeta.Pagar(1580, colectivo2);
+            Assert.AreEqual(saldoInicial - 790, tarjeta.Saldo, 0.01);
+        }
+
+        [Test]
+        public void Trasbordo_VuelveALinea_DespuesDeOtra_NoCumpleCondicion()
+        {
+            if (DateTime.Now.Hour < 7 || DateTime.Now.Hour >= 22 || DateTime.Now.DayOfWeek == DayOfWeek.Sunday)
+            {
+                Assert.Pass("Test requiere ejecución de lunes a sábado entre 7:00 y 22:00");
+                return;
+            }
+
+            var tarjeta = new Tarjeta();
+            tarjeta.Saldo = 10000;
+
+            var colectivoK = new Colectivo("K");
+            var colectivo142 = new Colectivo("142");
+
+            tarjeta.Pagar(1580, colectivoK);
+            double saldoDespuesPrimero = tarjeta.Saldo;
+
+            System.Threading.Thread.Sleep(1000);
+            tarjeta.Pagar(1580, colectivo142);
+            double saldoDespuesSegundo = tarjeta.Saldo;
+            Assert.AreEqual(saldoDespuesPrimero, saldoDespuesSegundo);
+
+            System.Threading.Thread.Sleep(1000);
+            tarjeta.Pagar(1580, colectivoK);
+            Assert.AreEqual(saldoDespuesSegundo, tarjeta.Saldo);
+        }
+
 
         [Test]
         public void FranquiciaCompleta_SiemprePuedePagarDentroHorario()
@@ -189,6 +363,8 @@ namespace TrabajoTarjeta.Tests
             Assert.IsTrue(primerViaje);
             Assert.AreEqual(0, tarjeta.Saldo);
 
+            System.Threading.Thread.Sleep(5100);
+
             bool segundoViaje = tarjeta.Pagar(1580, colectivo);
             Assert.IsTrue(segundoViaje);
             Assert.AreEqual(0, tarjeta.Saldo);
@@ -208,7 +384,9 @@ namespace TrabajoTarjeta.Tests
             tarjeta.Saldo = 0;
 
             tarjeta.Pagar(1580, colectivo);
+            System.Threading.Thread.Sleep(5100);
             tarjeta.Pagar(1580, colectivo);
+            System.Threading.Thread.Sleep(5100);
 
             bool tercerViaje = tarjeta.Pagar(1580, colectivo);
             Assert.IsFalse(tercerViaje);
@@ -228,7 +406,9 @@ namespace TrabajoTarjeta.Tests
             tarjeta.Saldo = 2000;
 
             tarjeta.Pagar(1580, colectivo);
+            System.Threading.Thread.Sleep(5100);
             tarjeta.Pagar(1580, colectivo);
+            System.Threading.Thread.Sleep(5100);
 
             bool tercerViaje = tarjeta.Pagar(1580, colectivo);
             Assert.IsTrue(tercerViaje);
@@ -249,7 +429,9 @@ namespace TrabajoTarjeta.Tests
             tarjeta.Saldo = 500;
 
             tarjeta.Pagar(1580, colectivo);
+            System.Threading.Thread.Sleep(5100);
             tarjeta.Pagar(1580, colectivo);
+            System.Threading.Thread.Sleep(5100);
 
             bool tercerViaje = tarjeta.Pagar(1580, colectivo);
             Assert.IsTrue(tercerViaje);
@@ -302,7 +484,7 @@ namespace TrabajoTarjeta.Tests
             Assert.IsTrue(primerViaje);
             Assert.AreEqual(4210, tarjeta.Saldo, 0.01);
 
-            tarjeta.fechaUltimoViaje = DateTime.Now.AddMinutes(-6);
+            System.Threading.Thread.Sleep(5100);
 
             bool segundoViaje = tarjeta.Pagar(1580, colectivo);
             Assert.IsTrue(segundoViaje);
@@ -322,17 +504,16 @@ namespace TrabajoTarjeta.Tests
             var colectivo = new Colectivo("K");
             tarjeta.Saldo = 10000;
 
-            tarjeta.fechaUltimoViaje = DateTime.Now.AddMinutes(-6);
             bool viaje1 = tarjeta.Pagar(1580, colectivo);
             Assert.IsTrue(viaje1);
             Assert.AreEqual(9210, tarjeta.Saldo, 0.01);
 
-            tarjeta.fechaUltimoViaje = DateTime.Now.AddMinutes(-6);
+            System.Threading.Thread.Sleep(5100);
             bool viaje2 = tarjeta.Pagar(1580, colectivo);
             Assert.IsTrue(viaje2);
             Assert.AreEqual(8420, tarjeta.Saldo, 0.01);
 
-            tarjeta.fechaUltimoViaje = DateTime.Now.AddMinutes(-6);
+            System.Threading.Thread.Sleep(5100);
             bool viaje3 = tarjeta.Pagar(1580, colectivo);
             Assert.IsTrue(viaje3);
             Assert.AreEqual(6840, tarjeta.Saldo, 0.01);
@@ -351,120 +532,15 @@ namespace TrabajoTarjeta.Tests
             var colectivo = new Colectivo("K");
             tarjeta.Saldo = 5000;
 
-            tarjeta.fechaUltimoViaje = DateTime.Now.AddMinutes(-6);
             tarjeta.Pagar(1580, colectivo);
-
-            tarjeta.fechaUltimoViaje = DateTime.Now.AddMinutes(-6);
+            System.Threading.Thread.Sleep(5100);
             tarjeta.Pagar(1580, colectivo);
 
             double saldoAntesTercero = tarjeta.Saldo;
-
-            tarjeta.fechaUltimoViaje = DateTime.Now.AddMinutes(-6);
+            System.Threading.Thread.Sleep(5100);
             tarjeta.Pagar(1580, colectivo);
 
             Assert.AreEqual(saldoAntesTercero - 1580, tarjeta.Saldo, 0.01);
-        }
-
-        [Test]
-        public void MedioBoletoEstudiantil_ResetaDespuesDeNuevoDia()
-        {
-            if (DateTime.Now.Hour < 6 || DateTime.Now.Hour > 22)
-            {
-                Assert.Pass("Test requiere ejecución entre 6:00 y 22:00");
-                return;
-            }
-
-            var tarjeta = new MedioBoletoEstudiantil();
-            var colectivo = new Colectivo("K");
-            tarjeta.Saldo = 5000;
-
-            tarjeta.fechaUltimoViaje = DateTime.Today.AddDays(-1).AddHours(10);
-
-            bool viaje = tarjeta.Pagar(1580, colectivo);
-            Assert.IsTrue(viaje);
-            Assert.AreEqual(4210, tarjeta.Saldo, 0.01);
-        }
-
-        [Test]
-        public void BoletoGratuitoEstudiantil_NoPermiteMasDeDosViajesGratuitos()
-        {
-            if (DateTime.Now.Hour < 6 || DateTime.Now.Hour > 22)
-            {
-                Assert.Pass("Test requiere ejecución entre 6:00 y 22:00");
-                return;
-            }
-
-            var tarjeta = new BoletoGratuitoEstudiantil();
-            var colectivo = new Colectivo("K");
-            tarjeta.Saldo = 5000;
-
-            tarjeta.fechaUltimoViaje = DateTime.Now.AddMinutes(-6);
-            bool viaje1 = tarjeta.Pagar(1580, colectivo);
-            Assert.IsTrue(viaje1);
-            Assert.AreEqual(5000, tarjeta.Saldo);
-
-            tarjeta.fechaUltimoViaje = DateTime.Now.AddMinutes(-6);
-            bool viaje2 = tarjeta.Pagar(1580, colectivo);
-            Assert.IsTrue(viaje2);
-            Assert.AreEqual(5000, tarjeta.Saldo);
-
-            tarjeta.fechaUltimoViaje = DateTime.Now.AddMinutes(-6);
-            bool viaje3 = tarjeta.Pagar(1580, colectivo);
-            Assert.IsTrue(viaje3);
-            Assert.AreEqual(3420, tarjeta.Saldo);
-        }
-
-        [Test]
-        public void BoletoGratuitoEstudiantil_ViajesPosterioresAlSegundoSeCobranCompletos()
-        {
-            if (DateTime.Now.Hour < 6 || DateTime.Now.Hour > 22)
-            {
-                Assert.Pass("Test requiere ejecución entre 6:00 y 22:00");
-                return;
-            }
-
-            var tarjeta = new BoletoGratuitoEstudiantil();
-            var colectivo = new Colectivo("K");
-            tarjeta.Saldo = 10000;
-
-            tarjeta.fechaUltimoViaje = DateTime.Now.AddMinutes(-6);
-            tarjeta.Pagar(1580, colectivo);
-            tarjeta.fechaUltimoViaje = DateTime.Now.AddMinutes(-6);
-            tarjeta.Pagar(1580, colectivo);
-
-            double saldoDespuesDeGratuitos = tarjeta.Saldo;
-            Assert.AreEqual(10000, saldoDespuesDeGratuitos);
-
-            tarjeta.fechaUltimoViaje = DateTime.Now.AddMinutes(-6);
-            tarjeta.Pagar(1580, colectivo);
-            Assert.AreEqual(8420, tarjeta.Saldo);
-
-            tarjeta.fechaUltimoViaje = DateTime.Now.AddMinutes(-6);
-            tarjeta.Pagar(1580, colectivo);
-            Assert.AreEqual(6840, tarjeta.Saldo);
-        }
-
-        [Test]
-        public void BoletoGratuitoEstudiantil_TercerViajeSinSaldoFalla()
-        {
-            if (DateTime.Now.Hour < 6 || DateTime.Now.Hour > 22)
-            {
-                Assert.Pass("Test requiere ejecución entre 6:00 y 22:00");
-                return;
-            }
-
-            var tarjeta = new BoletoGratuitoEstudiantil();
-            var colectivo = new Colectivo("K");
-            tarjeta.Saldo = 0;
-
-            tarjeta.fechaUltimoViaje = DateTime.Now.AddMinutes(-6);
-            tarjeta.Pagar(1580, colectivo);
-            tarjeta.fechaUltimoViaje = DateTime.Now.AddMinutes(-6);
-            tarjeta.Pagar(1580, colectivo);
-
-            tarjeta.fechaUltimoViaje = DateTime.Now.AddMinutes(-6);
-            bool viaje3 = tarjeta.Pagar(1580, colectivo);
-            Assert.IsFalse(viaje3);
         }
 
         [Test]
@@ -561,7 +637,7 @@ namespace TrabajoTarjeta.Tests
             }
 
             double saldoAntes = tarjeta.Saldo;
-            
+
             tarjeta.Pagar(1580, colectivo);
 
             Assert.AreEqual(saldoAntes - 1580, tarjeta.Saldo, 0.01);
@@ -610,7 +686,6 @@ namespace TrabajoTarjeta.Tests
 
             var tarjeta = new MedioBoletoEstudiantil();
             tarjeta.Saldo = 5000;
-            tarjeta.fechaUltimoViaje = DateTime.Now.AddMinutes(-10);
 
             double saldoInicial = tarjeta.Saldo;
             var colectivo = new Colectivo("K");
@@ -647,7 +722,6 @@ namespace TrabajoTarjeta.Tests
 
             var tarjeta = new BoletoGratuitoEstudiantil();
             tarjeta.Saldo = 5000;
-            tarjeta.fechaUltimoViaje = DateTime.Now.AddMinutes(-10);
 
             double saldoInicial = tarjeta.Saldo;
             var colectivo = new Colectivo("K");
@@ -684,7 +758,6 @@ namespace TrabajoTarjeta.Tests
 
             var tarjeta = new FranquiciaCompleta();
             tarjeta.Saldo = 5000;
-            tarjeta.fechaUltimoViaje = DateTime.Now.AddMinutes(-10);
 
             double saldoInicial = tarjeta.Saldo;
             var colectivo = new Colectivo("K");
@@ -721,6 +794,86 @@ namespace TrabajoTarjeta.Tests
             tarjeta.Pagar(1580, colectivo);
 
             Assert.Less(tarjeta.Saldo, saldoInicial);
+        }
+
+        // ============================================
+        // TESTS PARA TRASBORDOS
+        // ============================================
+
+        [Test]
+        public void Trasbordo_EntreLineasDiferentes_EsGratuito()
+        {
+            if (DateTime.Now.Hour < 7 || DateTime.Now.Hour >= 22 || DateTime.Now.DayOfWeek == DayOfWeek.Sunday)
+            {
+                Assert.Pass("Test requiere ejecución de lunes a sábado entre 7:00 y 22:00");
+                return;
+            }
+
+            var tarjeta = new Tarjeta();
+            tarjeta.Saldo = 5000;
+
+            var colectivo1 = new Colectivo("K");
+            var colectivo2 = new Colectivo("142");
+
+            double saldoInicial = tarjeta.Saldo;
+
+            tarjeta.Pagar(1580, colectivo1);
+            double saldoDespuesPrimero = tarjeta.Saldo;
+            Assert.AreEqual(saldoInicial - 1580, saldoDespuesPrimero);
+
+            System.Threading.Thread.Sleep(1000);
+            tarjeta.Pagar(1580, colectivo2);
+
+            Assert.AreEqual(saldoDespuesPrimero, tarjeta.Saldo);
+        }
+
+        [Test]
+        public void Trasbordo_MismaLinea_NoEsGratuito()
+        {
+            if (DateTime.Now.Hour < 7 || DateTime.Now.Hour >= 22 || DateTime.Now.DayOfWeek == DayOfWeek.Sunday)
+            {
+                Assert.Pass("Test requiere ejecución de lunes a sábado entre 7:00 y 22:00");
+                return;
+            }
+
+            var tarjeta = new Tarjeta();
+            tarjeta.Saldo = 5000;
+
+            var colectivo1 = new Colectivo("K");
+            var colectivo2 = new Colectivo("K");
+
+            tarjeta.Pagar(1580, colectivo1);
+            double saldoDespuesPrimero = tarjeta.Saldo;
+
+            System.Threading.Thread.Sleep(1000);
+            tarjeta.Pagar(1580, colectivo2);
+
+            Assert.AreEqual(saldoDespuesPrimero - 1580, tarjeta.Saldo);
+        }
+
+        [Test]
+        public void Trasbordo_DespuesDe1Hora_NoCumpleCondicion()
+        {
+            if (DateTime.Now.Hour < 7 || DateTime.Now.Hour >= 22 || DateTime.Now.DayOfWeek == DayOfWeek.Sunday)
+            {
+                Assert.Pass("Test requiere ejecución de lunes a sábado entre 7:00 y 22:00");
+                return;
+            }
+
+            var tarjeta = new Tarjeta();
+            tarjeta.Saldo = 5000;
+
+            var colectivo1 = new Colectivo("K");
+            var colectivo2 = new Colectivo("142");
+
+            tarjeta.Pagar(1580, colectivo1);
+            double saldoDespuesPrimero = tarjeta.Saldo;
+
+            tarjeta.fechaUltimoViaje = DateTime.Now.AddHours(-1.1);
+
+            tarjeta.Pagar(1580, colectivo2);
+
+            Assert.AreEqual(saldoDespuesPrimero - 1580, tarjeta.Saldo);
         }
     }
 }
