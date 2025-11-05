@@ -486,8 +486,8 @@ namespace TrabajoTarjeta.Tests
 
             tarjeta.Pagar(1580, colectivo);
 
-            Assert.AreEqual(58420, tarjeta.Saldo);
-            Assert.AreEqual(4000, tarjeta.SaldoPendiente);
+            Assert.AreEqual(56000, tarjeta.Saldo);
+            Assert.AreEqual(2420, tarjeta.SaldoPendiente);
         }
 
         [Test]
